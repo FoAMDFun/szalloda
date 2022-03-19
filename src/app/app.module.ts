@@ -7,6 +7,10 @@ import { LandingComponent } from './components/landing/landing.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { CustomerModule } from './customer/customer.module';
 import { EmployeeModule } from './employee/employee.module';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent, LandingComponent, PageNotFoundComponent],
@@ -14,8 +18,10 @@ import { EmployeeModule } from './employee/employee.module';
     BrowserModule,
     AppRoutingModule,
     CustomerModule,
-    EmployeeModule
-  ],
+    EmployeeModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())],
   providers: [],
   bootstrap: [AppComponent],
 })
