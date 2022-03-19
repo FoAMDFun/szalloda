@@ -8,5 +8,9 @@ export const environment = {
     authDomain: 'szalloda-app.firebaseapp.com',
     messagingSenderId: '569196045069',
   },
-  production: true
+  recaptcha: {
+    site_key: '6Lf5JfQeAAAAACECWpA7rSGP9PqS6_YE6ruGMz5e',
+    secret_key: '6Lf5JfQeAAAAAGjBgtCjorTVBX2UAst2LD0kTuV-',
+  },
+  production: true,
 };
