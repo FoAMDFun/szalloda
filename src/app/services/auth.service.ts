@@ -20,8 +20,8 @@ export class AuthService {
   public readonly user$: Observable<User | null> = EMPTY;
   public userLoggedIn = false;
   public currentUser: string | null = '';
-  private userIDBS$ = new BehaviorSubject('');
-  public userID$ = this.userIDBS$.asObservable();
+  private readonly userIDBS$ = new BehaviorSubject('');
+  public readonly userID$ = this.userIDBS$.asObservable();
 
   constructor(private auth: Auth, private userService: UserService) {
     if (auth) {
