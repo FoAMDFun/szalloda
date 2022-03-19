@@ -1,0 +1,115 @@
+<section class="container-md">
+  <h3 class="my-3">Bejelentkezés</h3>
+  <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+    <div class="container jost">
+      <div class="row">
+        <div class="col-md-12 my-3">
+          <label for="inputEmail" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="inputEmail"
+            formControlName="email"
+            placeholder="Kérem írja be az email címét..."
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              emailForm.get('email')?.invalid && emailForm.get('email')?.touched
+            "
+            >Érvénytelen E-mail.</small
+          >
+        </div>
+
+        <div class="col-md-12 my-3">
+          <label for="passwordFirst" class="form-label">Jelszó</label>
+          <input
+            type="password"
+            class="form-control"
+            id="passwordFirst"
+            formControlName="passwordFirst"
+            placeholder="Kérem írja be a jelszavát..."
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              emailForm.get('passwordFirst')?.invalid &&
+              emailForm.get('passwordFirst')?.touched
+            "
+            >Érvénytelen jelszó. Legalább 8 karaktert írjon.</small
+          >
+        </div>
+
+        <div class="col-md-12 my-3">
+          <label for="passwordSecond" class="form-label">Jelszó</label>
+          <input
+            type="password"
+            class="form-control"
+            id="passwordSecond"
+            formControlName="passwordSecond"
+            placeholder="Kérem ismételje meg a jelszavát..."
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              emailForm.get('passwordSecond')?.invalid &&
+              emailForm.get('passwordSecond')?.touched
+            "
+            >Érvénytelen jelszó. Legalább 8 karaktert írjon és egyezzen meg a
+            jelszó az első mezővel.</small
+          >
+        </div>
+
+        <div class="col-md-12 my-3">
+          <label for="inputUserName" class="form-label">Név</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputUserName"
+            formControlName="name"
+            placeholder="Kérem írja be a nevét (legalább 3 karakter)..."
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              emailForm.get('name')?.invalid && emailForm.get('name')?.touched
+            "
+            >Érvénytelen név. Legalább 3 karaktert írjon.</small
+          >
+        </div>
+
+        <div class="col-md-12 my-3">
+          <label for="inputPhone" class="form-label">Telefonszám</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputPhone"
+            formControlName="phone"
+            placeholder="Kérem írja be a telefonszámát..."
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              emailForm.get('phone')?.invalid && emailForm.get('phone')?.touched
+            "
+            >Érvénytelen telefonszám. Csak számokat írjon. Legalább 6
+            számjegy.</small
+          >
+        </div>
+
+        <div class="col-md-12 my-3 d-flex justify-content-center">
+          <re-captcha formControlName="gridCheck"></re-captcha>
+        </div>
+
+        <div class="col-md-12 my-3 d-flex justify-content-center">
+          <button class="btn btn-primary mb-3" [disabled]="!emailForm.valid">
+            Üzenet elküldése
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="result" class="container text-center my-3">
+    {{ result | json }}
+  </div>
+</section>
