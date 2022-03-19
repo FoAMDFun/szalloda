@@ -5,6 +5,16 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 
 const routes: Routes = [
   { path: '', component: LandingComponent }, // A kezdőlap;
+  {
+    path: 'guest',
+    loadChildren: () =>
+      import('./customer/customer.module').then((m) => m.CustomerModule),
+  },
+  {
+    path: 'worker',
+    loadChildren: () =>
+      import('./employee/employee.module').then((m) => m.EmployeeModule),
+  },
   { path: '**', component: PageNotFoundComponent },
 ]; // hogy ne fusson üres oldalra sehol visszaugrunk a Page not found-ra
 
