@@ -24,7 +24,7 @@ export class UserService {
 
   getUsers(): Observable<User[]> {
     const usersRef = collection(this.firestore, this.collName);
-    return collectionData(usersRef, { idField: '_id' }) as Observable<User[]>.pipe(tap(x => console.log(x)));
+    return (collectionData(usersRef, { idField: '_id' }) as Observable<User[]>).pipe(tap(x => console.log(x)));
   }
 
   getUser(id: string): Observable<User> {
