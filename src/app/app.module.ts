@@ -14,7 +14,8 @@ import { EmployeeModule } from './employee/employee.module';
     BrowserModule,
     AppRoutingModule,
     CustomerModule,
-    EmployeeModule],
+    EmployeeModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
