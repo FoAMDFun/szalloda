@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', component: LandingComponent }, // A kezdőlap;
   { path: 'login', component: LoginComponent }, // Bejelentkezés
   {
-    path: 'guest',
+    path: 'customer',
     loadChildren: () =>
       import('./customer/customer.module').then((m) => m.CustomerModule),
   },
