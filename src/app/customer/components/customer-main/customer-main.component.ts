@@ -31,14 +31,11 @@ export class CustomerMainComponent implements OnInit {
       return btoa(Math.random().toString()).substr(10, 15);
     }
 
-    const ts = Timestamp.fromDate(new Date());
-    console.log(ts);
-
     const dummyReservation: Reservation = {
       comments: getRandomString(),
       customer: getRandomString(),
-      startDate: ts,
-      endDate: ts,
+      startDate: Timestamp.fromDate(new Date()),
+      endDate: Timestamp.fromDate(new Date()),
     };
     this.store.dispatch(addReservation(dummyReservation));
   }

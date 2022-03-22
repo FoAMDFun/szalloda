@@ -17,7 +17,6 @@ export class ReservationCrudService {
   constructor(private firestore: Firestore) {}
 
   getReservations(): Observable<ReadonlyArray<Reservation>> {
-    console.log('getReservations in service');
     const reservationsRef = collection(this.firestore, this.collName);
     return collectionData(reservationsRef, { idField: 'id' }) as Observable<
       Reservation[]

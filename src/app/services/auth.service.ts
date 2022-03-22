@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   User,
+  UserCredential,
 } from '@angular/fire/auth';
 import { traceUntilFirst } from '@angular/fire/performance';
 import { BehaviorSubject, EMPTY, map, Observable, Subscription } from 'rxjs';
@@ -46,15 +47,15 @@ export class AuthService {
     }
   }
 
-  login({ email, password }: LoginData) {
+  login({ email, password }: LoginData): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  register({ email, password }: LoginData) {
+  register({ email, password }: LoginData): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
-  logout() {
+  logout(): Promise<void> {
     return signOut(this.auth);
   }
 }
