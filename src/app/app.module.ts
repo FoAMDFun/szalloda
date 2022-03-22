@@ -16,6 +16,15 @@ import {
   RecaptchaSettings,
   RECAPTCHA_SETTINGS,
 } from 'ng-recaptcha';
+// Ngrx
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+// Reducers
+import { reservationReducer } from './store/reducers/reservation.reducer';
+// Effects
+import { ReservationEffects } from './store/effects/reservation.effects';
 // Environment
 import { environment } from '../environments/environment';
 // Components
@@ -24,12 +33,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { StoreModule } from '@ngrx/store';
-// import { reducers, metaReducers } from './store/reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { reservationReducer } from './store/reducers/reservation.reducer';
 
 @NgModule({
   declarations: [
@@ -50,17 +53,12 @@ import { reservationReducer } from './store/reducers/reservation.reducer';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    StoreModule.forRoot(
-      //   reducers, {
-      //   metaReducers,
-      // }
-      { reservations: reservationReducer }
-    ),
+    StoreModule.forRoot({ reservations: reservationReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([ReservationEffects]),
     StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
