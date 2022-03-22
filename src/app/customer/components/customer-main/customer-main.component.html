@@ -31,8 +31,8 @@
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ reservation.customer }}</td>
         <td>{{ reservation.comments }}</td>
-        <td>{{ reservation.startDate }}</td>
-        <td>{{ reservation.endDate }}</td>
+        <td>{{ reservation.startDate.toDate() }}</td>
+        <td>{{ reservation.endDate.toDate() }}</td>
       </tr>
     </tbody>
   </table>

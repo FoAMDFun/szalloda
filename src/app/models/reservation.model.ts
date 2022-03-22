@@ -1,8 +1,11 @@
 // reservations table
 
+import { Timestamp } from 'firebase/firestore';
+
 export interface Reservation {
-  startDate: Date;
-  endDate: Date;
+  id?: string;
+  startDate: Timestamp;
+  endDate: Timestamp;
   customer: string; // Userre mutat
   comments?: string;
 }

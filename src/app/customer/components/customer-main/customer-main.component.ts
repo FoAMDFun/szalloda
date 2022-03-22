@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Timestamp } from 'firebase/firestore';
 import { Reservation } from 'src/app/models/reservation.model';
 import {
   addReservation,
-  getReservationsStart,
+  getReservations,
 } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 
@@ -22,15 +23,22 @@ export class CustomerMainComponent implements OnInit {
   }
 
   getReservations(): void {
-    this.store.dispatch(getReservationsStart());
+    this.store.dispatch(getReservations());
   }
 
   newReservation(): void {
+    function getRandomString(): string {
+      return btoa(Math.random().toString()).substr(10, 15);
+    }
+
+    const ts = Timestamp.fromDate(new Date());
+    console.log(ts);
+
     const dummyReservation: Reservation = {
-      comments: 'Dummy',
-      customer: 'Dummy Customer',
-      endDate: new Date(),
-      startDate: new Date(),
+      comments: getRandomString(),
+      customer: getRandomString(),
+      startDate: ts,
+      endDate: ts,
     };
     this.store.dispatch(addReservation(dummyReservation));
   }
