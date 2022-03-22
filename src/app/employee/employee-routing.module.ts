@@ -5,12 +5,12 @@ import { EmployeeComponent } from './employee.component';
 
 const routes: Routes = [
   {
-    path:'',
-    component:EmployeeComponent,
-    children:[
+    path: '',
+    component: EmployeeComponent,
+    children: [
       {
-        path:'',
-        component:EmployeeComponent
+        path: '',
+        component: EmployeeComponent
       }
     ]
   },
