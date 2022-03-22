@@ -1,0 +1,43 @@
+<div class="container">
+  <!-- <div class="md-form mt-0">
+    <input
+      class="form-control mr-sm-2"
+      [formControl]="searchControl"
+      type="text"
+      placeholder="Search by reservation name, enter at least 4 digits please..."
+      name="searchControl"
+      [value]="searchControl"
+    />
+  </div> -->
+
+  <!-- <ng-container *ngIf="areNoResultsFound$ | async; else results">
+    <div class="my-3">No Results found.</div>
+  </ng-container> -->
+
+  <button (click)="newReservation()" class="btn btn-primary my-3">New</button>
+
+  <table class="table text-center table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">CustomerId</th>
+        <th scope="col">RoomId</th>
+        <th scope="col">Comments</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reservation of reservations$ | async; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ reservation.customerId }}</td>
+        <td>{{ reservation.roomId }}</td>
+        <td>{{ reservation.comments }}</td>
+        <td>{{ reservation.startDate.toDate() }}</td>
+        <td>{{ reservation.endDate.toDate() }}</td>
+        <td><button (click)="deleteReservation(reservation)" class="btn btn-danger">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
