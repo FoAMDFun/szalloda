@@ -5,6 +5,7 @@ import { Reservation } from 'src/app/models/reservation.model';
 import {
   addReservation,
   getReservations,
+  deleteReservation,
 } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 
@@ -33,10 +34,15 @@ export class CustomerMainComponent implements OnInit {
 
     const dummyReservation: Reservation = {
       comments: getRandomString(),
-      customer: getRandomString(),
+      customerId: getRandomString(),
+      roomId: getRandomString(),
       startDate: Timestamp.fromDate(new Date()),
       endDate: Timestamp.fromDate(new Date()),
     };
     this.store.dispatch(addReservation(dummyReservation));
+  }
+
+  public deleteReservation(reservation: Reservation): void {
+    this.store.dispatch(deleteReservation(reservation));
   }
 }

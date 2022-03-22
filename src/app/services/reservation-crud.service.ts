@@ -5,6 +5,7 @@ import {
   collectionData,
   Firestore,
 } from '@angular/fire/firestore';
+import { deleteDoc, doc } from 'firebase/firestore';
 import { defer, from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Reservation } from '../models/reservation.model';
@@ -18,7 +19,7 @@ export class ReservationCrudService {
 
   getReservations(): Observable<ReadonlyArray<Reservation>> {
     const reservationsRef = collection(this.firestore, this.collName);
-    return collectionData(reservationsRef, { idField: 'id' }) as Observable<
+    return collectionData(reservationsRef, { idField: '_id' }) as Observable<
       Reservation[]
     >;
   }
@@ -26,5 +27,10 @@ export class ReservationCrudService {
   addReservation(reservation: Reservation): Observable<any> {
     const reservationRef = collection(this.firestore, this.collName);
     return defer(() => from(addDoc(reservationRef, reservation)));
+  }
+
+  deleteReservation(reservation: Reservation): Observable<void>{
+    const reservationRef = doc(this.firestore, `${this.collName}/${reservation._id}`);
+    return defer(() => from(deleteDoc(reservationRef)));
   }
 }

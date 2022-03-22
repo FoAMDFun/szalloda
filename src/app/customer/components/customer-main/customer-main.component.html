@@ -20,19 +20,23 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Customer</th>
+        <th scope="col">CustomerId</th>
+        <th scope="col">RoomId</th>
         <th scope="col">Comments</th>
         <th scope="col">Start Date</th>
         <th scope="col">End Date</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let reservation of reservations$ | async; index as i">
         <th scope="row">{{ i + 1 }}</th>
-        <td>{{ reservation.customer }}</td>
+        <td>{{ reservation.customerId }}</td>
+        <td>{{ reservation.roomId }}</td>
         <td>{{ reservation.comments }}</td>
         <td>{{ reservation.startDate.toDate() }}</td>
         <td>{{ reservation.endDate.toDate() }}</td>
+        <td><button (click)="deleteReservation(reservation)" class="btn btn-danger">Delete</button></td>
       </tr>
     </tbody>
   </table>

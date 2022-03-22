@@ -12,6 +12,9 @@ import {
   addReservation,
   addReservationSuccess,
   addReservationError,
+  deleteReservation,
+  deleteReservationSuccess,
+  deleteReservationError,
 } from '../actions/reservation.action';
 
 @Injectable()
@@ -41,6 +44,20 @@ export class ReservationEffects {
       )
     )
   );
+
+
+  deleteReservation$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(deleteReservation),
+      concatMap(({ reservation }) =>
+        this.reservationCrudService.deleteReservation(reservation).pipe(
+          map(() => deleteReservationSuccess()),
+          catchError((error) => of(deleteReservationError(error)))
+        )
+      )
+    )
+  )
+
 
   constructor(
     private action$: Actions,
