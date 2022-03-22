@@ -34,9 +34,16 @@
         <td>{{ reservation.customerId }}</td>
         <td>{{ reservation.roomId }}</td>
         <td>{{ reservation.comments }}</td>
-        <td>{{ reservation.startDate.toDate() }}</td>
-        <td>{{ reservation.endDate.toDate() }}</td>
-        <td><button (click)="deleteReservation(reservation)" class="btn btn-danger">Delete</button></td>
+        <td>{{ reservation.startDate.toDate() | date }}</td>
+        <td>{{ reservation.endDate.toDate() | date }}</td>
+        <td>
+          <button
+            (click)="deleteReservation(reservation)"
+            class="btn btn-danger"
+          >
+            Delete
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
