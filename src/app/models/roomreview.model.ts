@@ -1,5 +1,5 @@
-export interface Review{
-  _id?:string;
+export interface RoomReview{
   reviewDescription: string;
   reviewStars:number;
+  userId:string;
 }
