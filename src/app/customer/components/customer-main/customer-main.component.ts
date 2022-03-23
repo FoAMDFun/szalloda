@@ -18,6 +18,8 @@ import { reservationSelector } from 'src/app/store/selectors/reservation.selecto
 export class CustomerMainComponent implements OnInit {
   reservations$ = this.store.pipe(select(reservationSelector));
   currentDate = new Date();
+  startDate = new Date();
+  endDate = new Date();
 
   constructor(private store: Store<ReservationState>) {}
 
@@ -47,5 +49,13 @@ export class CustomerMainComponent implements OnInit {
 
   public deleteReservation(reservation: Reservation): void {
     this.store.dispatch(deleteReservation({ reservation }));
+  }
+
+  parseDate(dateString: string | null): Date {
+    console.log(`date changed, ${this.startDate}, ${this.endDate}`);
+    if (dateString) {
+      return new Date(dateString);
+    }
+    return new Date();
   }
 }
