@@ -17,6 +17,7 @@ import { reservationSelector } from 'src/app/store/selectors/reservation.selecto
 })
 export class CustomerMainComponent implements OnInit {
   reservations$ = this.store.pipe(select(reservationSelector));
+  currentDate = new Date();
 
   constructor(private store: Store<ReservationState>) {}
 
@@ -39,11 +40,12 @@ export class CustomerMainComponent implements OnInit {
       roomId: getRandomString(),
       startDate: Timestamp.fromDate(new Date()),
       endDate: Timestamp.fromDate(new Date()),
+      _id: getRandomString(),
     };
-    this.store.dispatch(addReservation(dummyReservation));
+    this.store.dispatch(addReservation({ reservation: dummyReservation }));
   }
 
   public deleteReservation(reservation: Reservation): void {
-    this.store.dispatch(deleteReservation(reservation));
+    this.store.dispatch(deleteReservation({ reservation }));
   }
 }

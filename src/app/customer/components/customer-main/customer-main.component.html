@@ -14,7 +14,15 @@
     <div class="my-3">No Results found.</div>
   </ng-container> -->
 
-  <button (click)="newReservation()" class="btn btn-primary my-3">New</button>
+  <button (click)="newReservation()" class="btn btn-primary my-3">Új foglalás...</button>
+  <label class="mx-3"for="start-date-time">Kezdődátum és időpont:</label>
+<input type="datetime-local" id="start-date-time"
+       name="start-date-time" [value]="currentDate| date:'yyyy-MM-ddTHH:mm'"
+       [min]="currentDate">
+  <label class="mx-3" for="end-time">Végdátum:</label>
+<input type="datetime-local" id="end-date-time"
+       name="end-date-time" [value]="currentDate| date:'yyyy-MM-ddTHH:mm'"
+       [min]="currentDate">
 
   <table class="table text-center table-striped">
     <thead>
