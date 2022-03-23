@@ -4,11 +4,14 @@ import {
   collection,
   collectionData,
   Firestore,
+  query,
+  where,
 } from '@angular/fire/firestore';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { defer, from, Observable } from 'rxjs';
+import { deleteDoc, doc, Timestamp } from 'firebase/firestore';
+import { defer, from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Reservation } from '../models/reservation.model';
+import { ReservationFilter } from '../store/reducers/reservation.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -24,13 +27,26 @@ export class ReservationCrudService {
     >;
   }
 
+  getReservationsFilter(filter: ReservationFilter): Observable<Reservation[]> {
+    const collectionRef = collection(this.firestore, this.collName);
+    const searchRef = query(
+      collectionRef,
+      where('startDate', '>=', Timestamp.fromDate(filter.startDate)),
+      where('endDate', '<=', Timestamp.fromDate(filter.endDate))
+    );
+    return collectionData(searchRef) as Observable<Reservation[]>;
+  }
+
   addReservation(reservation: Reservation): Observable<any> {
     const reservationRef = collection(this.firestore, this.collName);
     return defer(() => from(addDoc(reservationRef, reservation)));
   }
 
-  deleteReservation(reservation: Reservation): Observable<void>{
-    const reservationRef = doc(this.firestore, `${this.collName}/${reservation._id}`);
+  deleteReservation(reservationID: string): Observable<void> {
+    const reservationRef = doc(
+      this.firestore,
+      `${this.collName}/${reservationID}`
+    );
     return defer(() => from(deleteDoc(reservationRef)));
   }
 }
