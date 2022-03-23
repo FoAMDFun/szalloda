@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
 import { Reservation } from 'src/app/models/reservation.model';
 import {
@@ -8,6 +8,7 @@ import {
   deleteReservation,
 } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
+import { reservationSelector } from 'src/app/store/selectors/reservation.selector';
 
 @Component({
   selector: 'app-main',
@@ -15,7 +16,7 @@ import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
   styleUrls: ['./customer-main.component.scss'],
 })
 export class CustomerMainComponent implements OnInit {
-  reservations$ = this.store.select('reservations');
+  reservations$ = this.store.pipe(select(reservationSelector));
 
   constructor(private store: Store<ReservationState>) {}
 

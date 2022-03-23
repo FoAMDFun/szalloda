@@ -29,7 +29,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let reservation of (reservations$ | async)?.items; index as i">
+      <tr *ngFor="let reservation of reservations$ | async; index as i">
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ reservation.customerId }}</td>
         <td>{{ reservation.roomId }}</td>
