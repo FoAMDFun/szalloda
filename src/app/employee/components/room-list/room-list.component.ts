@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Room } from 'src/app/models/room.model';
-import { addRoom, getRooms } from 'src/app/store/actions/room.action';
+import { addRoom, deleteRoom, getRooms } from 'src/app/store/actions/room.action';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
 import { roomSelector } from 'src/app/store/selectors/room.selector';
+import { IconDefinition, faImage, faTrashAlt,faEdit, faStar} from '@fortawesome/free-solid-svg-icons'
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-room-list',
@@ -12,10 +14,12 @@ import { roomSelector } from 'src/app/store/selectors/room.selector';
 })
 export class RoomListComponent implements OnInit {
 
-  rooms$ = this.store.pipe(select(roomSelector));
-
+  public readonly icons:{img:IconDefinition,delete:IconDefinition,edit:IconDefinition,star:IconDefinition} =
+  {img:faImage,delete:faTrashAlt,edit:faEdit,star: faStar}
+  public rooms$ = this.store.pipe(select(roomSelector));
 
   constructor(private store: Store<RoomState>) {}
+
 
   ngOnInit(): void {
     this.getRooms();
@@ -41,9 +45,15 @@ export class RoomListComponent implements OnInit {
     this.store.dispatch(addRoom(dummyRoom));
   }
 
-  // public deleteReservation(reservation: Reservation): void {
-  //   this.store.dispatch(deleteReservation({ reservation }));
-  // }
+
+  public deleteRoom(room: Room): void {
+    this.store.dispatch(deleteRoom( room ));
+  }
+
+  editRoom(room: Room):void {
+
+  }
+
 
 }
 

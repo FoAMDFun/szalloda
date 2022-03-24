@@ -3,9 +3,8 @@
   <table class="table text-center table-striped">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">RoomId</th>
         <th scope="col">Szobaszám</th>
+        <th scope="col">RoomId</th>
         <th scope="col">Ágyszám</th>
         <th scope="col">Kép</th>
         <th scope="col">Értékelések</th>
@@ -14,15 +13,26 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let room of rooms$ | async; index as i">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ room._id }}</td>
+      <tr *ngFor="let room of rooms$ | async | sort : 'numberOf'; index as i">
         <td>{{ room.numberOf }}</td>
+        <td>{{ room._id }}</td>
         <td>{{ room.bed }}</td>
-        <td>{{ room.image }}</td>
-        <td>{{ room.reviews | json }}</td>
-        <!-- <td><button (click)="deleteRoom(room)" class="btn btn-danger">Delete</button></td>
-        <td><button (click)="editRoom(room)" class="btn btn-danger">Delete</button></td> -->
+        <td>
+          <fa-icon class="pointer" [icon]="icons.img"></fa-icon>
+        </td>
+        <td>
+          <fa-icon class="pointer" [icon]="icons.star"></fa-icon>
+        </td>
+        <td>
+          <button (click)="deleteRoom(room)" class="btn btn-danger">
+            <fa-icon [icon]="icons.delete"></fa-icon>
+          </button>
+        </td>
+        <td>
+          <button (click)="editRoom(room)" class="btn btn-success">
+            <fa-icon [icon]="icons.edit"></fa-icon>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

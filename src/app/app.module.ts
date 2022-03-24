@@ -23,8 +23,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 // Reducers
 import { reservationReducer } from './store/reducers/reservation.reducer';
+import { roomReducer } from './store/reducers/room.reducer';
 // Effects
 import { ReservationEffects } from './store/effects/reservation.effects';
+import { RoomEffects } from './store/effects/room.effects';
 // Environment
 import { environment } from '../environments/environment';
 // Components
@@ -33,9 +35,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { roomReducer } from './store/reducers/room.reducer';
-import { RoomEffects } from './store/effects/room.effects';
-import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -56,14 +55,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    StoreModule.forRoot({ reservations: reservationReducer }),
-    StoreModule.forRoot({ rooms: roomReducer }),
+    StoreModule.forRoot({
+      reservations: reservationReducer,
+      rooms: roomReducer}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([ReservationEffects]),
-    EffectsModule.forRoot([RoomEffects]),
+    EffectsModule.forRoot([ReservationEffects,RoomEffects]),
     StoreRouterConnectingModule.forRoot(),
     FormsModule
   ],
