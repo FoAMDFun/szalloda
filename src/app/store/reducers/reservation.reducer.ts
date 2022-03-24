@@ -1,32 +1,26 @@
-import { state } from '@angular/animations';
 import { createReducer, on } from '@ngrx/store';
+import { Timestamp } from 'firebase/firestore';
 import { Reservation } from 'src/app/models/reservation.model';
 import {
+  changeReservationDate,
   deleteReservation,
   getReservationsError,
-  getReservationsFilterSuccess,
   getReservationsSuccess,
 } from '../actions/reservation.action';
-
-export interface ReservationFilter {
-  startDate: Date;
-  endDate: Date;
-}
 export interface ReservationState {
   reservations: {
     items: ReadonlyArray<Reservation>;
     error: any;
+    startDate: Timestamp;
+    endDate: Timestamp;
   };
-  filter: ReservationFilter;
 }
 const initialState: ReservationState = {
   reservations: {
     items: [],
     error: null,
-  },
-  filter: {
-    startDate: new Date(),
-    endDate: new Date('2999-12-31'),
+    startDate: Timestamp.fromDate(new Date('2022-01-01T00:00:00')),
+    endDate: Timestamp.fromDate(new Date('2999-12-31T23:23:23')),
   },
 };
 
@@ -35,19 +29,22 @@ export const reservationReducer = createReducer(
   on(getReservationsSuccess, (state, { reservations }) => ({
     ...state,
     items: [...reservations],
+    error: null,
   })),
-  on(getReservationsFilterSuccess, (state, { reservations, filter }) => ({
+  on(changeReservationDate, (state, { startDate, endDate }) => ({
     ...state,
-    items: [...reservations],
-    filter: { ...filter },
+    startDate: startDate,
+    endDate: endDate,
+    error: null,
   })),
   on(getReservationsError, (state, error) => ({
     ...state,
+    items: [],
     error: error,
   })),
   on(deleteReservation, (state, { reservation }) => ({
     ...state,
     items: state.items.filter((item) => item?._id !== reservation._id),
+    error: null,
   }))
-  // on(addReservationSuccess, (state) => [...state])
 );
