@@ -35,6 +35,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { roomReducer } from './store/reducers/room.reducer';
 import { RoomEffects } from './store/effects/room.effects';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
