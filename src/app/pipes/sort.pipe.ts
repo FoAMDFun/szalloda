@@ -18,9 +18,17 @@ export class SortPipe implements PipeTransform {
           return 1;
         return 0;
       })
-    }else{
-      return this.values
     }
+    if (typeof this.values[0][prop]==='string') {
+      return this.values.sort((a,b) => {
+        if (a[prop].toUpperCase() < b[prop].toUpperCase())
+        return -1;
+      if (a[prop].toUpperCase() > b[prop].toUpperCase())
+        return 1;
+      return 0;
+      })
+    }
+    return this.values
   }
   private values:any[] = []
   private saveValues(values: readonly any[]){
