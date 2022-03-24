@@ -5,7 +5,8 @@ import { addRoom, deleteRoom, getRooms } from 'src/app/store/actions/room.action
 import { RoomState } from 'src/app/store/reducers/room.reducer';
 import { roomSelector } from 'src/app/store/selectors/room.selector';
 import { IconDefinition, faImage, faTrashAlt,faEdit, faStar} from '@fortawesome/free-solid-svg-icons'
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-room-list',
@@ -16,20 +17,53 @@ export class RoomListComponent implements OnInit {
 
   public readonly icons:{img:IconDefinition,delete:IconDefinition,edit:IconDefinition,star:IconDefinition} =
   {img:faImage,delete:faTrashAlt,edit:faEdit,star: faStar}
-  public rooms$ = this.store.pipe(select(roomSelector));
 
-  constructor(private store: Store<RoomState>) {}
+  public rooms$ = this._store.pipe(select(roomSelector),map(rooms=>{
+    const result = [];
+    for (const room of rooms){
+      result.push(room)
+    }
+    return result
+  }))
+  // private roomSub?: Subscription;
+  // public rooms: Room[] = [];
+  public newRoomForm: FormGroup = this._fb.group({
+    bed: ['', [Validators.required,Validators.min(0)]],
+    numberOf: ['', [Validators.required]],
+    // image: ['', [Validators.required]],
+    // reviews: ['', [Validators.required]],
+    });
+
+  constructor(private _store: Store<RoomState>,private  _fb : FormBuilder) {}
 
 
   ngOnInit(): void {
     this.getRooms();
+    // this.roomSub = this._store.pipe(select(roomSelector)).subscribe({
+    //     next:(rooms)=>{
+    //       this.RoomInit(rooms)
+    //     },
+    //     error:(err)=>{console.log(err)},
+    //     complete:()=>{}
+    //   }
+    // )
   }
+
+  // ngOnDestroy(): void {
+  //   this.roomSub?.unsubscribe()
+  // }
+
+  // RoomInit(rooms: ReadonlyArray<Room>){
+  //   for (let i = 0; i < rooms.length; i++) {
+  //     this.rooms.push(rooms[i]);
+  //   }
+  // }
 
   getRooms(): void {
-    this.store.dispatch(getRooms());
+    this._store.dispatch(getRooms());
   }
 
-  newRoom(): void {
+  newRandomRoom(): void {
     function getRandomString(): string {
       return btoa(Math.random().toString()).substr(10, 15);
     }
@@ -42,17 +76,40 @@ export class RoomListComponent implements OnInit {
       reviews: []
     };
 
-    this.store.dispatch(addRoom(dummyRoom));
+    this._store.dispatch(addRoom(dummyRoom));
   }
 
 
   public deleteRoom(room: Room): void {
-    this.store.dispatch(deleteRoom( room ));
+    this._store.dispatch(deleteRoom( room ));
   }
 
   editRoom(room: Room):void {
 
   }
+
+
+
+
+submitted = false;
+//Add user form actions
+get formControlls() { return this.newRoomForm.controls; }
+onSubmit() {
+
+  this.submitted = true;
+  // stop here if form is invalid
+  if (this.newRoomForm.invalid) {
+      return;
+  }
+  //True if all the fields are filled
+  if(this.submitted)
+  {
+    alert("Great!!");
+  }
+
+}
+
+
 
 
 }
