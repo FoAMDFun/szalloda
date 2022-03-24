@@ -1,7 +1,5 @@
 <section class="container">
-  <button (click)="newRoom()" class="btn btn-primary my-3">
-    Új Szoba...
-  </button>
+  <button (click)="newRoom()" class="btn btn-primary my-3">Új Szoba...</button>
   <table class="table text-center table-striped">
     <thead>
       <tr>
@@ -22,11 +20,10 @@
         <td>{{ room.numberOf }}</td>
         <td>{{ room.bed }}</td>
         <td>{{ room.image }}</td>
-        <td>{{ room.reviews }}</td>
+        <td>{{ room.reviews | json }}</td>
         <!-- <td><button (click)="deleteRoom(room)" class="btn btn-danger">Delete</button></td>
         <td><button (click)="editRoom(room)" class="btn btn-danger">Delete</button></td> -->
       </tr>
     </tbody>
   </table>
 </section>
-
