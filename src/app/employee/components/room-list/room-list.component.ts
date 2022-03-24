@@ -4,7 +4,7 @@ import { Room } from 'src/app/models/room.model';
 import { addRoom, deleteRoom, getRooms } from 'src/app/store/actions/room.action';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
 import { roomSelector } from 'src/app/store/selectors/room.selector';
-import { IconDefinition, faImage, faTrashAlt,faEdit, faStar} from '@fortawesome/free-solid-svg-icons'
+import { IconDefinition, faImage, faTrashAlt,faEdit, faStar, faTimesCircle, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 import { map, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -15,8 +15,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RoomListComponent implements OnInit {
 
-  public readonly icons:{img:IconDefinition,delete:IconDefinition,edit:IconDefinition,star:IconDefinition} =
-  {img:faImage,delete:faTrashAlt,edit:faEdit,star: faStar}
+  public readonly icons:{true:IconDefinition,false:IconDefinition,img:IconDefinition,delete:IconDefinition,edit:IconDefinition,star:IconDefinition} =
+  {true:faCheckCircle,false:faTimesCircle,img:faImage,delete:faTrashAlt,edit:faEdit,star: faStar}
 
   public rooms$ = this._store.pipe(select(roomSelector),map(rooms=>{
     const result = [];
@@ -25,39 +25,24 @@ export class RoomListComponent implements OnInit {
     }
     return result
   }))
-  // private roomSub?: Subscription;
-  // public rooms: Room[] = [];
-  public newRoomForm: FormGroup = this._fb.group({
+
+  public roomForm: FormGroup = this._fb.group({
     bed: ['', [Validators.required,Validators.min(0)]],
     numberOf: ['', [Validators.required]],
+    floor: ['', [Validators.required]],
+    isBalcony: [false],
     // image: ['', [Validators.required]],
     // reviews: ['', [Validators.required]],
     });
+  get formControlls() { return this.roomForm.controls; }
 
   constructor(private _store: Store<RoomState>,private  _fb : FormBuilder) {}
 
 
   ngOnInit(): void {
     this.getRooms();
-    // this.roomSub = this._store.pipe(select(roomSelector)).subscribe({
-    //     next:(rooms)=>{
-    //       this.RoomInit(rooms)
-    //     },
-    //     error:(err)=>{console.log(err)},
-    //     complete:()=>{}
-    //   }
-    // )
   }
 
-  // ngOnDestroy(): void {
-  //   this.roomSub?.unsubscribe()
-  // }
-
-  // RoomInit(rooms: ReadonlyArray<Room>){
-  //   for (let i = 0; i < rooms.length; i++) {
-  //     this.rooms.push(rooms[i]);
-  //   }
-  // }
 
   getRooms(): void {
     this._store.dispatch(getRooms());
@@ -67,15 +52,15 @@ export class RoomListComponent implements OnInit {
     function getRandomString(): string {
       return btoa(Math.random().toString()).substr(10, 15);
     }
-
     const dummyRoom: Room = {
+      floor:Math.floor(Math.random() * 100),
       bed: Math.floor(Math.random() * 100),
       image: getRandomString(),
       numberOf: Math.floor(Math.random() * 100),
       _id: getRandomString(),
-      reviews: []
+      reviews: [],
+      isBalcony : Math.floor(Math.random() * 100)%2===0
     };
-
     this._store.dispatch(addRoom(dummyRoom));
   }
 
@@ -85,32 +70,15 @@ export class RoomListComponent implements OnInit {
   }
 
   editRoom(room: Room):void {
-
+    this.roomForm.setValue({bed:room.bed,numberOf:room.numberOf,floor:room.floor,isBalcony:room.isBalcony});
   }
 
 
-
-
-submitted = false;
-//Add user form actions
-get formControlls() { return this.newRoomForm.controls; }
-onSubmit() {
-
-  this.submitted = true;
-  // stop here if form is invalid
-  if (this.newRoomForm.invalid) {
-      return;
+  saveRoom(): void {
+    this._store.dispatch(addRoom(this.roomForm.value))
+    // mentés sikeres? sikertelen? stb???.... TODO
+    this.roomForm.reset()
   }
-  //True if all the fields are filled
-  if(this.submitted)
-  {
-    alert("Great!!");
-  }
-
-}
-
-
-
 
 }
 
