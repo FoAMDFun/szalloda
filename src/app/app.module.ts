@@ -34,6 +34,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { roomReducer } from './store/reducers/room.reducer';
+import { RoomEffects } from './store/effects/room.effects';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { roomReducer } from './store/reducers/room.reducer';
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([ReservationEffects]),
+    EffectsModule.forRoot([RoomEffects]),
     StoreRouterConnectingModule.forRoot(),
     FormsModule
   ],
