@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // Firestore
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -60,6 +60,7 @@ import { RegisterComponent } from './components/register/register.component';
     }),
     EffectsModule.forRoot([ReservationEffects]),
     StoreRouterConnectingModule.forRoot(),
+    FormsModule
   ],
   providers: [
     {
