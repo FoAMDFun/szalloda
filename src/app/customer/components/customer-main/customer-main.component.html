@@ -25,7 +25,7 @@
     id="start-date-time"
     name="start-date-time"
     [value]="startDate | date: 'yyyy-MM-ddTHH:mm'"
-    [min]="currentDate"
+    [min]="currentDate | date: 'yyyy-MM-ddTHH:mm'"
   />
   <label class="mx-3" for="end-time">Végdátum:</label>
   <input
@@ -35,7 +35,7 @@
     id="end-date-time"
     name="end-date-time"
     [value]="endDate | date: 'yyyy-MM-ddTHH:mm'"
-    [min]="currentDate"
+    [min]="currentDate | date: 'yyyy-MM-ddTHH:mm'"
   />
 
   <table class="table text-center table-striped">
