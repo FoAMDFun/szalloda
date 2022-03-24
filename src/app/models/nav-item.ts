@@ -1,5 +1,5 @@
 export interface NavItem{
-  id: string;
+  _id: string;
   text: string,
   value:string,
   type: NavItemType

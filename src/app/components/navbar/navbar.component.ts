@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
   @Input() public links$ ?: Observable<NavItem[]>
   @Input() public mainLink$ ?: Observable<NavItem>
 
-  public routerLinkType = NavItemType.ROUTERLINK
+  public readonly routerLinkType = NavItemType.ROUTERLINK
 
   constructor() { }
 
