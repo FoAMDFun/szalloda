@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NavItem } from 'src/app/models/nav-item';
+import { NavItem, NavItemType } from 'src/app/models/nav-item';
 
 @Component({
   selector: 'app-navbar',
@@ -12,9 +12,12 @@ export class NavbarComponent implements OnInit {
   @Input() public links$ ?: Observable<NavItem[]>
   @Input() public mainLink$ ?: Observable<NavItem>
 
+  public routerLinkType = NavItemType.ROUTERLINK
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
 
 }

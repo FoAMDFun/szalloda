@@ -1,7 +1,10 @@
 export interface NavItem{
   id: string;
   text: string,
-  routerLink:string,
+  value:string,
+  type: NavItemType
+}
 
-  type?: string
+export enum NavItemType{
+  ROUTERLINK,SELECT
 }
