@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // Firestore
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -33,6 +33,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { roomReducer } from './store/reducers/room.reducer';
+import { RoomEffects } from './store/effects/room.effects';
 
 @NgModule({
   declarations: [
@@ -54,12 +56,15 @@ import { RegisterComponent } from './components/register/register.component';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     StoreModule.forRoot({ reservations: reservationReducer }),
+    StoreModule.forRoot({ rooms: roomReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([ReservationEffects]),
+    EffectsModule.forRoot([RoomEffects]),
     StoreRouterConnectingModule.forRoot(),
+    FormsModule
   ],
   providers: [
     {

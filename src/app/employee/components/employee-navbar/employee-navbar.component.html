@@ -1,0 +1,22 @@
+
+<nav class="navbar navbar-expand-md navbar-light  sticky-top bg-danger">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3 text-white" [routerLink]="(mainLink$ |async)?.routerLink" >{{(mainLink$ |async)?.text}}</a>
+    <button class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav ">
+        <li *ngFor="let link of links$ | async" class="nav-item">
+          <a class="nav-link text-center fw-bold fs-5 text-white"  [routerLink]="link.routerLink" >{{link.text}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+

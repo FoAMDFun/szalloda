@@ -10,7 +10,7 @@ const routes: Routes = [
     component: CustomerMainComponent,
     children: [
       {
-        path: '',
+        path: 'main',
         component: CustomerMainComponent
       }
     ]
