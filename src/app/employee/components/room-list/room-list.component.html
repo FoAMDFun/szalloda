@@ -1,6 +1,6 @@
 <section class="container">
   <button (click)="newRandomRoom()" class="btn btn-primary my-3">Új Random Szoba...</button>
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roomModal">
+  <button type="button" class="btn btn-primary" (click)="newRoom()" data-bs-toggle="modal" data-bs-target="#roomModal">
     Új Szoba...
   </button>
   <table class="table text-center table-striped">
@@ -50,11 +50,11 @@
 
 
 
-<div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+<div class="modal fade pt-5" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-danger" id="roomModalLabel">Új Szoba felvitele</h5>
+        <h5 class="modal-title text-dark fw-bold" id="roomModalLabel">Új Szoba felvitele</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

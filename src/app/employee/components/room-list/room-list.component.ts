@@ -34,6 +34,7 @@ export class RoomListComponent implements OnInit {
     // image: ['', [Validators.required]],
     // reviews: ['', [Validators.required]],
     });
+  private lastFormValue:{room:Room |undefined,isUpdating:boolean} = {room:undefined,isUpdating:false}
   get formControlls() { return this.roomForm.controls; }
 
   constructor(private _store: Store<RoomState>,private  _fb : FormBuilder) {}
@@ -71,6 +72,7 @@ export class RoomListComponent implements OnInit {
 
   editRoom(room: Room):void {
     this.roomForm.setValue({bed:room.bed,numberOf:room.numberOf,floor:room.floor,isBalcony:room.isBalcony});
+    this.lastFormValue.isUpdating=true;
   }
 
 
@@ -78,8 +80,19 @@ export class RoomListComponent implements OnInit {
     this._store.dispatch(addRoom(this.roomForm.value))
     // mentés sikeres? sikertelen? stb???.... TODO
     this.roomForm.reset()
+    this.lastFormValue.room = undefined
   }
 
+  newRoom():void{
+    if (!this.lastFormValue.isUpdating) {
+      this.lastFormValue.room=this.roomForm.value;
+    }
+    this.roomForm.reset()
+    if (this.lastFormValue) {
+      this.roomForm.setValue({bed:this.lastFormValue.room?.bed,numberOf:this.lastFormValue.room?.numberOf,floor:this.lastFormValue.room?.floor,isBalcony:this.lastFormValue.room?.isBalcony});
+    }
+    this.lastFormValue.isUpdating = false
+  }
 }
 
 
