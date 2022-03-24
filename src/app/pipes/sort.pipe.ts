@@ -5,16 +5,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SortPipe implements PipeTransform {
 
-  transform(values: readonly any[] | null | undefined, props: any): any[] {
+  transform(values: readonly any[] | null | undefined, prop: string): any[] {
     if (values===null || values===undefined || values[0]===undefined || values[0]===null) {
       return []
     }
     this.saveValues(values)
-    if (typeof this.values[0][props]==='number') {
+    if (typeof this.values[0][prop]==='number') {
       return this.values.sort((a,b) => {
-        if (a[props] < b[props])
+        if (a[prop] < b[prop])
           return -1;
-        if (a[props] > b[props])
+        if (a[prop] > b[prop])
           return 1;
         return 0;
       })
