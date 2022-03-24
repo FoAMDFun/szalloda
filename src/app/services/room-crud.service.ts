@@ -17,6 +17,7 @@ export class RoomCrudService {
   constructor(private firestore: Firestore) {}
 
   public getRooms(): Observable<ReadonlyArray<Room>> {
+    console.log(100);
     const roomRef = collection(this.firestore, this.collName);
     return collectionData(roomRef, { idField: '_id' }) as Observable<Room[]>;
   }

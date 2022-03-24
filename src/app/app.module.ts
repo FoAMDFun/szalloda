@@ -33,6 +33,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { roomReducer } from './store/reducers/room.reducer';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { RegisterComponent } from './components/register/register.component';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     StoreModule.forRoot({ reservations: reservationReducer }),
+    StoreModule.forRoot({ rooms: roomReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

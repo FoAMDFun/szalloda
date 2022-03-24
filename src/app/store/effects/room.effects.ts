@@ -19,6 +19,7 @@ import {
 
 @Injectable()
 export class RoomEffects {
+  console.log(200);
   getRooms$ = createEffect(() =>
     this.action$.pipe(
       ofType(getRooms),

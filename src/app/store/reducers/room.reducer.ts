@@ -1,4 +1,3 @@
-import { state } from '@angular/animations';
 import { createReducer, on } from '@ngrx/store';
 import { Room } from 'src/app/models/room.model';
 import {
@@ -21,7 +20,7 @@ const initialState: RoomState = {
   },
 };
 
-export const RoomReducer = createReducer(
+export const roomReducer = createReducer(
   initialState.rooms,
   on(getRoomsSuccess, (state, { rooms }) => ({
     ...state,

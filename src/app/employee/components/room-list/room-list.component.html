@@ -1,0 +1,32 @@
+<section class="container">
+  <button (click)="newRoom()" class="btn btn-primary my-3">
+    Új Szoba...
+  </button>
+  <table class="table text-center table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">RoomId</th>
+        <th scope="col">Szobaszám</th>
+        <th scope="col">Ágyszám</th>
+        <th scope="col">Kép</th>
+        <th scope="col">Értékelések</th>
+        <th scope="col">Törlés</th>
+        <th scope="col">Szerkesztés</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms$ | async; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ room._id }}</td>
+        <td>{{ room.numberOf }}</td>
+        <td>{{ room.bed }}</td>
+        <td>{{ room.image }}</td>
+        <td>{{ room.reviews }}</td>
+        <!-- <td><button (click)="deleteRoom(room)" class="btn btn-danger">Delete</button></td>
+        <td><button (click)="editRoom(room)" class="btn btn-danger">Delete</button></td> -->
+      </tr>
+    </tbody>
+  </table>
+</section>
+

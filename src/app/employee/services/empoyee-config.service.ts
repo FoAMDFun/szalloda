@@ -10,8 +10,8 @@ export class EmpoyeeConfigService {
   private readonly _navbuttons: BehaviorSubject<{ id: string; text: string;routerLink:string }[]> =
   new BehaviorSubject<{ id: string; text: string;routerLink:string}[]>([
     { id: "main", text: "Főoldal" ,routerLink:"main"},
-    { id: "Oldal2", text: "Oldal2", routerLink:""},
-    { id: "Oldal3", text: "Oldal3", routerLink:""},
+    { id: "roommirror", text: "Szobatükör", routerLink:"roommirror"},
+    { id: "rooms", text: "Szobák", routerLink:"rooms"},
     { id: "Oldal4", text: "Oldal4", routerLink:""},
     { id: "Oldal5", text: "Oldal5" ,routerLink:""}
   ]);
