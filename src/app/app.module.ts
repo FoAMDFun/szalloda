@@ -55,16 +55,17 @@ import { RoomEffects } from './store/effects/room.effects';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    StoreModule.forRoot({ reservations: reservationReducer }),
-    StoreModule.forRoot({ rooms: roomReducer }),
+    StoreModule.forRoot({
+      reservations: reservationReducer,
+      rooms: roomReducer,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([ReservationEffects]),
-    EffectsModule.forRoot([RoomEffects]),
+    EffectsModule.forRoot([ReservationEffects, RoomEffects]),
     StoreRouterConnectingModule.forRoot(),
-    FormsModule
+    FormsModule,
   ],
   providers: [
     {

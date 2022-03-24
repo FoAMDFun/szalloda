@@ -21,9 +21,7 @@ import {
   deleteReservation,
   deleteReservationSuccess,
   deleteReservationError,
-  getReservationsFilter,
 } from '../actions/reservation.action';
-import { ReservationFilter } from '../reducers/reservation.reducer';
 
 @Injectable()
 export class ReservationEffects {
@@ -41,19 +39,19 @@ export class ReservationEffects {
     )
   );
 
-  getReservationsFilter$ = createEffect(() =>
-    this.action$.pipe(
-      ofType(getReservationsFilter),
-      exhaustMap((action) =>
-        this.reservationCrudService.getReservationsFilter(action.filter).pipe(
-          map((reservations: ReadonlyArray<Reservation>) =>
-            getReservationsSuccess({ reservations })
-          ),
-          catchError((error) => of(getReservationsError({ error })))
-        )
-      )
-    )
-  );
+  // getReservationsFilter$ = createEffect(() =>
+  //   this.action$.pipe(
+  //     ofType(getReservationsFilter),
+  //     exhaustMap((action) =>
+  //       this.reservationCrudService.getReservationsFilter(action.filter).pipe(
+  //         map((reservations: ReadonlyArray<Reservation>) =>
+  //           getReservationsSuccess({ reservations })
+  //         ),
+  //         catchError((error) => of(getReservationsError({ error })))
+  //       )
+  //     )
+  //   )
+  // );
 
   addReservation$ = createEffect(() =>
     this.action$.pipe(
