@@ -14,7 +14,29 @@
     <div class="my-3">No Results found.</div>
   </ng-container> -->
 
-  <button (click)="newReservation()" class="btn btn-primary my-3">New</button>
+  <button (click)="newReservation()" class="btn btn-primary my-3">
+    Új foglalás...
+  </button>
+  <label class="mx-3" for="start-date-time">Kezdődátum és időpont:</label>
+  <input
+    #startdateref
+    (change)="startDate = parseDate(startdateref.value)"
+    type="datetime-local"
+    id="start-date-time"
+    name="start-date-time"
+    [value]="startDate | date: 'yyyy-MM-ddTHH:mm'"
+    [min]="currentDate | date: 'yyyy-MM-ddTHH:mm'"
+  />
+  <label class="mx-3" for="end-time">Végdátum:</label>
+  <input
+    #enddateref
+    (change)="endDate = parseDate(enddateref.value)"
+    type="datetime-local"
+    id="end-date-time"
+    name="end-date-time"
+    [value]="endDate | date: 'yyyy-MM-ddTHH:mm'"
+    [min]="currentDate | date: 'yyyy-MM-ddTHH:mm'"
+  />
 
   <table class="table text-center table-striped">
     <thead>
@@ -29,14 +51,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let reservation of (reservations$ | async)?.items; index as i">
+      <tr *ngFor="let reservation of reservations$ | async; index as i">
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ reservation.customerId }}</td>
         <td>{{ reservation.roomId }}</td>
         <td>{{ reservation.comments }}</td>
-        <td>{{ reservation.startDate.toDate() }}</td>
-        <td>{{ reservation.endDate.toDate() }}</td>
-        <td><button (click)="deleteReservation(reservation)" class="btn btn-danger">Delete</button></td>
+        <td>{{ reservation.startDate.toDate() | date }}</td>
+        <td>{{ reservation.endDate.toDate() | date }}</td>
+        <td>
+          <button
+            (click)="deleteReservation(reservation)"
+            class="btn btn-danger"
+          >
+            Delete
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

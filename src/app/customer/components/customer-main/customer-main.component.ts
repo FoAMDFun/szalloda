@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
 import { Reservation } from 'src/app/models/reservation.model';
 import {
   addReservation,
   getReservations,
-  deleteReservation
+  deleteReservation,
 } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
+import { reservationSelector } from 'src/app/store/selectors/reservation.selector';
 
 @Component({
   selector: 'app-main',
@@ -15,7 +16,10 @@ import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
   styleUrls: ['./customer-main.component.scss'],
 })
 export class CustomerMainComponent implements OnInit {
-  reservations$ = this.store.select('reservations');
+  reservations$ = this.store.pipe(select(reservationSelector));
+  currentDate = new Date();
+  startDate = new Date();
+  endDate = new Date();
 
   constructor(private store: Store<ReservationState>) {}
 
@@ -32,20 +36,26 @@ export class CustomerMainComponent implements OnInit {
       return btoa(Math.random().toString()).substr(10, 15);
     }
 
-    const ts = Timestamp.fromDate(new Date());
-    console.log(ts);
-
     const dummyReservation: Reservation = {
       comments: getRandomString(),
       customerId: getRandomString(),
       roomId: getRandomString(),
-      startDate: ts,
-      endDate: ts,
+      startDate: Timestamp.fromDate(new Date()),
+      endDate: Timestamp.fromDate(new Date()),
+      _id: getRandomString(),
     };
-    this.store.dispatch(addReservation(dummyReservation));
+    this.store.dispatch(addReservation({ reservation: dummyReservation }));
   }
 
-  public deleteReservation(reservation:Reservation): void {
-    this.store.dispatch(deleteReservation(reservation));
+  public deleteReservation(reservation: Reservation): void {
+    this.store.dispatch(deleteReservation({ reservation }));
+  }
+
+  parseDate(dateString: string | null): Date {
+    console.log(`date changed, ${this.startDate}, ${this.endDate}`);
+    if (dateString) {
+      return new Date(dateString);
+    }
+    return new Date();
   }
 }
