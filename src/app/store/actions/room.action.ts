@@ -11,8 +11,8 @@ export const DELETE_ROOM = '[ROOM] Delete';
 export const DELETE_ROOM_SUCCESS = '[ROOM] Delete success';
 export const DELETE_ROOM_ERROR = '[ROOM] Delete error';
 
-export const getRoom = createAction(GET_ROOMS);
-export const getRoomsSuccess = createAction(GET_ROOMS_SUCCESS,(room: ReadonlyArray<Room>) => ({ room }));
+export const getRooms = createAction(GET_ROOMS);
+export const getRoomsSuccess = createAction(GET_ROOMS_SUCCESS,(rooms: ReadonlyArray<Room>) => ({ rooms }));
 export const getRoomsError = createAction(GET_ROOMS_ERROR,(error: any) => ({ error }));
 
 export const addRoom= createAction(ADD_ROOM,(room: Room) => ({ room }));
