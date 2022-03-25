@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { NavItem } from '../models/nav-item';
+import { EmpoyeeConfigService } from './services/empoyee-config.service';
 
 @Component({
   selector: 'app-employee',
@@ -7,7 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeeComponent implements OnInit {
 
-  constructor() { }
+  public links$ : Observable<NavItem[]> = this._empoyeeConfigService.navbuttons
+  public mainLink$ : Observable<NavItem> = this._empoyeeConfigService.mainButton
+
+  constructor(private _empoyeeConfigService: EmpoyeeConfigService) { }
 
   ngOnInit(): void {
   }

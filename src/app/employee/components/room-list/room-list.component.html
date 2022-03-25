@@ -1,29 +1,108 @@
 <section class="container">
-  <button (click)="newRoom()" class="btn btn-primary my-3">Új Szoba...</button>
+  <button (click)="newRandomRoom()" class="btn btn-primary my-3">Új Random Szoba...</button>
+  <button type="button" class="btn btn-primary" (click)="newRoom()" data-bs-toggle="modal" data-bs-target="#roomModal">
+    Új Szoba...
+  </button>
   <table class="table text-center table-striped">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">RoomId</th>
         <th scope="col">Szobaszám</th>
+        <th scope="col">Emelet</th>
         <th scope="col">Ágyszám</th>
-        <th scope="col">Kép</th>
+        <th scope="col">Erkélyes</th>
+        <!-- <th scope="col">Kép</th> -->
         <th scope="col">Értékelések</th>
         <th scope="col">Törlés</th>
         <th scope="col">Szerkesztés</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let room of rooms$ | async; index as i">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ room._id }}</td>
+      <tr *ngFor="let room of rooms$ | async  | sort : 'numberOf'; index as i" class="align-middle">
         <td>{{ room.numberOf }}</td>
+        <td>{{ room.floor }}</td>
         <td>{{ room.bed }}</td>
-        <td>{{ room.image }}</td>
-        <td>{{ room.reviews | json }}</td>
-        <!-- <td><button (click)="deleteRoom(room)" class="btn btn-danger">Delete</button></td>
-        <td><button (click)="editRoom(room)" class="btn btn-danger">Delete</button></td> -->
+        <td>
+          <fa-icon
+            [icon]="room.isBalcony?icons.true:icons.false"
+            [ngStyle]="{'color':room.isBalcony?'green':'red'}">
+          </fa-icon>
+        </td>
+        <!-- <td>
+          <fa-icon class="pointer" [icon]="icons.img"></fa-icon>
+        </td> -->
+        <td>
+          <fa-icon class="pointer text-warning" [icon]="icons.star"></fa-icon>
+        </td>
+        <td>
+          <button (click)="deleteRoom(room)" class="btn btn-danger">
+            <fa-icon [icon]="icons.delete"></fa-icon>
+          </button>
+        </td>
+        <td>
+          <button (click)="editRoom(room)" class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#roomModal">
+            <fa-icon [icon]="icons.edit"></fa-icon>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
 </section>
+
+
+
+<div class="modal fade pt-5" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark fw-bold" id="roomModalLabel">Új Szoba felvitele</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="roomForm">
+          <div class="mb-3">
+            <label for="numberOf" class="form-label">Szobaszám:</label>
+            <input type="number" formControlName="numberOf" class="form-control"
+              [ngClass]="{ 'is-invalid':  formControlls['numberOf'].errors  && ( formControlls['numberOf'].touched || formControlls['numberOf'].dirty) }"  id="numberOf">
+            <div class="text-danger">
+              <small *ngIf="formControlls['numberOf'].errors && formControlls['numberOf'].errors['required'] && ( formControlls['numberOf'].touched || formControlls['numberOf'].dirty)">Szobaszám megadása kötelező</small>
+              <br>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="floor" class="form-label">Emelet:</label>
+            <input type="text" formControlName="floor" class="form-control"
+              [ngClass]="{ 'is-invalid':  formControlls['floor'].errors && ( formControlls['floor'].touched || formControlls['floor'].dirty)} "  id="floor">
+            <div class="text-danger">
+              <small *ngIf="formControlls['floor'].errors && formControlls['floor'].errors['required'] && ( formControlls['floor'].touched || formControlls['floor'].dirty)">Emelet megadása kötelező</small>
+              <br>
+          </div>
+          </div>
+          <div class="mb-3">
+            <label for="bed" class="form-label">Ágyak száma:</label>
+            <input type="number" min="0" formControlName="bed" class="form-control"
+              [ngClass]="{ 'is-invalid':  formControlls['bed'].errors && ( formControlls['bed'].touched || formControlls['bed'].dirty)}"  id="bed">
+            <div class="text-danger">
+              <small *ngIf="formControlls['bed'].errors && formControlls['bed'].errors['required'] && ( formControlls['bed'].touched || formControlls['bed'].dirty)">Ágyak száma megadása kötelező</small>
+              <small *ngIf="formControlls['bed'].errors && formControlls['bed'].errors['min'] && ( formControlls['bed'].touched || formControlls['bed'].dirty)">Negatív darabszám megadása nem lehetséges</small>
+              <br>
+            </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" formControlName="isBalcony" id="isBalcony">
+            <label class="form-check-label" for="isBalcony">
+              Erkélyes
+            </label>
+          </div>
+          <div>
+            <small *ngIf="!roomForm.valid && ( roomForm.touched || roomForm.dirty)" class="text-danger">Mezők kitöltése kötelező!</small>
+            <br>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="submit" [disabled]="!roomForm.valid" (click)="saveRoom()" data-bs-dismiss="modal" class="btn btn-primary">Mentés</button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Bezárás</button>
+      </div>
+    </div>
+  </div>
+</div>
