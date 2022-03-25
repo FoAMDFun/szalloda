@@ -57,14 +57,15 @@ import { RegisterComponent } from './components/register/register.component';
     provideFirestore(() => getFirestore()),
     StoreModule.forRoot({
       reservations: reservationReducer,
-      rooms: roomReducer}),
+      rooms: roomReducer,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([ReservationEffects,RoomEffects]),
+    EffectsModule.forRoot([ReservationEffects, RoomEffects]),
     StoreRouterConnectingModule.forRoot(),
-    FormsModule
+    FormsModule,
   ],
   providers: [
     {
