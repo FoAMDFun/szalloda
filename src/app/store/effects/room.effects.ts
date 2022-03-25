@@ -15,6 +15,9 @@ import {
   deleteRoom,
   deleteRoomSuccess,
   deleteRoomError,
+  updateRoom,
+  updateRoomSuccess,
+  updateRoomError,
 } from '../actions/room.action';
 
 @Injectable()
@@ -57,6 +60,18 @@ export class RoomEffects {
       )
     )
   )
+
+  updateRoom$ = createEffect(() =>
+  this.action$.pipe(
+    ofType(updateRoom),
+    concatMap(({ room }) =>
+      this.roomCrudService.updateRoom(room).pipe(
+        map(() => updateRoomSuccess()),
+        catchError((error) => of(updateRoomError(error)))
+      )
+    )
+  )
+);
 
 
   constructor(
