@@ -10,6 +10,9 @@ export const ADD_ROOM_ERROR = '[ROOM] Add error';
 export const DELETE_ROOM = '[ROOM] Delete';
 export const DELETE_ROOM_SUCCESS = '[ROOM] Delete success';
 export const DELETE_ROOM_ERROR = '[ROOM] Delete error';
+export const UPDATE_ROOM = '[ROOM] Update';
+export const UPDATE_ROOM_SUCCESS = '[ROOM] Update success';
+export const UPDATE_ROOM_ERROR = '[ROOM] Update error';
 
 export const getRooms = createAction(GET_ROOMS);
 export const getRoomsSuccess = createAction(GET_ROOMS_SUCCESS,(rooms: ReadonlyArray<Room>) => ({ rooms }));
@@ -23,5 +26,8 @@ export const deleteRoom = createAction(DELETE_ROOM,(room: Room) => ({ room }));
 export const deleteRoomSuccess = createAction(DELETE_ROOM_SUCCESS);
 export const deleteRoomError = createAction(DELETE_ROOM_ERROR,(room: Room) => ({ room }));
 
+export const updateRoom = createAction(UPDATE_ROOM,(room: Room) => ({ room }));
+export const updateRoomSuccess = createAction(UPDATE_ROOM_SUCCESS);
+export const updateRoomError = createAction(UPDATE_ROOM_ERROR,(room: Room) => ({ room }));
 
 

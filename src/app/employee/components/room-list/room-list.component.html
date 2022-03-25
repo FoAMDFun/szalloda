@@ -10,7 +10,7 @@
         <th scope="col">Emelet</th>
         <th scope="col">Ágyszám</th>
         <th scope="col">Erkélyes</th>
-        <!-- <th scope="col">Kép</th> -->
+        <th scope="col">Kép</th>
         <th scope="col">Értékelések</th>
         <th scope="col">Törlés</th>
         <th scope="col">Szerkesztés</th>
@@ -27,9 +27,10 @@
             [ngStyle]="{'color':room.isBalcony?'green':'red'}">
           </fa-icon>
         </td>
-        <!-- <td>
-          <fa-icon class="pointer" [icon]="icons.img"></fa-icon>
-        </td> -->
+        <td>
+          {{room.imageSrc}}
+          <!-- <fa-icon  class="pointer" [icon]="icons.img"></fa-icon> -->
+        </td>
         <td>
           <fa-icon class="pointer text-warning" [icon]="icons.star"></fa-icon>
         </td>
@@ -59,7 +60,7 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="roomForm">
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="numberOf" class="form-label">Szobaszám:</label>
             <input type="number" formControlName="numberOf" class="form-control"
               [ngClass]="{ 'is-invalid':  formControlls['numberOf'].errors  && ( formControlls['numberOf'].touched || formControlls['numberOf'].dirty) }"  id="numberOf">
@@ -68,7 +69,7 @@
               <br>
             </div>
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="floor" class="form-label">Emelet:</label>
             <input type="text" formControlName="floor" class="form-control"
               [ngClass]="{ 'is-invalid':  formControlls['floor'].errors && ( formControlls['floor'].touched || formControlls['floor'].dirty)} "  id="floor">
@@ -77,7 +78,7 @@
               <br>
           </div>
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="bed" class="form-label">Ágyak száma:</label>
             <input type="number" min="0" formControlName="bed" class="form-control"
               [ngClass]="{ 'is-invalid':  formControlls['bed'].errors && ( formControlls['bed'].touched || formControlls['bed'].dirty)}"  id="bed">
@@ -87,15 +88,20 @@
               <br>
             </div>
           </div>
+
+          <div class="mb-2">
+            <label for="formFile" class="form-label ">image</label>
+            <input  readonly formControlName="imageSrc" type="text" class="mb-2 form-control" >
+            <input formControlName="image" class="form-control mb-2" type="file" id="formFile" (change)="selectFile($event)" accept="*.png.jpg">
+            <button [disabled]="!formControlls['image'].value" (click)="upload()" type="button" class="mb-2 btn btn-primary">Kép Feltöltése</button>
+          </div>
+
+
           <div class="form-check">
             <input class="form-check-input" type="checkbox" formControlName="isBalcony" id="isBalcony">
             <label class="form-check-label" for="isBalcony">
               Erkélyes
             </label>
-          </div>
-          <div>
-            <small *ngIf="!roomForm.valid && ( roomForm.touched || roomForm.dirty)" class="text-danger">Mezők kitöltése kötelező!</small>
-            <br>
           </div>
         </form>
       </div>

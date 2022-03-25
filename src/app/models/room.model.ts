@@ -8,5 +8,5 @@ export interface Room{
   floor: string | number;
   isBalcony:boolean;
 
-  image?:string;
+  imageSrc?:string;
 }

@@ -5,7 +5,7 @@ import {
   collectionData,
   Firestore,
 } from '@angular/fire/firestore';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { defer, from, Observable } from 'rxjs';
 import { Room } from '../models/room.model';
 
@@ -29,5 +29,10 @@ export class RoomCrudService {
   public deleteRoom(room: Room): Observable<void>{
     const roomRef = doc(this.firestore, `${this.collName}/${room._id}`);
     return defer(() => from(deleteDoc(roomRef)));
+  }
+
+  public updateRoom(room: Room): Observable<any>{
+    const roomDocRef = doc(this.firestore, `${this.collName}/${room._id}`);
+    return defer(() => from(setDoc(roomDocRef, room)));
   }
 }
