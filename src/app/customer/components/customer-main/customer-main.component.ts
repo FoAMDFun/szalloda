@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
 import { Reservation } from 'src/app/models/reservation.model';
@@ -6,9 +6,10 @@ import {
   addReservation,
   getReservations,
   deleteReservation,
+  changeReservationDate,
 } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
-import { reservationSelector } from 'src/app/store/selectors/reservation.selector';
+import { reservationSelectorWithDateFilter } from 'src/app/store/selectors/reservation.selector';
 
 @Component({
   selector: 'app-main',
@@ -16,9 +17,10 @@ import { reservationSelector } from 'src/app/store/selectors/reservation.selecto
   styleUrls: ['./customer-main.component.scss'],
 })
 export class CustomerMainComponent implements OnInit {
-  reservations$ = this.store.pipe(select(reservationSelector));
-  currentDate = new Date();
-  startDate = new Date();
+  @ViewChild('startdateref', { static: true }) startDateValue?: ElementRef;
+  @ViewChild('enddateref', { static: true }) endDateValue?: ElementRef;
+  reservations$ = this.store.pipe(select(reservationSelectorWithDateFilter));
+  startDate = new Date('2022-01-01T00:00:00');
   endDate = new Date();
 
   constructor(private store: Store<ReservationState>) {}
@@ -57,5 +59,17 @@ export class CustomerMainComponent implements OnInit {
       return new Date(dateString);
     }
     return new Date();
+  }
+
+  dispatchDateChange(): void {
+    this.startDate = new Date(this.startDateValue?.nativeElement.value);
+    this.endDate = new Date(this.endDateValue?.nativeElement.value);
+    console.log(this.startDate, this.endDate);
+    this.store.dispatch(
+      changeReservationDate({
+        startDate: Timestamp.fromDate(this.startDate),
+        endDate: Timestamp.fromDate(this.endDate),
+      })
+    );
   }
 }

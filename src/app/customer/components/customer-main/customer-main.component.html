@@ -1,4 +1,6 @@
 <div class="container">
+  {{ startDate | date: "yyyy-MM-dd HH:mm" }}
+  {{ endDate | date: "yyyy-MM-dd HH:mm" }}
   <!-- <div class="md-form mt-0">
     <input
       class="form-control mr-sm-2"
@@ -20,22 +22,20 @@
   <label class="mx-3" for="start-date-time">Kezdődátum és időpont:</label>
   <input
     #startdateref
-    (change)="startDate = parseDate(startdateref.value)"
+    (change)="dispatchDateChange()"
     type="datetime-local"
     id="start-date-time"
     name="start-date-time"
     [value]="startDate | date: 'yyyy-MM-ddTHH:mm'"
-    [min]="currentDate | date: 'yyyy-MM-ddTHH:mm'"
   />
   <label class="mx-3" for="end-time">Végdátum:</label>
   <input
     #enddateref
-    (change)="endDate = parseDate(enddateref.value)"
+    (change)="dispatchDateChange()"
     type="datetime-local"
     id="end-date-time"
     name="end-date-time"
     [value]="endDate | date: 'yyyy-MM-ddTHH:mm'"
-    [min]="currentDate | date: 'yyyy-MM-ddTHH:mm'"
   />
 
   <table class="table text-center table-striped">
@@ -56,8 +56,8 @@
         <td>{{ reservation.customerId }}</td>
         <td>{{ reservation.roomId }}</td>
         <td>{{ reservation.comments }}</td>
-        <td>{{ reservation.startDate.toDate() | date }}</td>
-        <td>{{ reservation.endDate.toDate() | date }}</td>
+        <td>{{ reservation.startDate.toDate() | date: "yyyy-MM-dd HH:mm" }}</td>
+        <td>{{ reservation.endDate.toDate() | date: "yyyy-MM-dd HH:mm" }}</td>
         <td>
           <button
             (click)="deleteReservation(reservation)"
