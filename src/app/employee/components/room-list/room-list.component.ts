@@ -24,6 +24,8 @@ export class RoomListComponent implements OnInit {
   public currentFileUpload?: FileUpload;
   private imgSrcSub:Subscription = new Subscription();
 
+  public selectedDeleteRoom?:Room;
+
   public rooms$ = this._store.pipe(select(roomSelector),map(rooms=>{
     const result = [];
     for (const room of rooms){
@@ -64,6 +66,12 @@ export class RoomListComponent implements OnInit {
     this._store.dispatch(getRooms());
   }
 
+
+  setDeleteRoom(room:Room){
+    this.selectedDeleteRoom = room
+  }
+
+
   public newRandomRoom(): void {
     function getRandomString(): string {
       return btoa(Math.random().toString()).substr(10, 15);
@@ -80,8 +88,10 @@ export class RoomListComponent implements OnInit {
     this._store.dispatch(addRoom(dummyRoom));
   }
 
-  public deleteRoom(room: Room): void {
-    this._store.dispatch(deleteRoom( room ));
+  public deleteRoom(): void {
+    if (this.selectedDeleteRoom) {
+      this._store.dispatch(deleteRoom( this.selectedDeleteRoom ));  //törölni kéne a képeket is ha már nem használja senki
+    }
   }
 
   public editRoom(room: Room):void {

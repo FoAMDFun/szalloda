@@ -36,7 +36,7 @@ export class RoomStorageService {
       (error) => {this.imgSrc$.next(error)},
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
+          // console.log('File available at', downloadURL);
           this.imgSrc$.next(downloadURL)
         });
       })
