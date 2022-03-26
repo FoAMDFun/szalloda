@@ -92,7 +92,6 @@ export class RoomListComponent implements OnInit {
   public deleteRoom(): void {
     if (this.selectedDeleteRoom) {
       this._store.dispatch(deleteRoom( this.selectedDeleteRoom ));  //törölni kéne a képeket is ha már nem használja senki
-      this.toastr.success('A szoba törlés sikeres');
     }
   }
 
@@ -120,10 +119,8 @@ export class RoomListComponent implements OnInit {
         imageSrc:this.roomForm.value.imageSrc,
       }
       this._store.dispatch(updateRoom(updatedRoom)) // review ekre még gondolni kell
-      this.toastr.success('A szoba felülírás sikeres');
     }else{
       this._store.dispatch(addRoom(this.roomForm.value))
-      this.toastr.success('A szoba mentés sikeres');
     }
     // mentés sikeres? sikertelen? stb???.... TODO //felugorhatna ilyen ablak jobb felül zölden hogy sikeres vagy sikertelen
     this.roomForm.reset()
