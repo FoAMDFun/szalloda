@@ -27,15 +27,16 @@
             [ngStyle]="{'color':room.isBalcony?'green':'red'}">
           </fa-icon>
         </td>
-        <td>
-          {{room.imageSrc}}
+        <td class="p-0">
+          <img [src]="room.imageSrc"  class="m-0 p-0 roomimage__size--mini roomimage rounded mx-auto d-block" [alt]="room.numberOf">
+          <!-- {{room.imageSrc}} -->
           <!-- <fa-icon  class="pointer" [icon]="icons.img"></fa-icon> -->
         </td>
         <td>
           <fa-icon class="pointer text-warning" [icon]="icons.star"></fa-icon>
         </td>
         <td>
-          <button (click)="deleteRoom(room)" class="btn btn-danger">
+          <button type="button" (click)="setDeleteRoom(room)" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">
             <fa-icon [icon]="icons.delete"></fa-icon>
           </button>
         </td>
@@ -88,15 +89,12 @@
               <br>
             </div>
           </div>
-
           <div class="mb-2">
-            <label for="formFile" class="form-label ">image</label>
+            <label for="formFile" class="form-label ">Kép</label>
             <input  readonly formControlName="imageSrc" type="text" class="mb-2 form-control" >
             <input formControlName="image" class="form-control mb-2" type="file" id="formFile" (change)="selectFile($event)" accept="*.png.jpg">
             <button [disabled]="!formControlls['image'].value" (click)="upload()" type="button" class="mb-2 btn btn-primary">Kép Feltöltése</button>
           </div>
-
-
           <div class="form-check">
             <input class="form-check-input" type="checkbox" formControlName="isBalcony" id="isBalcony">
             <label class="form-check-label" for="isBalcony">
@@ -108,6 +106,26 @@
       <div class="modal-footer justify-content-between">
         <button type="submit" [disabled]="!roomForm.valid" (click)="saveRoom()" data-bs-dismiss="modal" class="btn btn-primary">Mentés</button>
         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Bezárás</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade pt-5" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark fw-bold" id="deleteModalLabel">Biztos törölni szeretnéd ezt a szobát?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mb-2 fs-5">Emelet: {{selectedDeleteRoom?.floor}}</div>
+        <div class="mb-2 fs-5">Szobaszám: {{selectedDeleteRoom?.numberOf}}</div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="submit"  data-bs-dismiss="modal" (click)="deleteRoom()" class="btn btn-primary">Igen</button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Mégse</button>
       </div>
     </div>
   </div>

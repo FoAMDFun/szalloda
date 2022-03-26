@@ -9,6 +9,7 @@ import { map, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoomStorageService } from '../../services/room-storage.service';
 import { FileUpload } from 'src/app/models/fileupload';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-room-list',
@@ -23,6 +24,8 @@ export class RoomListComponent implements OnInit {
   private selectedFiles?: FileList;
   public currentFileUpload?: FileUpload;
   private imgSrcSub:Subscription = new Subscription();
+
+  public selectedDeleteRoom?:Room;
 
   public rooms$ = this._store.pipe(select(roomSelector),map(rooms=>{
     const result = [];
@@ -44,7 +47,7 @@ export class RoomListComponent implements OnInit {
   });
   get formControlls() { return this.roomForm.controls; }
 
-  constructor(private _store: Store<RoomState>,private  _fb : FormBuilder,private _roomStorageService:RoomStorageService) {}
+  constructor(private _store: Store<RoomState>,private  _fb : FormBuilder,private _roomStorageService:RoomStorageService,private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getRooms();
@@ -64,6 +67,12 @@ export class RoomListComponent implements OnInit {
     this._store.dispatch(getRooms());
   }
 
+
+  setDeleteRoom(room:Room){
+    this.selectedDeleteRoom = room
+  }
+
+
   public newRandomRoom(): void {
     function getRandomString(): string {
       return btoa(Math.random().toString()).substr(10, 15);
@@ -80,8 +89,10 @@ export class RoomListComponent implements OnInit {
     this._store.dispatch(addRoom(dummyRoom));
   }
 
-  public deleteRoom(room: Room): void {
-    this._store.dispatch(deleteRoom( room ));
+  public deleteRoom(): void {
+    if (this.selectedDeleteRoom) {
+      this._store.dispatch(deleteRoom( this.selectedDeleteRoom ));  //törölni kéne a képeket is ha már nem használja senki
+    }
   }
 
   public editRoom(room: Room):void {
