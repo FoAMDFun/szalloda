@@ -27,8 +27,9 @@
             [ngStyle]="{'color':room.isBalcony?'green':'red'}">
           </fa-icon>
         </td>
-        <td>
-          {{room.imageSrc}}
+        <td class="p-0">
+          <img [src]="room.imageSrc"  class="m-0 p-0 roomimage__size--mini roomimage rounded mx-auto d-block" [alt]="room.numberOf">
+          <!-- {{room.imageSrc}} -->
           <!-- <fa-icon  class="pointer" [icon]="icons.img"></fa-icon> -->
         </td>
         <td>
