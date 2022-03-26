@@ -9,6 +9,7 @@ import { map, Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoomStorageService } from '../../services/room-storage.service';
 import { FileUpload } from 'src/app/models/fileupload';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-room-list',
@@ -46,7 +47,7 @@ export class RoomListComponent implements OnInit {
   });
   get formControlls() { return this.roomForm.controls; }
 
-  constructor(private _store: Store<RoomState>,private  _fb : FormBuilder,private _roomStorageService:RoomStorageService) {}
+  constructor(private _store: Store<RoomState>,private  _fb : FormBuilder,private _roomStorageService:RoomStorageService,private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getRooms();
@@ -91,6 +92,7 @@ export class RoomListComponent implements OnInit {
   public deleteRoom(): void {
     if (this.selectedDeleteRoom) {
       this._store.dispatch(deleteRoom( this.selectedDeleteRoom ));  //törölni kéne a képeket is ha már nem használja senki
+      this.toastr.success('A szoba törlés sikeres');
     }
   }
 
@@ -118,8 +120,10 @@ export class RoomListComponent implements OnInit {
         imageSrc:this.roomForm.value.imageSrc,
       }
       this._store.dispatch(updateRoom(updatedRoom)) // review ekre még gondolni kell
+      this.toastr.success('A szoba felülírás sikeres');
     }else{
       this._store.dispatch(addRoom(this.roomForm.value))
+      this.toastr.success('A szoba mentés sikeres');
     }
     // mentés sikeres? sikertelen? stb???.... TODO //felugorhatna ilyen ablak jobb felül zölden hogy sikeres vagy sikertelen
     this.roomForm.reset()
