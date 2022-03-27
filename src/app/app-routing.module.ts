@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent }, // A kezdőlap;
   { path: 'login', component: LoginComponent }, // Bejelentkezés
+  { path: 'register', component: RegisterComponent }, // Regisztráció
   {
     path: 'customer',
     loadChildren: () =>
