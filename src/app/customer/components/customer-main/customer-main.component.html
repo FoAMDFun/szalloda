@@ -60,10 +60,11 @@
         <td>{{ reservation.endDate.toDate() | date: "yyyy-MM-dd HH:mm" }}</td>
         <td>
           <button
+            type="button"
             (click)="deleteReservation(reservation)"
             class="btn btn-danger"
           >
-            Delete
+            <i class="fa fa-trash-alt"></i>
           </button>
         </td>
       </tr>
