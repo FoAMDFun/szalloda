@@ -23,16 +23,6 @@ export class ReservationCrudService {
     >;
   }
 
-  // getReservationsFilter(filter: ReservationFilter): Observable<Reservation[]> {
-  //   const collectionRef = collection(this.firestore, this.collName);
-  //   const searchRef = query(
-  //     collectionRef,
-  //     where('startDate', '>=', Timestamp.fromDate(filter.startDate)),
-  //     where('endDate', '<=', Timestamp.fromDate(filter.endDate))
-  //   );
-  //   return collectionData(searchRef) as Observable<Reservation[]>;
-  // }
-
   addReservation(reservation: Reservation): Observable<any> {
     const reservationRef = collection(this.firestore, this.collName);
     return defer(() => from(addDoc(reservationRef, reservation)));

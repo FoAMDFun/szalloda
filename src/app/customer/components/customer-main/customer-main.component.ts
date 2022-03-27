@@ -64,7 +64,6 @@ export class CustomerMainComponent implements OnInit {
   dispatchDateChange(): void {
     this.startDate = new Date(this.startDateValue?.nativeElement.value);
     this.endDate = new Date(this.endDateValue?.nativeElement.value);
-    console.log(this.startDate, this.endDate);
     this.store.dispatch(
       changeReservationDate({
         startDate: Timestamp.fromDate(this.startDate),
