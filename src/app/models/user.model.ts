@@ -1,4 +1,4 @@
-export interface User {
+export interface HotelUser {
   _id: string;
   email: string;
   userName: string;
