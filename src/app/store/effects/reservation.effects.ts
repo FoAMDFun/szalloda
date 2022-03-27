@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
+import { ToastrService } from 'ngx-toastr';
 import { of } from 'rxjs';
 import {
   catchError,
@@ -33,36 +34,33 @@ export class ReservationEffects {
           map((reservations: ReadonlyArray<Reservation>) =>
             getReservationsSuccess({ reservations })
           ),
-          catchError((error) => of(getReservationsError(error)))
+          catchError((error) => {
+            this.toaster.error(
+              `Hiba történt a foglalások letöltésénél: ${error.message}`
+            );
+            return of(getReservationsError(error));
+          })
         )
       )
     )
   );
-
-  // getReservationsFilter$ = createEffect(() =>
-  //   this.action$.pipe(
-  //     ofType(getReservationsFilter),
-  //     exhaustMap((action) =>
-  //       this.reservationCrudService.getReservationsFilter(action.filter).pipe(
-  //         map((reservations: ReadonlyArray<Reservation>) =>
-  //           getReservationsSuccess({ reservations })
-  //         ),
-  //         catchError((error) => of(getReservationsError({ error })))
-  //       )
-  //     )
-  //   )
-  // );
 
   addReservation$ = createEffect(() =>
     this.action$.pipe(
       ofType(addReservation),
       concatMap(
         (
-          { reservation } // addhoz concat-map kell
+          props // addhoz concat-map kell
         ) =>
-          this.reservationCrudService.addReservation(reservation).pipe(
-            map(() => addReservationSuccess()),
-            catchError((error) => of(addReservationError(error)))
+          this.reservationCrudService.addReservation(props.reservation).pipe(
+            map(() => {
+              this.toaster.success('Sikeres foglalás!');
+              return addReservationSuccess();
+            }),
+            catchError((error) => {
+              this.toaster.error('Hiba', 'Hiba a foglalások hozzáadásánál');
+              return of(addReservationError(error));
+            })
           )
       )
     )
@@ -76,8 +74,14 @@ export class ReservationEffects {
           { reservation } // Törléshez mergeMap kell
         ) =>
           this.reservationCrudService.deleteReservation(reservation._id).pipe(
-            map(() => deleteReservationSuccess()),
-            catchError((error) => of(deleteReservationError(error)))
+            map(() => {
+              this.toaster.success('Sikeres törlés!');
+              return deleteReservationSuccess();
+            }),
+            catchError((error) => {
+              this.toaster.error('Hiba', 'Hiba a foglalások törlésénél!');
+              return of(deleteReservationError(error));
+            })
           )
       )
     )
@@ -85,6 +89,7 @@ export class ReservationEffects {
 
   constructor(
     private action$: Actions,
-    private reservationCrudService: ReservationCrudService
+    private reservationCrudService: ReservationCrudService,
+    private toaster: ToastrService
   ) {}
 }

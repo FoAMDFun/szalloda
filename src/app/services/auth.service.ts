@@ -6,11 +6,7 @@ import {
   signOut,
   UserCredential,
 } from '@angular/fire/auth';
-// import { traceUntilFirst } from '@angular/fire/performance';
-import { State } from '@ngrx/store';
-// import { BehaviorSubject, EMPTY, map, Observable, Subscription } from 'rxjs';
 import { LoginData } from '../models/login-data';
-import { AuthState } from '../store/reducers/auth.reducer';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,7 +17,7 @@ export class AuthService {
   // private readonly userIDBS$ = new BehaviorSubject('');
   // public readonly userID$ = this.userIDBS$.asObservable();
 
-  constructor(private auth: Auth, private store: State<AuthState>) {
+  constructor(private auth: Auth) {
     // if (auth) {
     //   this.user$ = authState(this.auth);
     //   // this.userIDBS$.next();
@@ -44,12 +40,12 @@ export class AuthService {
     // }
   }
 
-  login({ email, password }: LoginData): Promise<UserCredential> {
-    return signInWithEmailAndPassword(this.auth, email, password);
-  }
-
   register({ email, password }: LoginData): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password);
+  }
+
+  login({ email, password }: LoginData): Promise<UserCredential> {
+    return signInWithEmailAndPassword(this.auth, email, password);
   }
 
   logout(): Promise<void> {

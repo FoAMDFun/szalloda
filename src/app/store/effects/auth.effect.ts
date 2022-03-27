@@ -15,6 +15,7 @@ import {
   registerError,
   registerSuccess,
 } from '../actions/auth.action';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthEffects {
@@ -23,8 +24,14 @@ export class AuthEffects {
       ofType(login),
       exhaustMap((props) =>
         from(this.authService.login(props.user)).pipe(
-          map((user: UserCredential) => loginSuccess(user)),
-          catchError((error) => of(loginError(error)))
+          map((user: UserCredential) => {
+            this.toastr.success('Sikeres bejelentkezés');
+            return loginSuccess(user);
+          }),
+          catchError((error) => {
+            this.toastr.error(error.message, 'Bejelentkezés sikertelen!');
+            return of(loginError(error));
+          })
         )
       )
     )
@@ -35,8 +42,14 @@ export class AuthEffects {
       ofType(logout),
       exhaustMap(() =>
         from(this.authService.logout()).pipe(
-          map(() => logoutSuccess()),
-          catchError((error) => of(logoutError(error)))
+          map(() => {
+            this.toastr.success('Sikeres kijelentkezés');
+            return logoutSuccess();
+          }),
+          catchError((error) => {
+            this.toastr.error(error.message, 'Kijelentkezés sikertelen!');
+            return of(logoutError(error));
+          })
         )
       )
     )
@@ -48,12 +61,22 @@ export class AuthEffects {
       ofType(register),
       exhaustMap((props) =>
         from(this.authService.register(props.user)).pipe(
-          map((user: UserCredential) => registerSuccess(user)),
-          catchError((error) => of(registerError(error)))
+          map((user: UserCredential) => {
+            this.toastr.success('Sikeres regisztráció');
+            return registerSuccess(user);
+          }),
+          catchError((error) => {
+            this.toastr.error(error.message, 'Regisztráció sikertelen!');
+            return of(registerError(error));
+          })
         )
       )
     )
   );
 
-  constructor(private action$: Actions, private authService: AuthService) {}
+  constructor(
+    private action$: Actions,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
 }
