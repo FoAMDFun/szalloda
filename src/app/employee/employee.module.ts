@@ -4,23 +4,28 @@ import { EmployeeComponent } from './employee.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeRoutingModule } from './employee-routing.module';
 import { EmployeeMainComponent } from './components/employee-main/employee-main.component';
-import { EmployeeNavbarComponent } from './components/employee-navbar/employee-navbar.component';
 import { RoomMirrorComponent } from './components/room-mirror/room-mirror.component';
 import { RoomListComponent } from './components/room-list/room-list.component';
+import { NavbarComponent } from '../components/navbar/navbar.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SortPipe } from '../pipes/sort.pipe';
 
 
 @NgModule({
   declarations: [
     EmployeeComponent,
     EmployeeMainComponent,
-    EmployeeNavbarComponent,
     RoomMirrorComponent,
-    RoomListComponent],
+    RoomListComponent,
+    NavbarComponent,
+    SortPipe
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    EmployeeRoutingModule
+    EmployeeRoutingModule,
+    FontAwesomeModule
   ],
 })
 export class EmployeeModule {}

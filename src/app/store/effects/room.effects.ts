@@ -15,7 +15,11 @@ import {
   deleteRoom,
   deleteRoomSuccess,
   deleteRoomError,
+  updateRoom,
+  updateRoomSuccess,
+  updateRoomError,
 } from '../actions/room.action';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class RoomEffects {
@@ -38,7 +42,11 @@ export class RoomEffects {
       ofType(addRoom),
       concatMap(({ room }) =>
         this.roomCrudService.addRoom(room).pipe(
-          map(() => addRoomSuccess()),
+          map(() => {
+            this.toastr.success('A szoba mentés sikeres');
+            return addRoomSuccess()
+          }
+          ),
           catchError((error) => of(addRoomError(error)))
         )
       )
@@ -51,16 +59,38 @@ export class RoomEffects {
       ofType(deleteRoom),
       mergeMap(({ room }) =>
         this.roomCrudService.deleteRoom(room).pipe(
-          map(() => deleteRoomSuccess()),
+          map(() =>{
+            this.toastr.success('A szoba törlés sikeres');
+            return deleteRoomSuccess()
+          }
+          ),
           catchError((error) => of(deleteRoomError(error)))
         )
       )
     )
   )
 
+  updateRoom$ = createEffect(() =>
+  this.action$.pipe(
+    ofType(updateRoom),
+    concatMap(({ room }) =>
+      this.roomCrudService.updateRoom(room).pipe(
+        map(() => {
+          this.toastr.success('A szoba felülírás sikeres');
+          return updateRoomSuccess()
+        }
+        ),
+        catchError((error) => of(updateRoomError(error)))
+      )
+    )
+  )
+);
+
 
   constructor(
     private action$: Actions,
-    private roomCrudService: RoomCrudService
+    private roomCrudService: RoomCrudService,
+    private toastr: ToastrService
   ) {}
 }
+//

@@ -8,6 +8,8 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 // Modules
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { EmployeeModule } from './employee/employee.module';
 import { CustomerModule } from './customer/customer.module';
 import {
@@ -23,8 +25,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 // Reducers
 import { reservationReducer } from './store/reducers/reservation.reducer';
+import { roomReducer } from './store/reducers/room.reducer';
 // Effects
 import { ReservationEffects } from './store/effects/reservation.effects';
+import { RoomEffects } from './store/effects/room.effects';
 // Environment
 import { environment } from '../environments/environment';
 // Components
@@ -33,8 +37,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { roomReducer } from './store/reducers/room.reducer';
-import { RoomEffects } from './store/effects/room.effects';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,9 @@ import { RoomEffects } from './store/effects/room.effects';
   ],
   imports: [
     BrowserModule,
+    ToastrModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
     AppRoutingModule,
     ReactiveFormsModule,
     CustomerModule,

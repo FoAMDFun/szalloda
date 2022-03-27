@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { NavItem, NavItemType } from 'src/app/models/nav-item';
 
 @Injectable({
   providedIn: 'root'
@@ -7,22 +8,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class EmpoyeeConfigService {
 
   constructor() { }
-  private readonly _navbuttons: BehaviorSubject<{ id: string; text: string;routerLink:string }[]> =
-  new BehaviorSubject<{ id: string; text: string;routerLink:string}[]>([
-    { id: "main", text: "Főoldal" ,routerLink:"main"},
-    { id: "roommirror", text: "Szobatükör", routerLink:"roommirror"},
-    { id: "rooms", text: "Szobák", routerLink:"rooms"},
-    { id: "Oldal4", text: "Oldal4", routerLink:""},
-    { id: "Oldal5", text: "Oldal5" ,routerLink:""}
+  private readonly _navbuttons: BehaviorSubject<NavItem[]> =
+  new BehaviorSubject<NavItem[]>([
+    { _id: "main", text: "Főoldal" ,value:"main",type:NavItemType.ROUTERLINK},
+    { _id: "roommirror", text: "Szobatükör", value:"roommirror",type:NavItemType.ROUTERLINK},
+    { _id: "rooms", text: "Szobák", value:"rooms",type:NavItemType.ROUTERLINK},
+    { _id: "Oldal4", text: "Oldal4", value:"",type:NavItemType.SELECT},
+    { _id: "Oldal5", text: "Oldal5" ,value:"",type:NavItemType.SELECT}
   ]);
-  public get navbuttons(): Observable<{ id: string; text: string,routerLink:string}[]> {
+  public get navbuttons(): Observable<NavItem[]> {
     return this._navbuttons;
   }
-  private readonly _mainButton: BehaviorSubject<{ id: string; text: string;routerLink:string }> =
-  new BehaviorSubject<{ id: string; text: string;routerLink:string}>(
-    { id: "hotel", text: "Szálloda" ,routerLink:"/employee"},
+  private readonly _mainButton: BehaviorSubject<NavItem> =
+  new BehaviorSubject<NavItem>(
+    { _id: "hotel", text: "Szálloda" ,value:"/employee", type:NavItemType.ROUTERLINK},
 );
-  public get mainButton(): Observable<{ id: string; text: string,routerLink:string}> {
+  public get mainButton(): Observable<NavItem> {
     return this._mainButton;
   }
 }

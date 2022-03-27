@@ -4,6 +4,7 @@ import {
   deleteRoom,
   getRoomsError,
   getRoomsSuccess,
+  updateRoom,
 } from '../actions/room.action';
 
 
@@ -33,6 +34,10 @@ export const roomReducer = createReducer(
   on(deleteRoom, (state, { room }) => ({
     ...state,
     items: state.items.filter((item) => item?._id !== room._id),
+  })),
+  on(updateRoom, (state, { room }) => ({
+    ...state,
+    items: state.items.map((item) => item?._id === room._id ? room : item),
   }))
   // on(addRoomSuccess, (state) => [...state])
 );
