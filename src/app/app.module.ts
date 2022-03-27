@@ -37,6 +37,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AuthEffects } from './store/effects/auth.effect';
+import { authReducer } from './store/reducers/auth.reducer';
 
 @NgModule({
   declarations: [
@@ -63,12 +65,13 @@ import { RegisterComponent } from './components/register/register.component';
     StoreModule.forRoot({
       reservations: reservationReducer,
       rooms: roomReducer,
+      auth: authReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([ReservationEffects, RoomEffects]),
+    EffectsModule.forRoot([ReservationEffects, RoomEffects, AuthEffects]),
     StoreRouterConnectingModule.forRoot(),
     FormsModule,
   ],

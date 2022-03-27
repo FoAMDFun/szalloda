@@ -22,41 +22,21 @@
         </div>
 
         <div class="col-md-12 my-3">
-          <label for="passwordFirst" class="form-label">Jelszó</label>
+          <label for="password" class="form-label">Jelszó</label>
           <input
             type="password"
             class="form-control"
-            id="passwordFirst"
-            formControlName="passwordFirst"
+            id="password"
+            formControlName="password"
             placeholder="Kérem írja be a jelszavát..."
           />
           <small
             class="text-danger"
             *ngIf="
-              emailForm.get('passwordFirst')?.invalid &&
-              emailForm.get('passwordFirst')?.touched
+              emailForm.get('password')?.invalid &&
+              emailForm.get('password')?.touched
             "
             >Érvénytelen jelszó. Legalább 8 karaktert írjon.</small
-          >
-        </div>
-
-        <div class="col-md-12 my-3">
-          <label for="passwordSecond" class="form-label">Jelszó</label>
-          <input
-            type="password"
-            class="form-control"
-            id="passwordSecond"
-            formControlName="passwordSecond"
-            placeholder="Kérem ismételje meg a jelszavát..."
-          />
-          <small
-            class="text-danger"
-            *ngIf="
-              emailForm.get('passwordSecond')?.invalid &&
-              emailForm.get('passwordSecond')?.touched
-            "
-            >Érvénytelen jelszó. Legalább 8 karaktert írjon és egyezzen meg a
-            jelszó az első mezővel.</small
           >
         </div>
 
@@ -109,7 +89,4 @@
       </div>
     </div>
   </form>
-  <div *ngIf="result" class="container text-center my-3">
-    {{ result | json }}
-  </div>
 </section>
