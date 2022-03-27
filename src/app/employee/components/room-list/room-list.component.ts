@@ -48,9 +48,7 @@ export class RoomListComponent implements OnInit {
   private selectedFiles?: FileList;
   public currentFileUpload?: FileUpload;
   private imgSrcSub: Subscription = new Subscription();
-
   public selectedDeleteRoom?: Room;
-
   public rooms$ = this.store.pipe(
     select(roomSelector),
     map((rooms) => {
@@ -61,7 +59,6 @@ export class RoomListComponent implements OnInit {
       return result;
     })
   );
-
   private lastFormValue: { room: Room | undefined; isUpdating: boolean } = {
     room: undefined,
     isUpdating: false,
@@ -125,7 +122,8 @@ export class RoomListComponent implements OnInit {
 
   public deleteRoom(): void {
     if (this.selectedDeleteRoom) {
-      this.store.dispatch(deleteRoom(this.selectedDeleteRoom)); //törölni kéne a képeket is ha már nem használja senki
+      this.store.dispatch(deleteRoom(this.selectedDeleteRoom));
+      //törölni kéne a képeket is ha már nem használja senki
       // a deleteRoom dispatch-elhet egy deletePictures-t is a props pedig a képek linktömbje
     }
   }
@@ -156,7 +154,6 @@ export class RoomListComponent implements OnInit {
     } else {
       this.store.dispatch(addRoom(this.roomForm.value));
     }
-    // mentés sikeres? sikertelen? stb???.... TODO //felugorhatna ilyen ablak jobb felül zölden hogy sikeres vagy sikertelen
     this.roomForm.reset();
     this.lastFormValue = { room: undefined, isUpdating: false };
   }

@@ -16,19 +16,19 @@ export class ReservationCrudService {
   collName = 'reservations';
   constructor(private firestore: Firestore) {}
 
-  getReservations(): Observable<ReadonlyArray<Reservation>> {
+  public getReservations(): Observable<ReadonlyArray<Reservation>> {
     const reservationsRef = collection(this.firestore, this.collName);
     return collectionData(reservationsRef, { idField: '_id' }) as Observable<
       Reservation[]
     >;
   }
 
-  addReservation(reservation: Reservation): Observable<any> {
+  public addReservation(reservation: Reservation): Observable<any> {
     const reservationRef = collection(this.firestore, this.collName);
     return defer(() => from(addDoc(reservationRef, reservation)));
   }
 
-  deleteReservation(reservationID: string): Observable<void> {
+  public deleteReservation(reservationID: string): Observable<void> {
     const reservationRef = doc(
       this.firestore,
       `${this.collName}/${reservationID}`

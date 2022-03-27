@@ -41,16 +41,16 @@ export class CustomerMainComponent implements OnInit {
     const dummyReservation: Reservation = {
       comments: getRandomString(),
       customerId: getRandomString(),
-      roomId: getRandomString(),
+      roomId:"jXfqDVvh0PzflllpNKtI",
       startDate: Timestamp.fromDate(new Date()),
-      endDate: Timestamp.fromDate(new Date()),
+      endDate: Timestamp.fromDate(new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate())),
       _id: getRandomString(),
     };
-    this.store.dispatch(addReservation({ reservation: dummyReservation }));
+    this.store.dispatch(addReservation( dummyReservation ));
   }
 
   public deleteReservation(reservation: Reservation): void {
-    this.store.dispatch(deleteReservation({ reservation }));
+    this.store.dispatch(deleteReservation( reservation ));
   }
 
   parseDate(dateString: string | null): Date {
@@ -65,10 +65,10 @@ export class CustomerMainComponent implements OnInit {
     this.startDate = new Date(this.startDateValue?.nativeElement.value);
     this.endDate = new Date(this.endDateValue?.nativeElement.value);
     this.store.dispatch(
-      changeReservationDate({
-        startDate: Timestamp.fromDate(this.startDate),
-        endDate: Timestamp.fromDate(this.endDate),
-      })
+      changeReservationDate(
+        Timestamp.fromDate(this.startDate),
+        Timestamp.fromDate(this.endDate)
+      )
     );
   }
 }
