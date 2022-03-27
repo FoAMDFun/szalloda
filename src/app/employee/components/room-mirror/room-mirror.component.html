@@ -1,1 +1,32 @@
-<p>room-mirror works!</p>
+<section class="container-fluid pt-5">
+  <table class="table text-center table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Szoba</th>
+        <th scope="col" *ngFor="let date of currentDates">{{date | date:'MM.dd'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms$ |async | sort : 'numberOf'"  class="align-middle" >
+        <td>{{room.numberOf}}</td>
+          <td *ngFor="let date of currentDates">
+          <ng-container *ngIf="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan as colspan">
+            <button *ngIf="getReservationByRoomIdandDate(room._id, date) | async as cellReservation"
+              (click)="test(cellReservation.reservation)"
+              class="btn btn-primary  position-absolute"
+              [ngStyle]="{
+                'transform': 'translate(-'+styles.tdWidth/2+'px, -50%)',
+                'width': styles.tdWidth*colspan+'px',
+                'height': styles.tdHeight+'px'}"
+              >
+              {{cellReservation.reservation._id.slice(0,3)}}
+            </button>
+          </ng-container>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- [attr.colspan]="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan" -->
+<!-- 'translate(-' + 'styles.tdWidth'+'px, -'+'styles.tdHeight'+'px)' -->
