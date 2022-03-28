@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Timestamp } from 'firebase/firestore';
 import { map, Observable } from 'rxjs';
 import { Reservation } from 'src/app/models/reservation.model';
 import { getReservations } from 'src/app/store/actions/reservation.action';
@@ -29,7 +28,7 @@ export class RoomMirrorComponent implements OnInit {
     })
     );
 
-  public styles={/*btnHeight:38,btnWidth:53,*/tdHeight:41,tdWidth:57.1333}
+  public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333}
 
   public reservations$ = this.storeReservation.pipe(select(reservationSelector));
 
@@ -49,27 +48,12 @@ export class RoomMirrorComponent implements OnInit {
     }
   }
 
-  getReservations(): void {
+  private getReservations(): void {
     this.storeReservation.dispatch(getReservations());
   }
   private getRooms(): void {
     this.storeRoom.dispatch(getRooms());
   }
-
-  // public getReservationByRoomIdandDate(roomId: string, date: Date): Observable<Reservation | undefined> {
-  //   return this.reservations$.pipe(
-  //     map((reservations) => {
-  //       for (const reservation of reservations) {
-  //         if (reservation.roomId === roomId &&
-  //           this.getNormalizedDate(new Date(reservation.startDate.toMillis()))<= this.getNormalizedDate(date) &&
-  //           this.getNormalizedDate(new Date(reservation.endDate.toMillis()))> this.getNormalizedDate(date) ) {
-  //           return reservation
-  //         }
-  //       }
-  //       return undefined
-  //     })
-  //   )
-  // }
 
   private getNormalizedDate(date: Date): Date {
     return  new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -80,12 +64,17 @@ export class RoomMirrorComponent implements OnInit {
       map((reservations) => {
         for (const reservation of reservations) {
           if (reservation.roomId === roomId &&
-            this.twoDateIsEqual(new Date(reservation.startDate.toMillis()),date)) {
+            (this.twoDateIsEqual(new Date(reservation.startDate.toMillis()),date) ||
+            ((this.twoDateIsEqual(date,this.currentDates[0])) &&
+            new Date(reservation.startDate.toMillis()) <= date &&
+            new Date(reservation.endDate.toMillis()) >= date))
+            ) {
             return {
               reservation:reservation,
               colspan:this.getColspan(this.getNormalizedDate(new Date(reservation.endDate.toMillis())),this.getNormalizedDate(date))
             };
           }
+
         }
         return undefined
       })
@@ -98,9 +87,6 @@ export class RoomMirrorComponent implements OnInit {
     date.getDate() === date2.getDate();
   }
 
-  // getSincronDate(date:Date){
-  //   return new Date(date.getFullYear(),date.getMonth(), date.getDate());
-  // }
 
 
   private getColspan(endDate:Date,colDate:Date): number {
@@ -111,5 +97,15 @@ export class RoomMirrorComponent implements OnInit {
   public test(reservation: any):void {
     console.log(reservation)
   }
+
+  shiftOneDayRight():void {
+    this.currentDates.shift()
+    this.currentDates.push(new Date(this.currentDates[this.currentDates.length-1].getTime()+86_400_000))
+  }
+  shiftOneDayLeft(): void {
+    this.currentDates.pop()
+    this.currentDates.unshift(new Date(this.currentDates[0].getTime()-86_400_000))
+  }
+
 }
 
