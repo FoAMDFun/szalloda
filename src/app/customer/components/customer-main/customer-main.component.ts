@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
@@ -41,34 +42,56 @@ export class CustomerMainComponent implements OnInit {
     const dummyReservation: Reservation = {
       comments: getRandomString(),
       customerId: getRandomString(),
-      roomId:"jXfqDVvh0PzflllpNKtI",
+      roomId: 'jXfqDVvh0PzflllpNKtI',
       startDate: Timestamp.fromDate(new Date()),
-      endDate: Timestamp.fromDate(new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate())),
+      endDate: Timestamp.fromDate(
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        )
+      ),
       _id: getRandomString(),
     };
-    this.store.dispatch(addReservation( dummyReservation ));
+    this.store.dispatch(addReservation(dummyReservation));
   }
 
   public deleteReservation(reservation: Reservation): void {
-    this.store.dispatch(deleteReservation( reservation ));
+    this.store.dispatch(deleteReservation(reservation));
   }
 
   parseDate(dateString: string | null): Date {
-    console.log(`date changed, ${this.startDate}, ${this.endDate}`);
     if (dateString) {
-      return new Date(dateString);
+      console.log(dateString);
+      const resultDate = new Date(dateString);
+      if (
+        resultDate.toString() !== 'Invalid Date' &&
+        resultDate.getFullYear() <= new Date().getFullYear() + 1
+      ) {
+        return resultDate;
+      }
     }
     return new Date();
   }
 
   dispatchDateChange(): void {
-    this.startDate = new Date(this.startDateValue?.nativeElement.value);
-    this.endDate = new Date(this.endDateValue?.nativeElement.value);
-    this.store.dispatch(
-      changeReservationDate(
-        Timestamp.fromDate(this.startDate),
-        Timestamp.fromDate(this.endDate)
-      )
-    );
+    try {
+      this.startDate = this.parseDate(this.startDateValue?.nativeElement.value);
+      this.endDate = this.parseDate(this.endDateValue?.nativeElement.value);
+      if (this.endDate.getFullYear() < new Date().getFullYear()) {
+        this.endDate = new Date();
+      }
+    } catch (error) {
+      this.startDate.setMilliseconds(Date.now());
+      this.endDate.setMilliseconds(Date.now());
+      console.error(error);
+    } finally {
+      this.store.dispatch(
+        changeReservationDate(
+          Timestamp.fromDate(this.startDate),
+          Timestamp.fromDate(this.endDate)
+        )
+      );
+    }
   }
 }
