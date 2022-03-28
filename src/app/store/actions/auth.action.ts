@@ -1,7 +1,11 @@
 import { createAction } from '@ngrx/store';
-import { UserCredential } from 'firebase/auth';
+import { User, UserCredential } from 'firebase/auth';
 import { LoginData } from 'src/app/models/login-data';
 
+export const SET_USER = '[Auth] Set User';
+export const NO_USER = '[Auth] No User';
+export const LOGIN_CHECK = '[Auth] Login Check';
+export const SET_LOGGED_IN = '[Auth] Set Logged In';
 export const LOGIN = '[AUTH] Login';
 export const LOGIN_SUCCESS = '[AUTH] Login success';
 export const LOGIN_ERROR = '[AUTH] Login error';
@@ -12,18 +16,31 @@ export const LOGOUT = '[AUTH] Logout';
 export const LOGOUT_ERROR = '[AUTH] Logout error';
 export const LOGOUT_SUCCESS = '[AUTH] Logout success';
 
-export const login = createAction(LOGIN, (user: LoginData) => ({ user }));
-export const loginSuccess = createAction(
-  LOGIN_SUCCESS,
-  (userCredential: UserCredential) => ({ userCredential })
+export const setUser = createAction(SET_USER, (mail: string) => ({
+  mail,
+}));
+export const noUser = createAction(NO_USER);
+export const loginCheck = createAction(LOGIN_CHECK);
+export const setLoggedIn = createAction(
+  SET_LOGGED_IN,
+  (loggedIn: boolean, mail: string) => ({
+    loggedIn,
+    mail,
+  })
 );
+export const login = createAction(LOGIN, (user: LoginData) => ({ user }));
+export const loginSuccess = createAction(LOGIN_SUCCESS, (mail: string) => ({
+  mail,
+}));
 export const loginError = createAction(LOGIN_ERROR, (error: any) => ({
   error,
 }));
 export const register = createAction(REGISTER, (user: LoginData) => ({ user }));
 export const registerSuccess = createAction(
   REGISTER_SUCCESS,
-  (userCredential: UserCredential) => ({ userCredential })
+  (mail: string) => ({
+    mail,
+  })
 );
 export const registerError = createAction(REGISTER_ERROR, (error: any) => ({
   error,

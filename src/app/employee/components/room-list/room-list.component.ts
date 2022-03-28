@@ -8,7 +8,7 @@ import {
   updateRoom,
 } from 'src/app/store/actions/room.action';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
-import { roomSelector } from 'src/app/store/selectors/room.selector';
+import { getRoomsSelector } from 'src/app/store/selectors/room.selector';
 import {
   IconDefinition,
   faImage,
@@ -50,7 +50,7 @@ export class RoomListComponent implements OnInit {
   private imgSrcSub: Subscription = new Subscription();
   public selectedDeleteRoom?: Room;
   public rooms$ = this.store.pipe(
-    select(roomSelector),
+    select(getRoomsSelector),
     map((rooms) => {
       const result = [];
       for (const room of rooms) {

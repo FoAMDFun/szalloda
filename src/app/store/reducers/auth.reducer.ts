@@ -1,50 +1,75 @@
 import { createReducer, on } from '@ngrx/store';
-import { UserCredential } from 'firebase/auth';
 import {
+  loginError,
   loginSuccess,
   logoutSuccess,
+  noUser,
+  registerError,
   registerSuccess,
+  setLoggedIn,
+  setUser,
 } from '../actions/auth.action';
 
 export interface AuthState {
   loggedIn: boolean;
-  user: UserCredential;
-  loading: boolean;
+  userMail: string;
   error: any;
-  success: boolean;
 }
 
 const initialState: AuthState = {
   loggedIn: false,
-  user: {} as UserCredential,
-  loading: false,
+  userMail: '',
   error: null,
-  success: false,
 };
 
 export const authReducer = createReducer(
   initialState,
-  on(loginSuccess, (state, { userCredential }) => ({
+  on(setLoggedIn, (state, { loggedIn, mail }) => ({
     ...state,
-    user: userCredential,
-    loggedIn: true,
-    loading: false,
+    userMail: mail,
     error: null,
-    success: true,
+    loggedIn: loggedIn,
   })),
-  on(registerSuccess, (state, { userCredential }) => ({
+  on(setUser, (state, { mail }) => ({
     ...state,
-    user: userCredential,
-    loggedIn: true,
-    loading: false,
+    userMail: mail,
     error: null,
-    success: true,
+    loggedIn: !!mail,
+  })),
+  on(noUser, (state) => ({
+    ...state,
+    userMail: '',
+    error: null,
+    loggedIn: false,
+  })),
+  on(loginSuccess, (state, { mail }) => ({
+    ...state,
+    userMail: mail,
+    error: null,
+    loggedIn: true,
+  })),
+  on(loginError, (state, error) => ({
+    ...state,
+    userMail: '',
+    error: error,
+    loggedIn: false,
+  })),
+  on(registerError, (state, error) => ({
+    ...state,
+    userMail: '',
+    error: error,
+    loggedIn: false,
+  })),
+  on(registerSuccess, (state, { mail }) => ({
+    ...state,
+    userMail: mail,
+    error: null,
+    loggedIn: true,
   })),
   on(logoutSuccess, (state) => ({
     ...state,
-    user: {} as UserCredential,
+    userMail: '',
     error: null,
-    loading: false,
-    success: true,
+    loggedIn: false,
   }))
 );

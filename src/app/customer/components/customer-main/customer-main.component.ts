@@ -9,7 +9,7 @@ import {
   changeReservationDate,
 } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
-import { reservationSelectorWithDateFilter } from 'src/app/store/selectors/reservation.selector';
+import { getReservationFilterSelector } from 'src/app/store/selectors/reservation.selector';
 
 @Component({
   selector: 'app-main',
@@ -19,7 +19,7 @@ import { reservationSelectorWithDateFilter } from 'src/app/store/selectors/reser
 export class CustomerMainComponent implements OnInit {
   @ViewChild('startdateref', { static: true }) startDateValue?: ElementRef;
   @ViewChild('enddateref', { static: true }) endDateValue?: ElementRef;
-  reservations$ = this.store.pipe(select(reservationSelectorWithDateFilter));
+  reservations$ = this.store.pipe(select(getReservationFilterSelector));
   startDate = new Date('2022-01-01T00:00:00');
   endDate = new Date();
 

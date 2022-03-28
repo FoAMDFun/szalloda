@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { login } from 'src/app/store/actions/auth.action';
 import { AuthState } from 'src/app/store/reducers/auth.reducer';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,25 +14,18 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<AuthState>
+    private store: Store<AuthState>,
+    private router: Router
   ) {
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      phone: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.pattern('^[0-9]*$'),
-        ],
+      gridCheck: [
+        null,
+        // Validators.required
       ],
-      gridCheck: [null, Validators.required],
     });
   }
-
-  ngOnInit(): void {}
 
   onSubmit(): void {
     this.emailForm.get('gridCheck')?.disable();
@@ -43,5 +36,8 @@ export class LoginComponent implements OnInit {
       })
     );
     this.emailForm.reset();
+    this.router.navigate(['/']);
   }
+
+  ngOnInit(): void {}
 }
