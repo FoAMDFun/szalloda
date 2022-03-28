@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { Reservation } from 'src/app/models/reservation.model';
 import { getReservations } from 'src/app/store/actions/reservation.action';
 import { getRooms } from 'src/app/store/actions/room.action';
@@ -31,23 +31,38 @@ export class RoomMirrorComponent implements OnInit {
     })
     );
 
-  public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333}
+  public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333,tablecorrection:2}
 
   public reservations$ = this.storeReservation.pipe(select(reservationSelector));
+  public currentDateLenght:Subject<number> = new BehaviorSubject(this._window.innerWidth)
 
-  constructor( private storeRoom: Store<RoomState>,private storeReservation: Store<ReservationState>) { }
+  constructor(
+    private storeRoom: Store<RoomState>,
+    private storeReservation: Store<ReservationState>,
+    private  _window:Window) { }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event:any) {
+    this.calcCurrentDateLength(event.target.innerWidth)
+    // this.currentDateLenght.next(event.target.innerWidth)
+  }
+  calcCurrentDateLength(innerWidth:number):void {
+    const length = Math.floor(innerWidth/(this.styles.tdWidth))-this.styles.tablecorrection
+    this.currentDateLenght.next(length)
+  }
 
   ngOnInit(): void {
     this.getReservations();
     this.currentDatesInit();
     this.getRooms();
+    this.calcCurrentDateLength(this._window.innerWidth)
   }
 
   private currentDatesInit():void {
     const now =new Date("2022-03-23");
     for (let i = 0; i < 30; i++) {
-      const currentDates = new Date(now.getTime()+(86_400_000*(i+1)))
-      this.currentDates.push(currentDates)
+      const currentDate = new Date(now.getTime()+(86_400_000*(i+1)))
+      this.currentDates.push(currentDate)
     }
   }
 
@@ -130,6 +145,14 @@ export class RoomMirrorComponent implements OnInit {
     return date.getFullYear()===new Date().getFullYear() &&
     date.getMonth()===new Date().getMonth() &&
     date.getDate()===new Date().getDate()
+  }
+
+  currentDatesslice(start:number,end:number | null):Date[] |undefined{
+    console.log(start,end);
+    if (end !== null) {
+      return this.currentDates.slice(start,end)
+    }
+    return undefined
   }
 
 }
