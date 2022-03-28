@@ -8,6 +8,7 @@ import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
 import { reservationSelector } from 'src/app/store/selectors/reservation.selector';
 import { roomSelector } from 'src/app/store/selectors/room.selector';
+import {faAngleDoubleRight,faAngleDoubleLeft, IconDefinition,faAngleLeft,faAngleRight} from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-room-mirror',
@@ -16,6 +17,8 @@ import { roomSelector } from 'src/app/store/selectors/room.selector';
 })
 export class RoomMirrorComponent implements OnInit {
 
+  public readonly icons:{previous:IconDefinition,next:IconDefinition,doubleNext:IconDefinition, doublePrevious:IconDefinition} =
+  {previous:faAngleLeft,next:faAngleRight,doubleNext:faAngleDoubleRight,doublePrevious:faAngleDoubleLeft}
   public currentDates: Date[] = [];
   public rooms$ = this.storeRoom.pipe(
     select(roomSelector),
@@ -105,6 +108,28 @@ export class RoomMirrorComponent implements OnInit {
   shiftOneDayLeft(): void {
     this.currentDates.pop()
     this.currentDates.unshift(new Date(this.currentDates[0].getTime()-86_400_000))
+  }
+
+  shiftOneWeekLeft(): void {
+    for (let i = 0; i < 7; i++) {
+      this.shiftOneDayLeft()
+    }
+  }
+
+  shiftOneWeekRight(): void {
+    for (let i = 0; i < 7; i++) {
+      this.shiftOneDayRight()
+    }
+  }
+
+  public isWeekend(date:Date):boolean {
+    return date.getDay()===0 || date.getDay()===6
+  }
+
+  public dateIsToday(date:Date):boolean {
+    return date.getFullYear()===new Date().getFullYear() &&
+    date.getMonth()===new Date().getMonth() &&
+    date.getDate()===new Date().getDate()
   }
 
 }

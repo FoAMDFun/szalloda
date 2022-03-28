@@ -1,10 +1,13 @@
 <section class="container-fluid pt-5">
-  <table class="table text-center table-striped">
+  <table class="table text-center table-striped table-bordered  ">
     <thead>
       <tr [ngStyle]="{'height': styles.tdHeight+'px'}">
         <th scope="col">Szoba</th>
         <th scope="col" *ngFor="let date of currentDates"
         [ngStyle]="{'width': styles.tdWidth+'px'}"
+        [ngClass]="{'bg-warning': isWeekend(date),
+        'bg-danger': dateIsToday(date),
+        'text-white': dateIsToday(date)}"
         >{{date | date:'MM.dd'}}</th>
       </tr>
     </thead>
@@ -13,7 +16,10 @@
       [ngStyle]="{'height': styles.tdHeight+'px'}">
         <td>{{room.numberOf}}</td>
           <td *ngFor="let date of currentDates"
-          [ngStyle]="{'width': styles.tdWidth+'px'}">
+          [ngStyle]="{'width': styles.tdWidth+'px'}"
+          [ngClass]="{'bg-warning': isWeekend(date),
+          'bg-danger': dateIsToday(date)}"
+          >
           <ng-container *ngIf="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan as colspan">
             <button *ngIf="getReservationByRoomIdandDate(room._id, date) | async as cellReservation"
               (click)="test(cellReservation.reservation)"
@@ -30,7 +36,19 @@
       </tr>
     </tbody>
   </table>
-  <button class="btn btn-primary" (click)="shiftOneDayLeft()">Left</button>
-  <button class="btn btn-primary" (click)="shiftOneDayRight()">Right</button>
+  <button class="btn btn-primary" (click)="shiftOneWeekLeft()">
+    <fa-icon [icon]="icons.doublePrevious"></fa-icon>
+  </button>
+  <button class="btn btn-primary" (click)="shiftOneDayLeft()">
+    <fa-icon [icon]="icons.previous"></fa-icon>
+  </button>
+  <button class="btn btn-primary" (click)="shiftOneDayRight()">
+    <fa-icon  [icon]="icons.next"></fa-icon>
+  </button>
+  <button class="btn btn-primary" (click)="shiftOneWeekRight()">
+    <fa-icon  [icon]="icons.doubleNext"></fa-icon>
+  </button>
 </section>
+
+
 
