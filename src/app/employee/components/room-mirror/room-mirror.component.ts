@@ -6,8 +6,8 @@ import { getReservations } from 'src/app/store/actions/reservation.action';
 import { getRooms } from 'src/app/store/actions/room.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
-import { reservationSelector } from 'src/app/store/selectors/reservation.selector';
-import { roomSelector } from 'src/app/store/selectors/room.selector';
+import { getResrvationsSelector } from 'src/app/store/selectors/reservation.selector';
+import { getRoomsSelector } from 'src/app/store/selectors/room.selector';
 import {faAngleDoubleRight,faAngleDoubleLeft, IconDefinition,faAngleLeft,faAngleRight} from '@fortawesome/free-solid-svg-icons'
 
 @Component({
@@ -21,7 +21,7 @@ export class RoomMirrorComponent implements OnInit {
   {previous:faAngleLeft,next:faAngleRight,doubleNext:faAngleDoubleRight,doublePrevious:faAngleDoubleLeft}
   public currentDates: Date[] = [];
   public rooms$ = this.storeRoom.pipe(
-    select(roomSelector),
+    select(getRoomsSelector),
     map((rooms) => {
       const result = [];
       for (const room of rooms) {
@@ -33,7 +33,7 @@ export class RoomMirrorComponent implements OnInit {
 
   public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333,tablecorrection:2}
 
-  public reservations$ = this.storeReservation.pipe(select(reservationSelector));
+  public reservations$ = this.storeReservation.pipe(select(getResrvationsSelector));
   public currentDateLenght:Subject<number> = new BehaviorSubject(this._window.innerWidth)
 
   constructor(
@@ -106,7 +106,7 @@ export class RoomMirrorComponent implements OnInit {
   }
 
 
-
+// ha kilóg.. ne lógjon ki
   private getColspan(endDate:Date,colDate:Date): number {
     const result = Math.round(((endDate.getTime()-colDate.getTime())/86_400_000))
     return result

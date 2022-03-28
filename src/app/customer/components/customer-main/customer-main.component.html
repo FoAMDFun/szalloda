@@ -1,6 +1,4 @@
 <div class="container">
-  {{ startDate | date: "yyyy-MM-dd HH:mm" }}
-  {{ endDate | date: "yyyy-MM-dd HH:mm" }}
   <!-- <div class="md-form mt-0">
     <input
       class="form-control mr-sm-2"
@@ -23,31 +21,31 @@
   <input
     #startdateref
     (change)="dispatchDateChange()"
-    type="datetime-local"
+    type="date"
     id="start-date-time"
     name="start-date-time"
-    [value]="startDate | date: 'yyyy-MM-ddTHH:mm'"
+    [value]="startDate | date: 'yyyy-MM-dd'"
   />
-  <label class="mx-3" for="end-time">Végdátum:</label>
+  <label class="mx-3" for="end-date-time">Végdátum:</label>
   <input
     #enddateref
     (change)="dispatchDateChange()"
-    type="datetime-local"
+    type="date"
     id="end-date-time"
     name="end-date-time"
-    [value]="endDate | date: 'yyyy-MM-ddTHH:mm'"
+    [value]="endDate | date: 'yyyy-MM-dd'"
   />
 
   <table class="table text-center table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">CustomerId</th>
-        <th scope="col">RoomId</th>
-        <th scope="col">Comments</th>
-        <th scope="col">Start Date</th>
-        <th scope="col">End Date</th>
-        <th scope="col">Delete</th>
+        <th scope="col">Felhasználó ID</th>
+        <th scope="col">Szoba ID</th>
+        <th scope="col">Megjegyzés</th>
+        <th scope="col">Kezdődátum</th>
+        <th scope="col">Végdátum</th>
+        <th scope="col">Törlés</th>
       </tr>
     </thead>
     <tbody>

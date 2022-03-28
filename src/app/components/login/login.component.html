@@ -40,43 +40,6 @@
           >
         </div>
 
-        <div class="col-md-12 my-3">
-          <label for="inputUserName" class="form-label">Név</label>
-          <input
-            type="text"
-            class="form-control"
-            id="inputUserName"
-            formControlName="name"
-            placeholder="Kérem írja be a nevét (legalább 3 karakter)..."
-          />
-          <small
-            class="text-danger"
-            *ngIf="
-              emailForm.get('name')?.invalid && emailForm.get('name')?.touched
-            "
-            >Érvénytelen név. Legalább 3 karaktert írjon.</small
-          >
-        </div>
-
-        <div class="col-md-12 my-3">
-          <label for="inputPhone" class="form-label">Telefonszám</label>
-          <input
-            type="text"
-            class="form-control"
-            id="inputPhone"
-            formControlName="phone"
-            placeholder="Kérem írja be a telefonszámát..."
-          />
-          <small
-            class="text-danger"
-            *ngIf="
-              emailForm.get('phone')?.invalid && emailForm.get('phone')?.touched
-            "
-            >Érvénytelen telefonszám. Csak számokat írjon. Legalább 6
-            számjegy.</small
-          >
-        </div>
-
         <div class="col-md-12 my-3 d-flex justify-content-center">
           <re-captcha formControlName="gridCheck"></re-captcha>
         </div>
@@ -89,7 +52,4 @@
       </div>
     </div>
   </form>
-  <button class="btn btn-primary mb-3" routerLink="">
-    Vissza
-  </button>
 </section>

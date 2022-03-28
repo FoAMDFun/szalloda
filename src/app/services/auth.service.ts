@@ -1,43 +1,49 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  User,
   UserCredential,
 } from '@angular/fire/auth';
+import { traceUntilFirst } from '@angular/fire/performance';
+import { Store } from '@ngrx/store';
+import { map, Subscription, tap } from 'rxjs';
 import { LoginData } from '../models/login-data';
+import { AuthState } from 'src/app/store/reducers/auth.reducer';
+import { setLoggedIn, setUser } from '../store/actions/auth.action';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // private readonly userDisposable: Subscription | undefined;
-  // public readonly user$: Observable<User | null> = EMPTY;
-  // public userLoggedIn = false;
-  // private readonly userIDBS$ = new BehaviorSubject('');
-  // public readonly userID$ = this.userIDBS$.asObservable();
+  private user?: Subscription;
+  constructor(private auth: Auth, private store: Store<AuthState>) {
+    if (auth) {
+      this.user = authState(this.auth)
+        .pipe(
+          traceUntilFirst('auth'),
+          tap((loggedUser) => {
+            if (loggedUser && loggedUser.email) {
+              this.store.dispatch(setUser(loggedUser.email));
+            }
+            return !!loggedUser;
+          }),
+          map((loggedUser) => !!loggedUser)
+        )
+        .subscribe((isLoggedIn) => {
+          const user = this.auth.currentUser;
+          const userEmail = user?.email;
+          this.store.dispatch(
+            setLoggedIn(isLoggedIn, userEmail ? userEmail : '')
+          );
+        });
+    }
+  }
 
-  constructor(private auth: Auth) {
-    // if (auth) {
-    //   this.user$ = authState(this.auth);
-    //   // this.userIDBS$.next();
-    //   this.userDisposable = authState(this.auth)
-    //     .pipe(
-    //       traceUntilFirst('auth'),
-    //       map((loggedUser: User) => {
-    //         if (loggedUser && loggedUser.email) {
-    //           this.currentUser = loggedUser.email;
-    //           this.userService
-    //             .getUserID(loggedUser.email)
-    //             .then((result) => this.userIDBS$.next(result));
-    //         } else this.currentUser = 'User';
-    //         return !!loggedUser;
-    //       })
-    //     )
-    //     .subscribe((isLoggedIn) => {
-    //       this.userLoggedIn = isLoggedIn;
-    //     });
-    // }
+  loginCheck(): User | null {
+    return this.auth.currentUser;
   }
 
   register({ email, password }: LoginData): Promise<UserCredential> {
@@ -50,5 +56,11 @@ export class AuthService {
 
   logout(): Promise<void> {
     return signOut(this.auth);
+  }
+
+  ngOnDestroy(): void {
+    if (this.user) {
+      this.user.unsubscribe();
+    }
   }
 }

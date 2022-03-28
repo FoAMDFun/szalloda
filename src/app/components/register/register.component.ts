@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { register } from 'src/app/store/actions/auth.action';
 import { AuthState } from 'src/app/store/reducers/auth.reducer';
@@ -13,10 +14,10 @@ import { PasswordValidator } from 'src/app/validators/password.validator';
 export class RegisterComponent implements OnInit {
   emailForm: FormGroup = new FormGroup({});
 
-  ngOnInit(): void {}
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store<AuthState>
+    private store: Store<AuthState>,
+    private router: Router
   ) {
     this.emailForm = this.formBuilder.group(
       {
@@ -32,7 +33,10 @@ export class RegisterComponent implements OnInit {
             Validators.pattern('^[0-9]*$'),
           ],
         ],
-        gridCheck: [null, Validators.required],
+        gridCheck: [
+          null,
+          // Validators.required
+        ],
       },
       { validator: PasswordValidator('passwordFirst', 'passwordSecond') }
     );
@@ -47,5 +51,8 @@ export class RegisterComponent implements OnInit {
       })
     );
     this.emailForm.reset();
+    this.router.navigate(['/']);
   }
+
+  ngOnInit(): void {}
 }
