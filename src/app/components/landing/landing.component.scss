@@ -50,6 +50,16 @@ main {
   bottom: 8px;
 }
 
+.user {
+  z-index: 1;
+  text-align: center;
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  text-shadow: none;
+  cursor: pointer;
+}
+
 .slideshow {
   position: fixed;
   width: 100%;

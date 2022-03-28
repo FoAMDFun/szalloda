@@ -33,7 +33,10 @@ export class RegisterComponent implements OnInit {
             Validators.pattern('^[0-9]*$'),
           ],
         ],
-        gridCheck: [null, Validators.required],
+        gridCheck: [
+          null,
+          // Validators.required
+        ],
       },
       { validator: PasswordValidator('passwordFirst', 'passwordSecond') }
     );
