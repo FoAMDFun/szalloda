@@ -18,14 +18,15 @@ import { getAuthLoggedInSelector } from './store/selectors/auth.selector';
 export class Guard implements CanActivate {
   public isLoggedIn$ = this.store.pipe(select(getAuthLoggedInSelector));
   private isLoggedIn: boolean = false;
+  private initDone: boolean = false;
   constructor(
     private store: Store<AppState>,
     private toastr: ToastrService,
     private router: Router
   ) {
     this.isLoggedIn$.subscribe((isLoggedIn) => {
-      // set isLoggedIn to true if user is logged in
       this.isLoggedIn = isLoggedIn;
+      this.initDone = true;
     });
   }
 
@@ -37,7 +38,7 @@ export class Guard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (!this.isLoggedIn) {
+    if (!this.isLoggedIn && this.initDone) {
       this.toastr.error(
         'Be kell jelentkeznie, hogy a dolgozói tartalomhoz hozzáférjen!',
         'Bejelentkezési hiba!'
