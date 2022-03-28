@@ -1,23 +1,33 @@
 <section class="container-fluid pt-5">
-  <table class="table text-center table-striped">
+  <table class="table text-center table-striped table-bordered  ">
     <thead>
-      <tr>
+      <tr [ngStyle]="{'height': styles.tdHeight+'px'}">
         <th scope="col">Szoba</th>
-        <th scope="col" *ngFor="let date of currentDates">{{date | date:'MM.dd'}}</th>
+        <th scope="col" *ngFor="let date of currentDates"
+        [ngStyle]="{'width': styles.tdWidth+'px'}"
+        [ngClass]="{'bg-warning': isWeekend(date),
+        'bg-danger': dateIsToday(date),
+        'text-white': dateIsToday(date)}"
+        >{{date | date:'MM.dd'}}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let room of rooms$ |async | sort : 'numberOf'"  class="align-middle" >
+      <tr *ngFor="let room of rooms$ |async | sort : 'numberOf'"  class="align-middle"
+      [ngStyle]="{'height': styles.tdHeight+'px'}">
         <td>{{room.numberOf}}</td>
-          <td *ngFor="let date of currentDates">
+          <td *ngFor="let date of currentDates"
+          [ngStyle]="{'width': styles.tdWidth+'px'}"
+          [ngClass]="{'bg-warning': isWeekend(date),
+          'bg-danger': dateIsToday(date)}"
+          >
           <ng-container *ngIf="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan as colspan">
             <button *ngIf="getReservationByRoomIdandDate(room._id, date) | async as cellReservation"
               (click)="test(cellReservation.reservation)"
-              class="btn btn-primary  position-absolute"
+              class="btn btn-primary  position-absolute p-0"
               [ngStyle]="{
-                'transform': 'translate(-'+styles.tdWidth/2+'px, -50%)',
-                'width': styles.tdWidth*colspan+'px',
-                'height': styles.tdHeight+'px'}"
+                'transform': 'translate(-'+styles.btnWidth/2+'px, -50%)',
+                'width': styles.tdWidth*colspan-(styles.tdWidth-styles.btnWidth)+'px',
+                'height': styles.btnHeight+'px'}"
               >
               {{cellReservation.reservation._id.slice(0,3)}}
             </button>
@@ -26,7 +36,19 @@
       </tr>
     </tbody>
   </table>
+  <button class="btn btn-primary" (click)="shiftOneWeekLeft()">
+    <fa-icon [icon]="icons.doublePrevious"></fa-icon>
+  </button>
+  <button class="btn btn-primary" (click)="shiftOneDayLeft()">
+    <fa-icon [icon]="icons.previous"></fa-icon>
+  </button>
+  <button class="btn btn-primary" (click)="shiftOneDayRight()">
+    <fa-icon  [icon]="icons.next"></fa-icon>
+  </button>
+  <button class="btn btn-primary" (click)="shiftOneWeekRight()">
+    <fa-icon  [icon]="icons.doubleNext"></fa-icon>
+  </button>
 </section>
 
-<!-- [attr.colspan]="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan" -->
-<!-- 'translate(-' + 'styles.tdWidth'+'px, -'+'styles.tdHeight'+'px)' -->
+
+
