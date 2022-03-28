@@ -7,22 +7,17 @@ import {
   updateRoom,
 } from '../actions/room.action';
 
-
 export interface RoomState {
-  rooms: {
-    items: ReadonlyArray<Room>;
-    error: any;
-  };
+  items: ReadonlyArray<Room>;
+  error: any;
 }
 const initialState: RoomState = {
-  rooms: {
-    items: [],
-    error: null,
-  },
+  items: [],
+  error: null,
 };
 
 export const roomReducer = createReducer(
-  initialState.rooms,
+  initialState,
   on(getRoomsSuccess, (state, { rooms }) => ({
     ...state,
     items: [...rooms],
@@ -37,7 +32,7 @@ export const roomReducer = createReducer(
   })),
   on(updateRoom, (state, { room }) => ({
     ...state,
-    items: state.items.map((item) => item?._id === room._id ? room : item),
+    items: state.items.map((item) => (item?._id === room._id ? room : item)),
   }))
   // on(addRoomSuccess, (state) => [...state])
 );

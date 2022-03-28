@@ -2,9 +2,15 @@
 // import { environment } from '../../../environments/environment';
 // import * as fromRouter from '@ngrx/router-store';
 
-// export interface State {
-//   router: fromRouter.RouterReducerState<any>;
-// }
+import { RouterState } from '@ngrx/router-store';
+import { ReservationState } from './reservation.reducer';
+import { RoomState } from './room.reducer';
+
+export interface AppState {
+  reservation: ReservationState;
+  room: RoomState;
+  router: RouterState;
+}
 
 // export function logger(
 //   reducer: ActionReducer<RootStoreState.State>

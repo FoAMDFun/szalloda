@@ -1,29 +1,15 @@
-import { createSelector } from '@ngrx/store';
-import { UserCredential } from 'firebase/auth';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { User, UserCredential } from 'firebase/auth';
 import { AuthState } from '../reducers/auth.reducer';
 
-export const authLoggedInSelector = createSelector(
-  (state: AuthState) => state.loggedIn,
-  (loggedIn: boolean) => loggedIn
+export const getAuthState = createFeatureSelector<AuthState>('auth');
+
+export const getAuthLoggedInSelector = createSelector(
+  getAuthState,
+  (state: AuthState) => state.loggedIn
 );
 
-export const authUserSelector = createSelector(
-  (state: AuthState) => state.user,
-  (user: UserCredential) => user
+export const getAuthUserMailSelector = createSelector(
+  getAuthState,
+  (state: AuthState) => state.userMail
 );
-
-// export const reservationSelectorWithDateFilter = createSelector(
-//   (state: ReservationState) => state.reservations.items,
-//   (state: ReservationState) => state.reservations.startDate,
-//   (state: ReservationState) => state.reservations.endDate,
-//   (
-//     reservations: ReadonlyArray<Reservation>,
-//     startDate: Timestamp,
-//     endDate: Timestamp
-//   ) =>
-//     reservations.filter(
-//       (reservation: Reservation) =>
-//         reservation.startDate.seconds >= startDate.seconds &&
-//         reservation.endDate.seconds <= endDate.seconds
-//     )
-// );

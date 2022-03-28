@@ -8,24 +8,20 @@ import {
   getReservationsSuccess,
 } from '../actions/reservation.action';
 export interface ReservationState {
-  reservations: {
-    items: ReadonlyArray<Reservation>;
-    error: any;
-    startDate: Timestamp;
-    endDate: Timestamp;
-  };
+  items: ReadonlyArray<Reservation>;
+  error: any;
+  startDate: Timestamp;
+  endDate: Timestamp;
 }
 const initialState: ReservationState = {
-  reservations: {
-    items: [],
-    error: null,
-    startDate: Timestamp.fromDate(new Date('2022-01-01T00:00:00')),
-    endDate: Timestamp.fromDate(new Date('2999-12-31T23:23:23')),
-  },
+  items: [],
+  error: null,
+  startDate: Timestamp.fromDate(new Date('2022-01-01T00:00:00')),
+  endDate: Timestamp.fromDate(new Date('2999-12-31T23:23:23')),
 };
 
 export const reservationReducer = createReducer(
-  initialState.reservations,
+  initialState,
   on(getReservationsSuccess, (state, { reservations }) => ({
     ...state,
     items: [...reservations],
@@ -44,7 +40,9 @@ export const reservationReducer = createReducer(
   })),
   on(deleteReservation, (state, { reservation }) => ({
     ...state,
-    items: state.items.filter((item) => item?._id !== reservation._id),
+    items: state.items.filter(
+      (item: Reservation) => item?._id !== reservation._id
+    ),
     error: null,
   }))
 );
