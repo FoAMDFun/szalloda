@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
 import { Reservation } from 'src/app/models/reservation.model';
 
@@ -14,44 +14,16 @@ export const DELETE_RESERVATION_SUCCESS = '[RESERVATION] Delete success';
 export const DELETE_RESERVATION_ERROR = '[RESERVATION] Delete error';
 
 export const getReservations = createAction(GET_RESERVATIONS);
+export const getReservationsSuccess = createAction(GET_RESERVATIONS_SUCCESS,(reservations: ReadonlyArray<Reservation>) => ({reservations}));
+export const getReservationsError = createAction(GET_RESERVATIONS_ERROR,(error: any) => ({ error }));
 
-export const getReservationsSuccess = createAction(
-  GET_RESERVATIONS_SUCCESS,
-  props<{ reservations: ReadonlyArray<Reservation> }>()
-);
-
-export const getReservationsError = createAction(
-  GET_RESERVATIONS_ERROR,
-  props<{ error: any }>()
-);
-
-export const changeReservationDate = createAction(
-  CHANGE_RESERVATION_DATE,
-  props<{ startDate: Timestamp; endDate: Timestamp }>()
-);
-
-export const addReservation = createAction(
-  ADD_RESERVATION,
-  props<{ reservation: Reservation }>()
-);
-
+export const addReservation = createAction(ADD_RESERVATION,(reservation: Reservation) => ({ reservation }));
 export const addReservationSuccess = createAction(ADD_RESERVATION_SUCCESS);
+export const addReservationError = createAction(ADD_RESERVATION_ERROR,(reservation: Reservation) => ({ reservation}));
 
-export const addReservationError = createAction(
-  ADD_RESERVATION_ERROR,
-  props<{ reservation: Reservation }>()
-);
+export const deleteReservation = createAction(DELETE_RESERVATION,(reservation: Reservation) => ({ reservation }));
+export const deleteReservationSuccess = createAction(DELETE_RESERVATION_SUCCESS);
+export const deleteReservationError = createAction(DELETE_RESERVATION_ERROR,(reservation: Reservation) => ({ reservation }));
 
-export const deleteReservation = createAction(
-  DELETE_RESERVATION,
-  props<{ reservation: Reservation }>()
-);
+export const changeReservationDate = createAction(CHANGE_RESERVATION_DATE,(startDate: Timestamp, endDate: Timestamp) => ({ startDate, endDate }));
 
-export const deleteReservationSuccess = createAction(
-  DELETE_RESERVATION_SUCCESS
-);
-
-export const deleteReservationError = createAction(
-  DELETE_RESERVATION_ERROR,
-  props<{ reservation: Reservation }>()
-);

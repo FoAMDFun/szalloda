@@ -32,7 +32,7 @@ export class ReservationEffects {
       exhaustMap(() =>
         this.reservationCrudService.getReservations().pipe(
           map((reservations: ReadonlyArray<Reservation>) =>
-            getReservationsSuccess({ reservations })
+            getReservationsSuccess( reservations )
           ),
           catchError((error) => {
             this.toaster.error(

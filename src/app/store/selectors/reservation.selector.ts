@@ -24,3 +24,4 @@ export const getReservationFilterSelector = createSelector(
         reservation.endDate.seconds <= state.endDate.seconds
     )
 );
+
