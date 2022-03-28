@@ -3,7 +3,7 @@
     <thead>
       <tr [ngStyle]="{'height': styles.tdHeight+'px'}">
         <th scope="col">Szoba</th>
-        <th scope="col" *ngFor="let date of currentDates"
+        <th scope="col" *ngFor="let date of currentDatesslice(0,(currentDateLenght | async))"
         [ngStyle]="{'width': styles.tdWidth+'px'}"
         [ngClass]="{'bg-warning': isWeekend(date),
         'bg-danger': dateIsToday(date),
@@ -15,7 +15,7 @@
       <tr *ngFor="let room of rooms$ |async | sort : 'numberOf'"  class="align-middle"
       [ngStyle]="{'height': styles.tdHeight+'px'}">
         <td>{{room.numberOf}}</td>
-          <td *ngFor="let date of currentDates"
+          <td *ngFor="let date of currentDatesslice(0,(currentDateLenght | async))"
           [ngStyle]="{'width': styles.tdWidth+'px'}"
           [ngClass]="{'bg-warning': isWeekend(date),
           'bg-danger': dateIsToday(date)}"

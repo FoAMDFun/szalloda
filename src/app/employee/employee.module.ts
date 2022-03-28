@@ -28,5 +28,8 @@ import { SortPipe } from '../pipes/sort.pipe';
     EmployeeRoutingModule,
     FontAwesomeModule,
   ],
+  providers: [
+    { provide: Window, useValue: window },
+  ],
 })
 export class EmployeeModule {}
