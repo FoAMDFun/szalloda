@@ -22,15 +22,23 @@ export class RegisterComponent implements OnInit {
     this.emailForm = this.formBuilder.group(
       {
         email: ['', [Validators.required, Validators.email]],
-        passwordFirst: ['', [Validators.required, Validators.minLength(8)]],
-        passwordSecond: ['', [Validators.required, Validators.minLength(8)]],
-        name: ['', [Validators.required, Validators.minLength(3)]],
-        phone: [
+        passwordFirst: [
           '',
           [
             Validators.required,
-            Validators.minLength(6),
-            Validators.pattern('^[0-9]*$'),
+            Validators.minLength(8),
+            Validators.maxLength(35),
+            Validators.pattern(
+              '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,}).*$'
+            ),
+          ],
+        ],
+        passwordSecond: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(35),
           ],
         ],
         gridCheck: [
