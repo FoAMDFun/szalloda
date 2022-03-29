@@ -41,10 +41,7 @@ export class RegisterComponent implements OnInit {
             Validators.maxLength(35),
           ],
         ],
-        gridCheck: [
-          null,
-          // Validators.required
-        ],
+        gridCheck: [null, Validators.required],
       },
       { validator: PasswordValidator('passwordFirst', 'passwordSecond') }
     );
@@ -58,7 +55,6 @@ export class RegisterComponent implements OnInit {
         password: this.emailForm.get('passwordFirst')?.value,
       })
     );
-    this.emailForm.reset();
   }
 
   ngOnInit(): void {}

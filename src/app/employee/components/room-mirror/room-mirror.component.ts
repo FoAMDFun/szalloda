@@ -6,7 +6,7 @@ import { getReservations } from 'src/app/store/actions/reservation.action';
 import { getRooms } from 'src/app/store/actions/room.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
-import { getResrvationsSelector } from 'src/app/store/selectors/reservation.selector';
+import { getReservationsSelector } from 'src/app/store/selectors/reservation.selector';
 import { getRoomsSelector } from 'src/app/store/selectors/room.selector';
 import {
   faAngleDoubleRight,
@@ -53,7 +53,7 @@ export class RoomMirrorComponent implements OnInit {
   };
 
   public reservations$ = this.storeReservation.pipe(
-    select(getResrvationsSelector)
+    select(getReservationsSelector)
   );
 
   constructor(

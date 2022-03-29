@@ -20,10 +20,7 @@ export class LoginComponent implements OnInit {
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      gridCheck: [
-        null,
-        // Validators.required
-      ],
+      gridCheck: [null, Validators.required],
     });
   }
 
@@ -35,7 +32,6 @@ export class LoginComponent implements OnInit {
         password: this.emailForm.get('password')?.value,
       })
     );
-    this.emailForm.reset();
   }
 
   ngOnInit(): void {}

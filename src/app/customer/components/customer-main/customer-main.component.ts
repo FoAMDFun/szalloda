@@ -10,7 +10,10 @@ import {
   changeReservationDate,
 } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
-import { getReservationFilterSelector } from 'src/app/store/selectors/reservation.selector';
+import {
+  getReservationWithFilterSelector,
+  isReservationFilterEmpty,
+} from 'src/app/store/selectors/reservation.selector';
 
 @Component({
   selector: 'app-main',
@@ -20,7 +23,8 @@ import { getReservationFilterSelector } from 'src/app/store/selectors/reservatio
 export class CustomerMainComponent implements OnInit {
   @ViewChild('startdateref', { static: true }) startDateValue?: ElementRef;
   @ViewChild('enddateref', { static: true }) endDateValue?: ElementRef;
-  reservations$ = this.store.pipe(select(getReservationFilterSelector));
+  reservations$ = this.store.pipe(select(getReservationWithFilterSelector));
+  isReservationsEmpty$ = this.store.pipe(select(isReservationFilterEmpty));
   startDate = new Date('2022-01-01T00:00:00');
   endDate = new Date();
 
@@ -80,6 +84,9 @@ export class CustomerMainComponent implements OnInit {
       this.endDate = this.parseDate(this.endDateValue?.nativeElement.value);
       if (this.endDate.getFullYear() < new Date().getFullYear()) {
         this.endDate = new Date();
+      }
+      if (this.startDate.getFullYear() > new Date().getFullYear()) {
+        this.startDate = new Date();
       }
     } catch (error) {
       this.startDate.setMilliseconds(Date.now());
