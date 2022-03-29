@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: '',
     component: EmployeeComponent,
-    // canActivate: [Guard],
+    canActivate: [Guard],
     children: [
       {
         path: '',

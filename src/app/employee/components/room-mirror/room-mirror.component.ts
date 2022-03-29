@@ -34,6 +34,7 @@ export class RoomMirrorComponent implements OnInit {
   public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333,td1Width:60,tablecorrection:2}
   public reservations$ = this.storeReservation.pipe(select(getResrvationsSelector));
   public currentDateLenght:Subject<number> = new BehaviorSubject(this._window.innerWidth)
+  public selectedReservation?: Reservation;
 
   constructor(
     private storeRoom: Store<RoomState>,
@@ -108,8 +109,8 @@ export class RoomMirrorComponent implements OnInit {
     return result
   }
 
-  public test(reservation: any):void {
-    console.log(reservation)
+  public selectReservation(reservation: any):void {
+    this.selectedReservation = reservation
   }
 
   shiftOneDayRight():void {
