@@ -1,29 +1,16 @@
 <div class="container">
-  <!-- <div class="md-form mt-0">
-    <input
-      class="form-control mr-sm-2"
-      [formControl]="searchControl"
-      type="text"
-      placeholder="Search by reservation name, enter at least 4 digits please..."
-      name="searchControl"
-      [value]="searchControl"
-    />
-  </div> -->
-
-  <!-- <ng-container *ngIf="areNoResultsFound$ | async; else results">
-    <div class="my-3">No Results found.</div>
-  </ng-container> -->
-
   <button (click)="newReservation()" class="btn btn-primary my-3">
     Új foglalás...
   </button>
-  <label class="mx-3" for="start-date-time">Kezdődátum és időpont:</label>
+  <label class="mx-3" for="start-date-time">Kezdő dátum:</label>
   <input
     #startdateref
     (change)="dispatchDateChange()"
     type="date"
     id="start-date-time"
     name="start-date-time"
+    min="2022-01-01"
+    max="2023-12-31"
     [value]="startDate | date: 'yyyy-MM-dd'"
   />
   <label class="mx-3" for="end-date-time">Végdátum:</label>
@@ -33,39 +20,49 @@
     type="date"
     id="end-date-time"
     name="end-date-time"
+    min="2022-01-01"
+    max="2023-12-31"
     [value]="endDate | date: 'yyyy-MM-dd'"
   />
 
-  <table class="table text-center table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Felhasználó ID</th>
-        <th scope="col">Szoba ID</th>
-        <th scope="col">Megjegyzés</th>
-        <th scope="col">Kezdődátum</th>
-        <th scope="col">Végdátum</th>
-        <th scope="col">Törlés</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let reservation of reservations$ | async; index as i">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ reservation.customerId }}</td>
-        <td>{{ reservation.roomId }}</td>
-        <td>{{ reservation.comments }}</td>
-        <td>{{ reservation.startDate.toDate() | date: "yyyy-MM-dd HH:mm" }}</td>
-        <td>{{ reservation.endDate.toDate() | date: "yyyy-MM-dd HH:mm" }}</td>
-        <td>
-          <button
-            type="button"
-            (click)="deleteReservation(reservation)"
-            class="btn btn-danger"
-          >
-            <i class="fa fa-trash-alt"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-container *ngIf="isReservationsEmpty$ | async; else table">
+    <div class="my-3">Nincs a keresési feltételeknek megfelelő elem.</div>
+  </ng-container>
+
+  <ng-template #table>
+    <table class="table text-center table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Felhasználó ID</th>
+          <th scope="col">Szoba ID</th>
+          <th scope="col">Megjegyzés</th>
+          <th scope="col">Kezdődátum</th>
+          <th scope="col">Végdátum</th>
+          <th scope="col">Törlés</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations$ | async; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ reservation.customerId }}</td>
+          <td>{{ reservation.roomId }}</td>
+          <td>{{ reservation.comments }}</td>
+          <td>
+            {{ reservation.startDate.toDate() | date: "yyyy-MM-dd HH:mm" }}
+          </td>
+          <td>{{ reservation.endDate.toDate() | date: "yyyy-MM-dd HH:mm" }}</td>
+          <td>
+            <button
+              type="button"
+              (click)="deleteReservation(reservation)"
+              class="btn btn-danger"
+            >
+              <i class="fa fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
 </div>

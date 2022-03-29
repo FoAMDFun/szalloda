@@ -10,12 +10,12 @@ export const reservationFilterEndDate = (state: AppState) =>
 export const getReservationState =
   createFeatureSelector<ReservationState>('reservation');
 
-export const getResrvationsSelector = createSelector(
+export const getReservationsSelector = createSelector(
   getReservationState,
   (state: ReservationState) => state.items
 );
 
-export const getReservationFilterSelector = createSelector(
+export const getReservationWithFilterSelector = createSelector(
   getReservationState,
   (state) =>
     state.items.filter(
@@ -25,3 +25,8 @@ export const getReservationFilterSelector = createSelector(
     )
 );
 
+export const isReservationFilterEmpty = createSelector(
+  getReservationState,
+  getReservationWithFilterSelector,
+  (state, reservations) => reservations.length === 0
+);
