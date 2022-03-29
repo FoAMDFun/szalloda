@@ -20,21 +20,21 @@
           class="btn btn-warning"
           routerLink="login"
         >
-          Login
+          Belépés
         </button>
         <button
           *ngIf="!(isLoggedIn$ | async)"
           class="btn btn-warning"
           routerLink="register"
         >
-          Register
+          Regisztráció
         </button>
         <button
           *ngIf="isLoggedIn$ | async"
           class="btn btn-warning"
           (click)="logOut()"
         >
-          Logout
+          Kilépés
         </button>
       </div>
     </div>
