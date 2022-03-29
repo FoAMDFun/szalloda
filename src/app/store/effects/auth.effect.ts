@@ -103,17 +103,28 @@ export class AuthEffects {
     )
   );
 
-  registerSuccess$ = createEffect(
+  authSuccess$ = createEffect(
     () =>
       this.action$.pipe(
         ofType(registerSuccess, loginSuccess),
         tap(() => {
+          localStorage.setItem('user', 'true');
           this.router.navigate(['/']);
         })
       ),
     { dispatch: false }
   );
 
+  logoutSuccess$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(logoutSuccess),
+        tap(() => {
+          localStorage.setItem('user', 'false');
+        })
+      ),
+    { dispatch: false }
+  );
   constructor(
     private action$: Actions,
     private authService: AuthService,
