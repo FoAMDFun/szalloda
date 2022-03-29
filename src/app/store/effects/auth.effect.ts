@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { defer, EmptyError, from, of } from 'rxjs';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { User, UserCredential } from 'firebase/auth';
 import { AuthService } from 'src/app/services/auth.service';
 import {
@@ -20,6 +20,7 @@ import {
 } from '../actions/auth.action';
 import { ToastrService } from 'ngx-toastr';
 import { Auth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -102,10 +103,21 @@ export class AuthEffects {
     )
   );
 
+  registerSuccess$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(registerSuccess, loginSuccess),
+        tap(() => {
+          this.router.navigate(['/']);
+        })
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private action$: Actions,
     private authService: AuthService,
-    private auth: Auth,
+    private router: Router,
     private toastr: ToastrService
   ) {}
 }
