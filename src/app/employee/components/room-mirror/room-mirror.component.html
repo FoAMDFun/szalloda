@@ -37,12 +37,13 @@
           >
           <ng-container *ngIf="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan as colspan">
             <button *ngIf="getReservationByRoomIdandDate(room._id, date) | async as cellReservation"
-              (click)="test(cellReservation.reservation)"
+              (click)="selectReservation(cellReservation.reservation)"
               class="btn btn-primary  position-absolute p-0"
               [ngStyle]="{
                 'transform': 'translate(-'+styles.btnWidth/2+'px, -50%)',
                 'width': styles.tdWidth*(colspan+i<=slicedDates.length?colspan:slicedDates.length-i)-(styles.tdWidth-styles.btnWidth)+'px',
                 'height': styles.btnHeight+'px'}"
+                data-bs-toggle="modal" data-bs-target="#customerModal"
               >
               {{cellReservation.reservation._id.slice(0,3)}}
             </button>
@@ -51,8 +52,22 @@
       </tr>
     </tbody>
   </table>
-
 </section>
 
 
+<div class="modal fade pt-5" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark fw-bold" id="customerModalLabel">A {{selectedReservation?.customerId}} adatai</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
 
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Szerkesztés</button>
+      </div>
+    </div>
+  </div>
+</div>
