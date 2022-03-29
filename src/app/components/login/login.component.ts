@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
       })
     );
     this.emailForm.reset();
-    this.router.navigate(['/']);
   }
 
   ngOnInit(): void {}
