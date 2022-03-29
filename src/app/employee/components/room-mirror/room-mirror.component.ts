@@ -32,7 +32,6 @@ export class RoomMirrorComponent implements OnInit {
     );
 
   public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333,td1Width:60,tablecorrection:2}
-
   public reservations$ = this.storeReservation.pipe(select(getResrvationsSelector));
   public currentDateLenght:Subject<number> = new BehaviorSubject(this._window.innerWidth)
 
@@ -145,12 +144,10 @@ export class RoomMirrorComponent implements OnInit {
   }
 
   currentDatesslice(start:number,end:number | null):Date[] |undefined{
-    console.log(start,end);
     if (end !== null) {
       return this.currentDates.slice(start,end)
     }
     return undefined
   }
-
 }
 
