@@ -31,8 +31,7 @@ export class RoomMirrorComponent implements OnInit {
     })
     );
 
-  public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333,tablecorrection:2}
-
+  public styles={btnHeight:34,btnWidth:50,tdHeight:41,tdWidth:57.1333,td1Width:60,tablecorrection:2}
   public reservations$ = this.storeReservation.pipe(select(getResrvationsSelector));
   public currentDateLenght:Subject<number> = new BehaviorSubject(this._window.innerWidth)
 
@@ -44,7 +43,6 @@ export class RoomMirrorComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {
     this.calcCurrentDateLength(event.target.innerWidth)
-    // this.currentDateLenght.next(event.target.innerWidth)
   }
   calcCurrentDateLength(innerWidth:number):void {
     const length = Math.floor(innerWidth/(this.styles.tdWidth))-this.styles.tablecorrection
@@ -59,9 +57,9 @@ export class RoomMirrorComponent implements OnInit {
   }
 
   private currentDatesInit():void {
-    const now =new Date("2022-03-23");
+    const now =new Date();
     for (let i = 0; i < 30; i++) {
-      const currentDate = new Date(now.getTime()+(86_400_000*(i+1)))
+      const currentDate = new Date(now.getTime()+(86_400_000*(i)))
       this.currentDates.push(currentDate)
     }
   }
@@ -105,8 +103,6 @@ export class RoomMirrorComponent implements OnInit {
     date.getDate() === date2.getDate();
   }
 
-
-// ha kilóg.. ne lógjon ki
   private getColspan(endDate:Date,colDate:Date): number {
     const result = Math.round(((endDate.getTime()-colDate.getTime())/86_400_000))
     return result
@@ -148,12 +144,10 @@ export class RoomMirrorComponent implements OnInit {
   }
 
   currentDatesslice(start:number,end:number | null):Date[] |undefined{
-    console.log(start,end);
     if (end !== null) {
       return this.currentDates.slice(start,end)
     }
     return undefined
   }
-
 }
 

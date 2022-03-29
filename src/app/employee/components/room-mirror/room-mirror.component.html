@@ -1,8 +1,23 @@
 <section class="container-fluid pt-5">
-  <table class="table text-center table-striped table-bordered  ">
+  <h1 class="text-center fw-bold">Szobatükör</h1>
+  <div class="container text-center my-4">
+    <button class="btn btn-primary rounded-circle paginate" (click)="shiftOneWeekLeft()">
+      <fa-icon [icon]="icons.doublePrevious"></fa-icon>
+    </button>
+    <button class="btn btn-primary rounded-circle paginate mx-1" (click)="shiftOneDayLeft()">
+      <fa-icon [icon]="icons.previous"></fa-icon>
+    </button>
+    <button class="btn btn-primary rounded-circle paginate me-1" (click)="shiftOneDayRight()">
+      <fa-icon  [icon]="icons.next"></fa-icon>
+    </button>
+    <button class="btn btn-primary rounded-circle paginate" (click)="shiftOneWeekRight()">
+      <fa-icon  [icon]="icons.doubleNext"></fa-icon>
+    </button>
+  </div>
+  <table class="table text-center table-striped table-bordered m-auto ">
     <thead>
       <tr [ngStyle]="{'height': styles.tdHeight+'px'}">
-        <th scope="col">Szoba</th>
+        <th scope="col" [ngStyle]="{'width': styles.td1Width+'px'}" >Szoba</th>
         <th scope="col" *ngFor="let date of currentDatesslice(0,(currentDateLenght | async))"
         [ngStyle]="{'width': styles.tdWidth+'px'}"
         [ngClass]="{'bg-warning': isWeekend(date),
@@ -14,8 +29,8 @@
     <tbody>
       <tr *ngFor="let room of rooms$ |async | sort : 'numberOf'"  class="align-middle"
       [ngStyle]="{'height': styles.tdHeight+'px'}">
-        <td>{{room.numberOf}}</td>
-          <td *ngFor="let date of currentDatesslice(0,(currentDateLenght | async))"
+        <td [ngStyle]="{'width': styles.td1Width+'px'}">{{room.numberOf}}</td>
+          <td *ngFor="let date of currentDatesslice(0,(currentDateLenght | async)) as slicedDates;index as i"
           [ngStyle]="{'width': styles.tdWidth+'px'}"
           [ngClass]="{'bg-warning': isWeekend(date),
           'bg-danger': dateIsToday(date)}"
@@ -26,7 +41,7 @@
               class="btn btn-primary  position-absolute p-0"
               [ngStyle]="{
                 'transform': 'translate(-'+styles.btnWidth/2+'px, -50%)',
-                'width': styles.tdWidth*colspan-(styles.tdWidth-styles.btnWidth)+'px',
+                'width': styles.tdWidth*(colspan+i<=slicedDates.length?colspan:slicedDates.length-i)-(styles.tdWidth-styles.btnWidth)+'px',
                 'height': styles.btnHeight+'px'}"
               >
               {{cellReservation.reservation._id.slice(0,3)}}
@@ -36,18 +51,7 @@
       </tr>
     </tbody>
   </table>
-  <button class="btn btn-primary" (click)="shiftOneWeekLeft()">
-    <fa-icon [icon]="icons.doublePrevious"></fa-icon>
-  </button>
-  <button class="btn btn-primary" (click)="shiftOneDayLeft()">
-    <fa-icon [icon]="icons.previous"></fa-icon>
-  </button>
-  <button class="btn btn-primary" (click)="shiftOneDayRight()">
-    <fa-icon  [icon]="icons.next"></fa-icon>
-  </button>
-  <button class="btn btn-primary" (click)="shiftOneWeekRight()">
-    <fa-icon  [icon]="icons.doubleNext"></fa-icon>
-  </button>
+
 </section>
 
 
