@@ -5,3 +5,21 @@
     }
   }
 }
+
+.modal-content {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgb(209, 209, 209) 100%
+  );
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.btn {
+  transform: scale(1);
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.25);
+  }
+}

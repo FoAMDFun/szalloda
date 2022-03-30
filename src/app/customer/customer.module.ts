@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomerMainComponent } from './components/customer-main/customer-main.component';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { CustomerRoutingModule } from './customer-routing.module';
+import { CustomerMainComponent } from './components/customer-main/customer-main.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 
 @NgModule({
   declarations: [CustomerMainComponent],
@@ -11,7 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     CustomerRoutingModule,
     FormsModule,
-    ReactiveFormsModule
-],
+    ReactiveFormsModule,
+    TextareaAutosizeModule,
+  ],
 })
 export class CustomerModule {}

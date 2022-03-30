@@ -32,7 +32,10 @@ export class AuthEffects {
           from(this.authService.login(props.user)).pipe(
             map((user: UserCredential) => {
               this.toastr.success('Sikeres bejelentkezés');
-              return loginSuccess(user.user.email as string);
+              return loginSuccess(
+                user.user.email as string,
+                user.user.uid as string
+              );
             }),
             catchError((error) => {
               this.toastr.error(error.message, 'Bejelentkezés sikertelen!');
@@ -73,7 +76,10 @@ export class AuthEffects {
           from(this.authService.register(props.user)).pipe(
             map((user: UserCredential) => {
               this.toastr.success('Sikeres regisztráció');
-              return registerSuccess(user.user.email as string);
+              return registerSuccess(
+                user.user.email as string,
+                user.user.uid as string
+              );
             }),
             catchError((error) => {
               this.toastr.error(error.message, 'Regisztráció sikertelen!');
@@ -93,7 +99,9 @@ export class AuthEffects {
           of(this.authService.loginCheck()).pipe(
             map(
               (user) => {
-                return user && user.email ? setUser(user.email) : noUser();
+                return user && user.email
+                  ? setUser(user.email, user.uid)
+                  : noUser();
               },
               catchError(() => of(EmptyError))
             )
