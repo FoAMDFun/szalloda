@@ -1,5 +1,6 @@
-<section class="container">
-  <button (click)="newRandomRoom()" class="btn btn-primary my-3">Új Random Szoba...</button>
+<section class="container-md p-5">
+  <h1 class="text-center fw-bold">Szoba Lista</h1>
+  <!-- <button (click)="newRandomRoom()" class="btn btn-primary my-3">Új Random Szoba...</button> -->
   <button type="button" class="btn btn-primary" (click)="newRoom()" data-bs-toggle="modal" data-bs-target="#roomModal">
     Új Szoba...
   </button>
@@ -91,7 +92,7 @@
           </div>
           <div class="mb-2">
             <label for="formFile" class="form-label ">Kép</label>
-            <input  readonly formControlName="imageSrc" type="text" class="mb-2 form-control" >
+            <input  formControlName="imageSrc" type="text" class="mb-2 form-control" >
             <input formControlName="image" class="form-control mb-2" type="file" id="formFile" (change)="selectFile($event)" accept="*.png.jpg">
             <button [disabled]="!formControlls['image'].value" (click)="upload()" type="button" class="mb-2 btn btn-primary">Kép Feltöltése</button>
           </div>

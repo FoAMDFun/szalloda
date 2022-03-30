@@ -104,21 +104,21 @@ export class RoomListComponent implements OnInit {
     this.selectedDeleteRoom = room;
   }
 
-  public newRandomRoom(): void {
-    function getRandomString(): string {
-      return btoa(Math.random().toString()).substr(10, 15);
-    }
-    const dummyRoom: Room = {
-      floor: Math.floor(Math.random() * 100),
-      bed: Math.floor(Math.random() * 100),
-      imageSrc: getRandomString(),
-      numberOf: Math.floor(Math.random() * 100),
-      _id: getRandomString(),
-      reviews: [],
-      isBalcony: Math.floor(Math.random() * 100) % 2 === 0,
-    };
-    this.store.dispatch(addRoom(dummyRoom));
-  }
+  // public newRandomRoom(): void {
+  //   function getRandomString(): string {
+  //     return btoa(Math.random().toString()).substr(10, 15);
+  //   }
+  //   const dummyRoom: Room = {
+  //     floor: Math.floor(Math.random() * 100),
+  //     bed: Math.floor(Math.random() * 100),
+  //     imageSrc: getRandomString(),
+  //     numberOf: Math.floor(Math.random() * 100),
+  //     _id: getRandomString(),
+  //     reviews: [],
+  //     isBalcony: Math.floor(Math.random() * 100) % 2 === 0,
+  //   };
+  //   this.store.dispatch(addRoom(dummyRoom));
+  // }
 
   public deleteRoom(): void {
     if (this.selectedDeleteRoom) {

@@ -9,6 +9,12 @@ export interface Reservation {
   customerId: string; // Userre mutat
   roomId: string; // szobára mutat
 
+
+  status?:ReservationStatus;
   comments?: string;
   personsId?: string[];
+}
+
+export enum ReservationStatus {
+  UNCONFIRMED,CONFIRMED,RESIDENT,ALREADY_GONE
 }

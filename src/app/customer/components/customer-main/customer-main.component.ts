@@ -46,13 +46,13 @@ export class CustomerMainComponent implements OnInit {
     const dummyReservation: Reservation = {
       comments: getRandomString(),
       customerId: getRandomString(),
-      roomId: 'jXfqDVvh0PzflllpNKtI',
+      roomId: 'TWXP8xeBuZz1WNO19tmG',
       startDate: Timestamp.fromDate(new Date()),
       endDate: Timestamp.fromDate(
         new Date(
           new Date().getFullYear(),
           new Date().getMonth(),
-          new Date().getDate()
+          new Date().getDate()+3
         )
       ),
       _id: getRandomString(),
