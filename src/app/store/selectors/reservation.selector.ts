@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ReservationStatus } from 'src/app/models/reservation.model';
 import { AppState } from '../reducers';
 import { ReservationState } from '../reducers/reservation.reducer';
 
@@ -35,3 +36,10 @@ export const isReservationFilterEmpty = createSelector(
   getReservationWithFilterSelector,
   (state, reservations) => reservations.length === 0
 );
+
+export const getUnconfirmedReservation = createSelector(
+  getReservationState,
+  (state:ReservationState) =>
+  state.items
+  // state.items.filter(reservation => reservation.status === ReservationStatus.UNCONFIRMED)
+  )
