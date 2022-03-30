@@ -13,12 +13,11 @@
   </ng-container>
 
   <ng-template #table>
-    <table class="table text-center table-striped">
+    <table class="table text-center table-striped align-middle">
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Felhasználó ID</th>
-          <th scope="col">Szoba ID</th>
+          <th scope="col">Szoba</th>
           <th scope="col">Megjegyzés</th>
           <th scope="col">Kezdődátum</th>
           <th scope="col">Végdátum</th>
@@ -29,7 +28,6 @@
       <tbody>
         <tr *ngFor="let reservation of reservations$ | async; index as i">
           <th scope="row">{{ i + 1 }}</th>
-          <td>{{ reservation.customerId }}</td>
           <td>{{ reservation.roomId }}</td>
           <td>{{ reservation.comments }}</td>
           <td>
@@ -76,14 +74,23 @@
         <form [formGroup]="reservationForm">
           <div class="form-group">
             <label for="roomId">Szoba</label>
-            <input
-              type="number"
-              class="form-control"
+
+            <select
+              class="form-select"
               id="roomId"
               name="roomId"
               formControlName="roomId"
-              required
-            />
+              aria-label="Default select example"
+            >
+              <option>Válasszon szobát...</option>
+              <option
+                *ngFor="let singleValue of roomValues; index as i"
+                [id]="i"
+                [value]="singleValue"
+              >
+                {{ singleValue }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
             <label for="comments">Megjegyzés</label>
@@ -102,7 +109,8 @@
                 reservationForm.get('comments')?.invalid &&
                 reservationForm.get('comments')?.touched
               "
-              >Hiba a megjegyzés megadásánál, legalább 3 karaktert írjon.</small
+              >Hiba a megjegyzés megadásánál, legfeljebb 100 karaktert
+              írjon.</small
             >
           </div>
           <div class="form-group">
@@ -114,9 +122,10 @@
               class="form-control"
               id="startDate"
               name="startDate"
-              [min]="today"
+              [min]="today.toString()"
               max="2023-12-31"
               formControlName="startDate"
+              [value]="startDate | date: 'yyyy-MM-dd'"
               required
             />
           </div>
@@ -133,6 +142,7 @@
               max="2023-12-31"
               formControlName="endDate"
               [value]="endDate | date: 'yyyy-MM-dd'"
+              required
             />
           </div>
           <div class="form-group">
@@ -143,7 +153,7 @@
               id="numberOfCustomers"
               name="numberOfCustomers"
               formControlName="numberOfCustomers"
-              required
+              placeholder="Személyek száma..."
             />
           </div>
         </form>
@@ -153,13 +163,13 @@
           type="submit"
           [disabled]="!reservationForm.valid"
           data-bs-dismiss="modal"
-          class="btn btn-primary"
+          class="btn btn-success"
           (click)="newReservation()"
         >
           Mentés
         </button>
-        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
-          Bezárás
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Mégsem
         </button>
       </div>
     </div>
