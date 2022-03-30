@@ -2,13 +2,18 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { ReservationState } from '../reducers/reservation.reducer';
 
-export const reservationFilterStartDate = (state: AppState) =>
-  state.reservation.startDate.toDate;
-export const reservationFilterEndDate = (state: AppState) =>
-  state.reservation.endDate.toDate;
-
 export const getReservationState =
   createFeatureSelector<ReservationState>('reservation');
+
+export const reservationFilterStartDate = createSelector(
+  getReservationState,
+  (state: ReservationState) => state.startDate.toDate()
+);
+
+export const reservationFilterEndDate = createSelector(
+  getReservationState,
+  (state: ReservationState) => state.endDate.toDate()
+);
 
 export const getReservationsSelector = createSelector(
   getReservationState,
