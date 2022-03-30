@@ -74,7 +74,7 @@ export class RoomMirrorComponent implements OnInit {
   calcCurrentDateLength(innerWidth: number): void {
     const length =
       Math.floor(innerWidth / this.styles.tdWidth) -
-      this.styles.tablecorrection;
+      this.styles.tablecorrection-1;
     this.currentDateLenght.next(length);
   }
 
@@ -113,10 +113,7 @@ export class RoomMirrorComponent implements OnInit {
         for (const reservation of reservations) {
           if (
             reservation.roomId === roomId &&
-            (this.twoDateIsEqual(
-              new Date(reservation.startDate.toMillis()),
-              date
-            ) ||
+            (this.twoDateIsEqual(new Date(reservation.startDate.toMillis()),date) ||
               (this.twoDateIsEqual(date, this.currentDates[0]) &&
                 new Date(reservation.startDate.toMillis()) <= date &&
                 new Date(reservation.endDate.toMillis()) >= date))

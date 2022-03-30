@@ -8,9 +8,9 @@ export interface Reservation {
   endDate: Timestamp;
   customerId: string; // Userre mutat
   roomId: string; // szobára mutat
+  status:ReservationStatus;
 
 
-  status?:ReservationStatus;
   comments?: string;
   personsId?: string[];
 }

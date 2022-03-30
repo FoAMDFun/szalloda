@@ -2,7 +2,7 @@ import { ThisReceiver } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
-import { Reservation } from 'src/app/models/reservation.model';
+import { Reservation, ReservationStatus } from 'src/app/models/reservation.model';
 import {
   addReservation,
   getReservations,
@@ -47,6 +47,7 @@ export class CustomerMainComponent implements OnInit {
       comments: getRandomString(),
       customerId: getRandomString(),
       roomId: 'TWXP8xeBuZz1WNO19tmG',
+      status:ReservationStatus.UNCONFIRMED,
       startDate: Timestamp.fromDate(new Date()),
       endDate: Timestamp.fromDate(
         new Date(
