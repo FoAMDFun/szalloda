@@ -26,7 +26,7 @@ export class AuthService {
           traceUntilFirst('auth'),
           tap((loggedUser) => {
             if (loggedUser && loggedUser.email) {
-              this.store.dispatch(setUser(loggedUser.email));
+              this.store.dispatch(setUser(loggedUser.email, loggedUser.uid));
             }
             return !!loggedUser;
           }),
@@ -35,8 +35,9 @@ export class AuthService {
         .subscribe((isLoggedIn) => {
           const user = this.auth.currentUser;
           const userEmail = user?.email;
+          const uid = user?.uid;
           this.store.dispatch(
-            setLoggedIn(isLoggedIn, userEmail ? userEmail : '')
+            setLoggedIn(isLoggedIn, userEmail ? userEmail : '', uid ? uid : '')
           );
         });
     }

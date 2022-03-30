@@ -16,30 +16,37 @@ export const LOGOUT = '[AUTH] Logout';
 export const LOGOUT_ERROR = '[AUTH] Logout error';
 export const LOGOUT_SUCCESS = '[AUTH] Logout success';
 
-export const setUser = createAction(SET_USER, (mail: string) => ({
+export const setUser = createAction(SET_USER, (mail: string, uid: string) => ({
   mail,
+  uid,
 }));
 export const noUser = createAction(NO_USER);
 export const loginCheck = createAction(LOGIN_CHECK);
 export const setLoggedIn = createAction(
   SET_LOGGED_IN,
-  (loggedIn: boolean, mail: string) => ({
+  (loggedIn: boolean, mail: string, uid: string) => ({
     loggedIn,
     mail,
+    uid,
   })
 );
 export const login = createAction(LOGIN, (user: LoginData) => ({ user }));
-export const loginSuccess = createAction(LOGIN_SUCCESS, (mail: string) => ({
-  mail,
-}));
+export const loginSuccess = createAction(
+  LOGIN_SUCCESS,
+  (mail: string, uid: string) => ({
+    mail,
+    uid,
+  })
+);
 export const loginError = createAction(LOGIN_ERROR, (error: any) => ({
   error,
 }));
 export const register = createAction(REGISTER, (user: LoginData) => ({ user }));
 export const registerSuccess = createAction(
   REGISTER_SUCCESS,
-  (mail: string) => ({
+  (mail: string, uid: string) => ({
     mail,
+    uid,
   })
 );
 export const registerError = createAction(REGISTER_ERROR, (error: any) => ({

@@ -72,7 +72,7 @@ export class RoomListComponent implements OnInit {
     imageSrc: [''],
     // reviews: ['', [Validators.required]],
   });
-  get formControlls() {
+  get formControls() {
     return this.roomForm.controls;
   }
 
