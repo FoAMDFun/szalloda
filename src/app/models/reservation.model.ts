@@ -7,14 +7,16 @@ export interface Reservation {
   startDate: Timestamp;
   endDate: Timestamp;
   customerId: string; // Userre mutat
-  roomId: string; // szobára mutat
   status:ReservationStatus;
-
-
+  roomId: string | number; // szobára mutat
+  numberOfCustomers: number;
   comments?: string;
   personsId?: string[];
 }
 
 export enum ReservationStatus {
-  UNCONFIRMED,CONFIRMED,RESIDENT,ALREADY_GONE
+  UNCONFIRMED,
+  CONFIRMED,
+  RESIDENT,
+  ALREADY_GONE,
 }

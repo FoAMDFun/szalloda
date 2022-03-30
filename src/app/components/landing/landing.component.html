@@ -4,9 +4,9 @@
       <h1>Szálloda</h1>
       <p class="lead">
         <br />
-        Kérdés egy? <br />
-        Kérdés kettő? <br />
-        Behívó szöveg!
+        Szeretnél egy jót pihenni? <br />
+        Megfelelő ár/teljesítmény arányú szolgáltatást keresel? <br />
+        Nálunk mindezt megteheted, foglalj szállást még ma!
       </p>
       <div class="buttons d-flex justify-content-center align-items-center">
         <button class="btn btn-primary" routerLink="customer">
@@ -40,7 +40,9 @@
     </div>
   </main>
   <div class="copyright">2022 Chris & Chris.® Minden jog fenntartva!©</div>
-  <div class="user">{{ currentUser$ | async }}</div>
+  <div class="user">
+    email: {{ currentUser$ | async }}, uid: {{ currentUserUid$ | async }}
+  </div>
 
   <ul class="slideshow">
     <li></li>

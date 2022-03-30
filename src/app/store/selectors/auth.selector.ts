@@ -13,3 +13,8 @@ export const getAuthUserMailSelector = createSelector(
   getAuthState,
   (state: AuthState) => state.userMail
 );
+
+export const getAuthUserUidSelector = createSelector(
+  getAuthState,
+  (state: AuthState) => state.uid
+);

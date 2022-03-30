@@ -1,5 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
 import { Reservation, ReservationStatus } from 'src/app/models/reservation.model';
@@ -27,8 +28,21 @@ export class CustomerMainComponent implements OnInit {
   isReservationsEmpty$ = this.store.pipe(select(isReservationFilterEmpty));
   startDate = new Date('2022-01-01T00:00:00');
   endDate = new Date();
+  today = Date.now();
+  public reservationForm: FormGroup = new FormGroup({});
 
-  constructor(private store: Store<ReservationState>) {}
+  constructor(
+    private store: Store<ReservationState>,
+    private formBuilder: FormBuilder
+  ) {
+    this.reservationForm = this.formBuilder.group({
+      roomId: ['', [Validators.required]],
+      comments: ['', [Validators.required]],
+      startDate: ['', [Validators.required]],
+      endDate: ['', [Validators.required]],
+      numberOfCustomers: ['', [Validators.required]],
+    });
+  }
 
   ngOnInit(): void {
     this.getReservations();
@@ -45,6 +59,7 @@ export class CustomerMainComponent implements OnInit {
 
     const dummyReservation: Reservation = {
       comments: getRandomString(),
+      numberOfCustomers: 1,
       customerId: getRandomString(),
       roomId: 'TWXP8xeBuZz1WNO19tmG',
       status:ReservationStatus.UNCONFIRMED,
@@ -53,7 +68,7 @@ export class CustomerMainComponent implements OnInit {
         new Date(
           new Date().getFullYear(),
           new Date().getMonth(),
-          new Date().getDate()+3
+          new Date().getDate() + 3
         )
       ),
       _id: getRandomString(),
