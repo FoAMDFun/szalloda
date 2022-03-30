@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light  sticky-top bg-danger">
+<nav class="navbar navbar-expand-md navbar-light sticky-top nav">
   <div class="container">
     <a class="navbar-brand fw-bold fs-3 text-white pointer" [routerLink]="(mainLink$ |async)?.type === routerLinkType ? (mainLink$ |async)?.value:undefined " >{{(mainLink$ |async)?.text}}</a>
     <button class="navbar-toggler"

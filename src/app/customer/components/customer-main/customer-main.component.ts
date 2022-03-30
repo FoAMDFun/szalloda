@@ -8,6 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
+
 import { Subscription } from 'rxjs';
 import {
   Reservation,
@@ -90,6 +91,7 @@ export class CustomerMainComponent implements OnInit, OnDestroy {
     function getRandomString(): string {
       return btoa(Math.random().toString()).substr(10, 15);
     }
+
 
     let dummyReservation: Reservation = this.reservationForm.value;
     console.log(this.reservationForm.value);

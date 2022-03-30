@@ -4,17 +4,17 @@
     <button class="btn btn-primary rounded-circle paginate" (click)="shiftOneWeekLeft()">
       <fa-icon [icon]="icons.doublePrevious"></fa-icon>
     </button>
-    <button class="btn btn-primary rounded-circle paginate mx-1" (click)="shiftOneDayLeft()">
+    <button class="btn btn-primary rounded-circle paginate mx-2" (click)="shiftOneDayLeft()">
       <fa-icon [icon]="icons.previous"></fa-icon>
     </button>
-    <button class="btn btn-primary rounded-circle paginate me-1" (click)="shiftOneDayRight()">
+    <button class="btn btn-primary rounded-circle paginate me-2" (click)="shiftOneDayRight()">
       <fa-icon  [icon]="icons.next"></fa-icon>
     </button>
     <button class="btn btn-primary rounded-circle paginate" (click)="shiftOneWeekRight()">
       <fa-icon  [icon]="icons.doubleNext"></fa-icon>
     </button>
   </div>
-  <table class="table text-center table-striped table-bordered m-auto ">
+  <table class="table text-center table-striped table-bordered m-auto shadow-lg ">
     <thead>
       <tr [ngStyle]="{'height': styles.tdHeight+'px'}">
         <th scope="col" [ngStyle]="{'width': styles.td1Width+'px'}" >Szoba</th>
@@ -38,7 +38,7 @@
           <ng-container *ngIf="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan as colspan">
             <button *ngIf="getReservationByRoomIdandDate(room._id, date) | async as cellReservation"
               (click)="selectReservation(cellReservation.reservation)"
-              class="btn btn-primary  position-absolute p-0"
+              class="btn btn-primary position-absolute p-0"
               [ngStyle]="{
                 'transform': 'translate(-'+styles.btnWidth/2+'px, -50%)',
                 'width': styles.tdWidth*(colspan+i<=slicedDates.length?colspan:slicedDates.length-i)-(styles.tdWidth-styles.btnWidth)+'px',
