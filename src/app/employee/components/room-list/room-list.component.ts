@@ -19,10 +19,10 @@ import {
   faCheckCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { map, Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { RoomStorageService } from '../../services/room-storage.service';
 import { FileUpload } from 'src/app/models/fileupload';
-
+import{EmpoyeeConfigService} from '../../services/empoyee-config.service';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
@@ -63,10 +63,15 @@ export class RoomListComponent implements OnInit {
     room: undefined,
     isUpdating: false,
   };
+
+  private readonly controllsValue:any = {bed:"Az ágyak ",numberOf:"A szobaszám ",floor:"Az emelet "}
+  private readonly validatorTypes:{min:string,max:string,required:string,requiredNumber:string,integerError:string} =
+  {integerError:'csak egész értéket vehet fel',min:"nem lehet kevesebb mint ",max:"nem lehet nagyobb mint ",required:"megadása kötelező",requiredNumber:"megadása kötelező és csak számokat tartalmazhat"}
+  readonly validatorValue:any ={bedMin:1,bedMax:20,numberOfMin:1,numberOfMax:1100,floorMin:0,floorMax:10};
   public roomForm: FormGroup = this.fb.group({
-    bed: ['', [Validators.required, Validators.min(0)]],
-    numberOf: ['', [Validators.required]],
-    floor: ['', [Validators.required]],
+    bed: ['', [Validators.required, Validators.min(this.validatorValue.bedMin),Validators.max(this.validatorValue.bedMax)]],
+    numberOf: ['', [this.integerValidator,Validators.required,Validators.min(this.validatorValue.numberOfMin),Validators.max(this.validatorValue.numberOfMax)]],
+    floor: ['', [Validators.required,Validators.min(this.validatorValue.floorMin),Validators.max(this.validatorValue.floorMax)]],
     isBalcony: [false],
     image: [''],
     imageSrc: [''],
@@ -76,10 +81,11 @@ export class RoomListComponent implements OnInit {
     return this.roomForm.controls;
   }
 
+
   constructor(
     private store: Store<RoomState>,
     private fb: FormBuilder,
-    private roomStorageService: RoomStorageService
+    private roomStorageService: RoomStorageService,
   ) {}
 
   ngOnInit(): void {
@@ -104,21 +110,24 @@ export class RoomListComponent implements OnInit {
     this.selectedDeleteRoom = room;
   }
 
-  // public newRandomRoom(): void {
-  //   function getRandomString(): string {
-  //     return btoa(Math.random().toString()).substr(10, 15);
-  //   }
-  //   const dummyRoom: Room = {
-  //     floor: Math.floor(Math.random() * 100),
-  //     bed: Math.floor(Math.random() * 100),
-  //     imageSrc: getRandomString(),
-  //     numberOf: Math.floor(Math.random() * 100),
-  //     _id: getRandomString(),
-  //     reviews: [],
-  //     isBalcony: Math.floor(Math.random() * 100) % 2 === 0,
-  //   };
-  //   this.store.dispatch(addRoom(dummyRoom));
-  // }
+  getErrorMessage(controllsValue: string,inputType: string): any {
+    const error = this.formControls[controllsValue].errors as any;
+    let validationText:string = ''
+    if(error['integerError']){
+      validationText = this.validatorTypes['integerError']
+    }else if (error['min']) {
+      validationText = this.validatorTypes['min'] + this.validatorValue[controllsValue+'Min']
+    }else if (error['max']) {
+      validationText = this.validatorTypes['max'] + this.validatorValue[controllsValue+'Max']
+    } else if (error['required']) {
+      if (inputType === 'number') {
+        validationText = this.validatorTypes['requiredNumber']
+      }else{
+        validationText = this.validatorTypes['required']
+      }
+    }
+    return this.controllsValue[controllsValue] + validationText
+  }
 
   public deleteRoom(): void {
     if (this.selectedDeleteRoom) {
@@ -177,5 +186,10 @@ export class RoomListComponent implements OnInit {
     this.selectedFiles = undefined;
     this.currentFileUpload = new FileUpload(file);
     this.roomStorageService.pushFileToStorage(this.currentFileUpload);
+  }
+
+  // 1.0000000000000001 erre már nem ad hibát
+  private integerValidator(input: AbstractControl):ValidationErrors|null {
+    return (input.value*10)%10===0 ? null :{integerError:'A szám nem egész'}
   }
 }
