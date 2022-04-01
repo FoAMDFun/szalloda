@@ -4,8 +4,18 @@
     <div class="col-12 card mb-3 shadow">
       <div class="card-body">
         <h2 class="card-title">Hírek, Események</h2>
-        <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid molestiae officia sapiente minus dolorum rerum fuga perspiciatis alias. Nam, ullam?</p>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi doloremque nulla beatae. Assumenda labore quis exercitationem debitis? Nulla deleniti minus facilis laborum velit sequi aliquam alias animi quae natus tenetur, architecto illum quod, amet facere id qui minima ipsa maiores.</p>
+        <p class="card-text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid
+          molestiae officia sapiente minus dolorum rerum fuga perspiciatis
+          alias. Nam, ullam?
+        </p>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi
+          doloremque nulla beatae. Assumenda labore quis exercitationem debitis?
+          Nulla deleniti minus facilis laborum velit sequi aliquam alias animi
+          quae natus tenetur, architecto illum quod, amet facere id qui minima
+          ipsa maiores.
+        </p>
       </div>
     </div>
     <div class="col-12 card mb-3 shadow">
@@ -15,26 +25,39 @@
         <div class="row">
           <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
-              <a *ngFor="let massage of massages.slice(arrowsControll.massagesStart,arrowsControll.massagesEnd),index as i"
+              <a
+                *ngFor="
+                  let massage of massages.slice(
+                    arrowsControll.massagesStart,
+                    arrowsControll.massagesEnd
+                  );
+                  index as i
+                "
                 class="list-group-item list-group-item-action"
-                [id]="'list-massage-'+i+'list'" data-bs-toggle="list"
-                [href]="'#list-massage'+i" role="tab"
-                [attr.aria-controls]="'list-massage'+i">{{massage.sender}}</a>
+                [id]="'list-massage-' + i + 'list'"
+                data-bs-toggle="list"
+                [href]="'#list-massage' + i"
+                role="tab"
+                [attr.aria-controls]="'list-massage' + i"
+                >{{ massage.sender }}</a
+              >
             </div>
           </div>
           <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
-              <div *ngFor="let massage of massages,index as i"
+              <div
+                *ngFor="let massage of massages; index as i"
                 class="tab-pane fade"
-                [id]="'list-massage'+i"
+                [id]="'list-massage' + i"
                 role="tabpanel"
-                [attr.aria-labelledby]="'list-massage'+i+'-list'">
-                <div class="card" >
+                [attr.aria-labelledby]="'list-massage' + i + '-list'"
+              >
+                <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">{{massage.title}}</h5>
-                    <p class="card-text">{{massage.text}}</p>
+                    <h5 class="card-title">{{ massage.title }}</h5>
+                    <p class="card-text">{{ massage.text }}</p>
                     <div class="div d-flex justify-content-between">
-                      <button  class="btn btn-warning">Elolvasva</button>
+                      <button class="btn btn-warning">Elolvasva</button>
                       <button class="btn btn-primary">Válasz</button>
                     </div>
                   </div>
@@ -43,36 +66,61 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <div class="col-12 card mb-3 shadow">
       <div class="card-body">
-        <h2 class="card-title mb-4 ">Visszaigazolatlan, Foglalások</h2>
+        <h2 class="card-title mb-4">Visszaigazolatlan, Foglalások</h2>
         <div class="row">
           <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
-              <a *ngFor="let reservation of (unconfirmedReservations$ | async)?.slice(arrowsControll.reservationsStart,arrowsControll.reservationsEnd),index as i"
+              <a
+                *ngFor="
+                  let reservation of (unconfirmedReservations$ | async)?.slice(
+                    arrowsControll.reservationsStart,
+                    arrowsControll.reservationsEnd
+                  );
+                  index as i
+                "
                 class="list-group-item list-group-item-action text-center"
-                [id]="'list-reservation-'+i+'list'" data-bs-toggle="list"
-                [href]="'#list-reservation'+i" role="tab"
-                [attr.aria-controls]="'list-reservation'+i">
-                  {{reservation._id}}
+                [id]="'list-reservation-' + i + 'list'"
+                data-bs-toggle="list"
+                [href]="'#list-reservation' + i"
+                role="tab"
+                [attr.aria-controls]="'list-reservation' + i"
+              >
+                {{ reservation.startDate.toDate() | date: "yyyy-MM-dd" }} -
+                {{ reservation.endDate.toDate() | date: "yyyy-MM-dd" }} -
+                {{ reservation.roomId }}
               </a>
             </div>
-
           </div>
           <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
-              <div *ngFor="let reservation of (unconfirmedReservations$ | async)?.slice(arrowsControll.reservationsStart,arrowsControll.reservationsEnd),index as i"
+              <div
+                *ngFor="
+                  let reservation of (unconfirmedReservations$ | async)?.slice(
+                    arrowsControll.reservationsStart,
+                    arrowsControll.reservationsEnd
+                  );
+                  index as i
+                "
                 class="tab-pane fade"
-                [id]="'list-reservation'+i"
+                [id]="'list-reservation' + i"
                 role="tabpanel"
-                [attr.aria-labelledby]="'list-reservation'+i+'-list'">
-                <div class="card" >
+                [attr.aria-labelledby]="'list-reservation' + i + '-list'"
+              >
+                <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title">{{reservation.customerId}}</h5>
-                    <p class="card-text">{{reservation.comments}}</p>
+                    <h5 class="card-title">
+                      Szoba: {{ reservation.roomId }} - Kezdő dátum:
+                      {{
+                        reservation.startDate.toDate() | date: "yyyy-MM-dd"
+                      }}
+                      - Végdátum:
+                      {{ reservation.endDate.toDate() | date: "yyyy-MM-dd" }}
+                    </h5>
+                    <p class="card-text">{{ reservation.comments }}</p>
                     <div class="div">
                       <button class="btn btn-primary">Szerkesztés</button>
                     </div>
@@ -84,9 +132,7 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </div>
 
 <!-- elutazók? is lehetne??, -->
