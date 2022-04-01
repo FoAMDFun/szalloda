@@ -9,8 +9,8 @@ export const getRoomsSelector = createSelector(
   (state: RoomState) => state.items
 );
 
-export const getRoomIsExistsSelector = (room: Room)  => createSelector(
-  getRoomState,
-  (state: RoomState) =>
-  state.items.findIndex(r=> room.numberOf===r.numberOf &&  room.floor===r.floor)!==-1
-);
+// export const getRoomIsExistsSelector = (room: Room)  => createSelector(
+//   getRoomState,
+//   (state: RoomState) =>
+//   state.items.findIndex(r=> room.numberOf===r.numberOf &&  room.floor===r.floor)!==-1
+// );
