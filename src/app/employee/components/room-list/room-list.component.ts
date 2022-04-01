@@ -8,7 +8,7 @@ import {
   updateRoom,
 } from 'src/app/store/actions/room.action';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
-import { getRoomsSelector } from 'src/app/store/selectors/room.selector';
+import { getRoomIsExistsSelector, getRoomsSelector } from 'src/app/store/selectors/room.selector';
 import {
   IconDefinition,
   faImage,
@@ -23,6 +23,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { RoomStorageService } from '../../services/room-storage.service';
 import { FileUpload } from 'src/app/models/fileupload';
 import{EmpoyeeConfigService} from '../../services/empoyee-config.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
@@ -86,6 +87,7 @@ export class RoomListComponent implements OnInit {
     private store: Store<RoomState>,
     private fb: FormBuilder,
     private roomStorageService: RoomStorageService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -166,7 +168,20 @@ export class RoomListComponent implements OnInit {
       };
       this.store.dispatch(updateRoom(updatedRoom)); // review ekre még gondolni kell
     } else {
-      this.store.dispatch(addRoom(this.roomForm.value));
+      this.store.select(getRoomIsExistsSelector(this.roomForm.value)).subscribe(
+        room => {
+          if (!room) {
+            this.store.dispatch(addRoom(this.roomForm.value))
+          }else{
+            this.toastr.error(
+              `Szobaszám: ${this.roomForm.value.numberOf}, Emelet: ${this.roomForm.value.floor} már létező szoba!`,
+            );
+          }
+        }
+      )
+
+      // lekell kérni hogy van e ilyen szobaszám
+      // this.store.dispatch(addRoom(this.roomForm.value));
     }
     this.roomForm.reset();
     this.lastFormValue = { room: undefined, isUpdating: false };

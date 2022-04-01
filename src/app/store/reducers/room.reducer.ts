@@ -1,6 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import { Room } from 'src/app/models/room.model';
 import {
+  addRoom,
+  addRoomError,
   deleteRoom,
   getRoomsError,
   getRoomsSuccess,
@@ -33,6 +35,13 @@ export const roomReducer = createReducer(
   on(updateRoom, (state, { room }) => ({
     ...state,
     items: state.items.map((item) => (item?._id === room._id ? room : item)),
+  })),
+  on(addRoom, (state,{ room }) => ({
+    ...state,
+    items: [...state.items, room],
+    })),
+  on(addRoomError, (state, { error }) => ({
+    ...state,
+    error: error,
   }))
-  // on(addRoomSuccess, (state) => [...state])
 );
