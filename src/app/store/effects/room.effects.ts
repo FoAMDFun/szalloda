@@ -7,7 +7,9 @@ import {
   exhaustMap,
   map,
   mergeMap,
+  take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { Room } from 'src/app/models/room.model';
 
@@ -27,6 +29,9 @@ import {
   updateRoomError,
 } from '../actions/room.action';
 import { ToastrService } from 'ngx-toastr';
+import { Store } from '@ngrx/store';
+import { RoomState } from '../reducers/room.reducer';
+import {  getRoomsSelector } from '../selectors/room.selector';
 
 @Injectable()
 export class RoomEffects {
@@ -35,6 +40,7 @@ export class RoomEffects {
       ofType(getRooms),
       exhaustMap(() =>
         this.roomCrudService.getRooms().pipe(
+          // take(1),
           map((rooms: ReadonlyArray<Room>) => getRoomsSuccess(rooms)),
           catchError((error) => {
             this.toastr.error(
@@ -50,19 +56,28 @@ export class RoomEffects {
   addRoom$ = createEffect(() =>
     this.action$.pipe(
       ofType(addRoom),
-      concatMap(({ room }) =>
-        this.roomCrudService.addRoom(room).pipe(
-          map(() => {
-            this.toastr.success('A szoba mentés sikeres');
-            return addRoomSuccess();
-          }),
-          catchError((error) => {
-            this.toastr.error(
-              `A szoba mentés sikertelen! hibaüzenet: ${error.message}`
-            );
-            return of(addRoomError(error));
-          })
-        )
+      withLatestFrom(this.store.select(getRoomsSelector)),
+      concatMap(([item ,state]) =>{
+        if (state.findIndex((r)=> item.room.numberOf===r.numberOf &&  item.room.floor===r.floor)!==-1) {
+          this.toastr.error(
+            `Szobaszám: ${item.room.numberOf}, Emelet: ${item.room.floor} már létező szoba!`,
+          )
+          return of(addRoomError("room already exists"));
+        }else{
+          return this.roomCrudService.addRoom(item.room).pipe(
+            map(() => {
+              this.toastr.success('A szoba mentés sikeres');
+              return addRoomSuccess(item.room);
+            }),
+            catchError((error) => {
+              this.toastr.error(
+                `A szoba mentés sikertelen! hibaüzenet: ${error.message}`
+              );
+              return of(addRoomError(error));
+            })
+          )
+        }
+      }
       )
     )
   );
@@ -110,7 +125,8 @@ export class RoomEffects {
   constructor(
     private action$: Actions,
     private roomCrudService: RoomCrudService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private store: Store<RoomState>,
   ) {}
 }
 //
