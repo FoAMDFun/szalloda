@@ -8,7 +8,7 @@ import {
   updateRoom,
 } from 'src/app/store/actions/room.action';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
-import { getRoomsSelector } from 'src/app/store/selectors/room.selector';
+import { getRoomIsExistsSelector, getRoomsSelector } from 'src/app/store/selectors/room.selector';
 import {
   IconDefinition,
   faImage,
@@ -23,6 +23,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { RoomStorageService } from '../../services/room-storage.service';
 import { FileUpload } from 'src/app/models/fileupload';
 import{EmpoyeeConfigService} from '../../services/empoyee-config.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
@@ -65,13 +66,13 @@ export class RoomListComponent implements OnInit {
   };
 
   private readonly controllsValue:any = {bed:"Az ágyak ",numberOf:"A szobaszám ",floor:"Az emelet "}
-  private readonly validatorTypes:{min:string,max:string,required:string,requiredNumber:string,integerError:string} =
-  {integerError:'csak egész értéket vehet fel',min:"nem lehet kevesebb mint ",max:"nem lehet nagyobb mint ",required:"megadása kötelező",requiredNumber:"megadása kötelező és csak számokat tartalmazhat"}
-  readonly validatorValue:any ={bedMin:1,bedMax:20,numberOfMin:1,numberOfMax:1100,floorMin:0,floorMax:10};
+  private readonly validatorTypes:{pattern:string,maxlength:string,min:string,max:string,required:string,requiredNumber:string,integerError:string} =
+  {pattern:"tartalmaz nem megfelelő karaktert",maxlength:"mező maximum karaktereinek a száma ",integerError:'csak egész értéket vehet fel',min:"nem lehet kevesebb mint ",max:"nem lehet nagyobb mint ",required:"megadása kötelező",requiredNumber:"megadása kötelező és csak számokat tartalmazhat"}
+  readonly validatorValue:any ={floormaxlength:10,bedMin:1,bedMax:20,numberOfMin:1,numberOfMax:1100,floorMin:1,floorMax:10};
   public roomForm: FormGroup = this.fb.group({
-    bed: ['', [Validators.required, Validators.min(this.validatorValue.bedMin),Validators.max(this.validatorValue.bedMax)]],
+    bed: ['', [this.integerValidator,Validators.required, Validators.min(this.validatorValue.bedMin),Validators.max(this.validatorValue.bedMax)]],
     numberOf: ['', [this.integerValidator,Validators.required,Validators.min(this.validatorValue.numberOfMin),Validators.max(this.validatorValue.numberOfMax)]],
-    floor: ['', [Validators.required,Validators.min(this.validatorValue.floorMin),Validators.max(this.validatorValue.floorMax)]],
+    floor: ['', [Validators.pattern("[A-Za-z0-9_öÖüÜóÓőŐúÚéÉáÁűŰ\,\./ +-]*"),this.integerValidator,Validators.required,Validators.maxLength(this.validatorValue.floormaxlength),Validators.min(this.validatorValue.floorMin),Validators.max(this.validatorValue.floorMax)]],
     isBalcony: [false],
     image: [''],
     imageSrc: [''],
@@ -86,6 +87,7 @@ export class RoomListComponent implements OnInit {
     private store: Store<RoomState>,
     private fb: FormBuilder,
     private roomStorageService: RoomStorageService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -112,6 +114,7 @@ export class RoomListComponent implements OnInit {
 
   getErrorMessage(controllsValue: string,inputType: string): any {
     const error = this.formControls[controllsValue].errors as any;
+    console.log(error);
     let validationText:string = ''
     if(error['integerError']){
       validationText = this.validatorTypes['integerError']
@@ -119,6 +122,10 @@ export class RoomListComponent implements OnInit {
       validationText = this.validatorTypes['min'] + this.validatorValue[controllsValue+'Min']
     }else if (error['max']) {
       validationText = this.validatorTypes['max'] + this.validatorValue[controllsValue+'Max']
+    }else if (error['maxlength']) {
+      validationText = this.validatorTypes['maxlength'] + this.validatorValue[controllsValue+'maxlength']
+    }else if (error['pattern']) {
+      validationText = this.validatorTypes['pattern'];
     } else if (error['required']) {
       if (inputType === 'number') {
         validationText = this.validatorTypes['requiredNumber']
@@ -161,7 +168,20 @@ export class RoomListComponent implements OnInit {
       };
       this.store.dispatch(updateRoom(updatedRoom)); // review ekre még gondolni kell
     } else {
-      this.store.dispatch(addRoom(this.roomForm.value));
+      this.store.select(getRoomIsExistsSelector(this.roomForm.value)).subscribe(
+        room => {
+          if (!room) {
+            this.store.dispatch(addRoom(this.roomForm.value))
+          }else{
+            this.toastr.error(
+              `Szobaszám: ${this.roomForm.value.numberOf}, Emelet: ${this.roomForm.value.floor} már létező szoba!`,
+            );
+          }
+        }
+      )
+
+      // lekell kérni hogy van e ilyen szobaszám
+      // this.store.dispatch(addRoom(this.roomForm.value));
     }
     this.roomForm.reset();
     this.lastFormValue = { room: undefined, isUpdating: false };
@@ -188,8 +208,11 @@ export class RoomListComponent implements OnInit {
     this.roomStorageService.pushFileToStorage(this.currentFileUpload);
   }
 
-  // 1.0000000000000001 erre már nem ad hibát
+  // 1.0000000000000001 erre már nem ad hibát => az már 1
   private integerValidator(input: AbstractControl):ValidationErrors|null {
+    if (+input.value != input.value) {
+      return null
+    }
     return (input.value*10)%10===0 ? null :{integerError:'A szám nem egész'}
   }
 }

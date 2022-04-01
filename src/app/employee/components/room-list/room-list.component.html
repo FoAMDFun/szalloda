@@ -132,7 +132,7 @@
             <input
               [min]="validatorValue.floorMin"
               [max]="validatorValue.floorMax"
-              type="number"
+              type="text"
               formControlName="floor"
               class="form-control"
               [ngClass]="{
@@ -174,7 +174,7 @@
                   formControls['bed'].errors &&
                   (formControls['bed'].touched || formControls['bed'].dirty)
                 "
-                >{{getErrorMessage('floor','number')}}</small>
+                >{{getErrorMessage('bed','number')}}</small>
 
               <br />
             </div>
