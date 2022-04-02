@@ -19,7 +19,7 @@ export class MessageEffects {
           map((messages: ReadonlyArray<Message>) => getMessagesSuccess(messages)),
           catchError((error) => {
             this.toastr.error(
-              `A személyek lekérése sikertelen!, hibaüzenet: ${error.message}`
+              `Az Üzenetek lekérése sikertelen!, hibaüzenet: ${error.message}`
             );
             return of(getMessagesError(error));
           })
@@ -34,12 +34,12 @@ export class MessageEffects {
       concatMap(({message}) =>
           this.messageCrudService.addMessage(message).pipe(
             map(() => {
-              this.toastr.success('A személy mentés sikeres');
+              this.toastr.success('Az Üzenet mentés sikeres');
               return addMessageSuccess(message);
             }),
             catchError((error) => {
               this.toastr.error(
-                `A személy mentés sikertelen! hibaüzenet: ${error.message}`
+                `Az Üzenet mentés sikertelen! hibaüzenet: ${error.message}`
               );
               return of(addMessageError(error));
             })
@@ -56,12 +56,12 @@ export class MessageEffects {
       mergeMap(({ message }) =>
         this.messageCrudService.deleteMessage(message).pipe(
           map(() => {
-            this.toastr.success('A személy törlés sikeres');
+            this.toastr.success('Az Üzenet törlés sikeres');
             return deleteMessageSuccess();
           }),
           catchError((error) => {
             this.toastr.error(
-              `A személy törlés nem sikerült! hibaüzenet: ${error.message}`
+              `Az Üzenet törlés nem sikerült! hibaüzenet: ${error.message}`
             );
             return of(deleteMessageError(error));
           })
@@ -76,12 +76,12 @@ export class MessageEffects {
       concatMap(({ message }) =>
         this.messageCrudService.updateMessage(message).pipe(
           map(() => {
-            this.toastr.success('A személy felülírás sikeres');
+            this.toastr.success('Az Üzenet felülírás sikeres');
             return updateMessageSuccess();
           }),
           catchError((error) => {
             this.toastr.error(
-              `A személy felülírás sikertelen! hibaüzenet: ${error.message}`
+              `Az Üzenet felülírás sikertelen! hibaüzenet: ${error.message}`
             );
             return of(updateMessageError(error));
           })

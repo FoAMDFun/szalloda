@@ -31,17 +31,14 @@
                 >
                 <fa-icon  [icon]="icons.up"></fa-icon>
               </a>
-              <a *ngFor="let massage of massages.slice(
-                arrowsControll.massagesStart+arrowsControll.massagesOffset,
-                arrowsControll.massagesEnd+arrowsControll.massagesOffset);index as i"
+              <a *ngFor="let massage of sliceCurrentMessages((messages$|async));index as i"
                 class="list-group-item list-group-item--hover list-group-item-action"
                 [id]="'list-massage-' + i + 'list'"
                 data-bs-toggle="list"
                 [href]="'#list-massage' + i"
                 role="tab"
                 [attr.aria-controls]="'list-massage' + i"
-                >{{ massage.sender }}</a
-              >
+                >{{ (getSenderFullName(massage.senderId) |async)}}</a>
               <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0"
               role="button" (click)="massageDownClick()">
               <fa-icon  [icon]="icons.down"></fa-icon>
@@ -51,9 +48,7 @@
           <div class="col-8 col-md-9">
             <div class="tab-content" id="nav-tabContent">
               <div
-                *ngFor="let massage of massages.slice(
-                  arrowsControll.massagesStart+arrowsControll.massagesOffset,
-                  arrowsControll.massagesEnd+arrowsControll.massagesOffset); index as i"
+                *ngFor="let massage of sliceCurrentMessages((messages$|async)); index as i"
                 class="tab-pane fade"
                 [id]="'list-massage' + i"
                 role="tabpanel"
@@ -75,6 +70,7 @@
         </div>
       </div>
     </div>
+    <!-- <button class="btn btn-primary" (click)="randomMessageGenerator()"></button> -->
 
     <div class="col-12 card mb-3 shadow">
       <div class="card-body">

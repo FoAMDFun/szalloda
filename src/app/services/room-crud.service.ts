@@ -5,7 +5,7 @@ import {
   collectionData,
   Firestore,
 } from '@angular/fire/firestore';
-import { deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { defer, from, Observable } from 'rxjs';
 import { Room } from '../models/room.model';
 

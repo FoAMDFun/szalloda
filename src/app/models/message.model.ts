@@ -6,5 +6,5 @@ export interface Message{
   senderId:string;
   title:string;
   date:Timestamp;
-  isReading:boolean;
+  isRead:boolean;
 }

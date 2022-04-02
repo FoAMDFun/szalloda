@@ -7,3 +7,7 @@ export const getMessagesSelector = createSelector(
   getMessageState,
   (state: MessageState) => state.items
 );
+export const getUnreadMessagesSelector = createSelector(
+  getMessageState,
+  (state: MessageState) => state.items.filter((item) => item.isRead === false)
+);
