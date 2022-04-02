@@ -7,3 +7,7 @@ export const getCustomersSelector = createSelector(
   getCustomerState,
   (state: CustomerState) => state.items
 );
+export const getCustomerByIdSelector = (id: string)  => createSelector(
+  getCustomerState,
+  (state: CustomerState) => state.items.find(item => item._id === id)
+);

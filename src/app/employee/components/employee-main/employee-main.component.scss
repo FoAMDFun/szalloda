@@ -1,20 +1,21 @@
 .card{
   background: #f0f0f0;
   .list-group-item{
+    &__btn{
+      height: 1.7rem;
+      &:active {
+        box-shadow: 0px 0px 1px #457912
+      }
+    }
     background: #f0f0f0;
-    // transition: transform 0.2s ease-in-out,border-radius 0.2s ease-in-out;
-    &:hover{
-      background: #d2e4c1;
-
+    &--hover{
+      &:hover{
+        background: #d2e4c1;
+      }
+    }
+    &.active{
+      border-color: #457912;
+      background: #457912;
     }
   }
-  .list-group-item.active{
-    // transform: translateX(-10px);
-    // border-radius: 5px;
-    border-color: #457912;
-    background: #457912;
-    // transform: translateX(-0.5rem);
-    // box-shadow: #26394d 0px 0.6rem 0.6rem -0.2rem
-  }
-
 }

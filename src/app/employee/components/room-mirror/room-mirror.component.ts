@@ -192,10 +192,10 @@ export class RoomMirrorComponent implements OnInit {
     );
   }
 
-  currentDatesslice(start: number, end: number | null): Date[] | undefined {
-    if (end !== null) {
-      return this.currentDates.slice(start, end);
+  sliceCurrentDates(start: number, end: number | null): Date[] | undefined {
+    if (end === null) {
+      return undefined;
     }
-    return undefined;
+    return this.currentDates.slice(start, end);
   }
 }
