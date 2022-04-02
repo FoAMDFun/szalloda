@@ -19,8 +19,8 @@ export class EmployeeMainComponent implements OnInit {
     down: faArrowDown,
     up: faArrowUp,
   };
-  public readonly arrowsControll:{reservationsStart:number,reservationsEnd:number,massagesStart:number,massagesEnd:number} =
-  {reservationsStart:0,reservationsEnd:6,massagesStart:0,massagesEnd:6};
+  public readonly arrowsControll:{massagesOffset:number ,reservationsStart:number,reservationsEnd:number,massagesStart:number,massagesEnd:number} =
+  {reservationsStart:0,reservationsEnd:6,massagesStart:0,massagesEnd:5,massagesOffset:0};
 
   public unconfirmedReservations$ = this.storeReservation.pipe(select(getUnconfirmedReservation))
   public massages:{sender:string,title:string,text:string}[] = [
@@ -30,6 +30,9 @@ export class EmployeeMainComponent implements OnInit {
     {sender:"Béla",title:"Kérdés",text:"Mikor lehet érkezni a szobába?"},
     {sender:"Béla",title:"Kérdés",text:"Mikor lehet érkezni a szobába?"},
     {sender:"Béla",title:"Kérdés",text:"Mikor lehet érkezni a szobába?"},
+    {sender:"Béla",title:"Kérdés",text:"Mikor lehet érkezni a szobába?"},
+    {sender:"juli",title:"KérdésJuli",text:"Mikor lehet érkezni a szobába?"},
+    {sender:"andrás",title:"KérdésA",text:"Mikor lehet érkezni a szobába?"},
   ];
   constructor(
     private store: Store<RoomState>,
@@ -40,6 +43,19 @@ export class EmployeeMainComponent implements OnInit {
     this.store.dispatch(getReservations());
   }
 
+  massageUpClick():void{
+    if (this.arrowsControll.massagesOffset===0) {
+      return
+    }
+    this.arrowsControll.massagesOffset--;
+  }
+
+  massageDownClick():void{
+    if (this.arrowsControll.massagesOffset + this.arrowsControll.massagesEnd===this.massages.length) {
+      return
+    }
+    this.arrowsControll.massagesOffset++;
+  }
 
 
 }
