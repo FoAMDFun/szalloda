@@ -40,7 +40,7 @@ export class RoomEffects {
       ofType(getRooms),
       exhaustMap(() =>
         this.roomCrudService.getRooms().pipe(
-          // take(1),
+          take(1),
           map((rooms: ReadonlyArray<Room>) => getRoomsSuccess(rooms)),
           catchError((error) => {
             this.toastr.error(

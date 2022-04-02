@@ -27,10 +27,12 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { reservationReducer } from './store/reducers/reservation.reducer';
 import { roomReducer } from './store/reducers/room.reducer';
 import { authReducer } from './store/reducers/auth.reducer';
+import { customerReducer } from './store/reducers/customer.reducer';
 // Effects
 import { ReservationEffects } from './store/effects/reservation.effects';
 import { RoomEffects } from './store/effects/room.effects';
 import { AuthEffects } from './store/effects/auth.effect';
+import { CustomerEffects } from './store/effects/customer.effect';
 // Environment
 import { environment } from '../environments/environment';
 // Components
@@ -66,12 +68,13 @@ import { RegisterComponent } from './components/register/register.component';
       reservation: reservationReducer,
       room: roomReducer,
       auth: authReducer,
+      customer: customerReducer
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([ReservationEffects, RoomEffects, AuthEffects]),
+    EffectsModule.forRoot([ReservationEffects, RoomEffects, AuthEffects, CustomerEffects]),
     StoreRouterConnectingModule.forRoot(),
     FormsModule,
   ],
