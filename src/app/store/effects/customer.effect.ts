@@ -10,7 +10,7 @@ import { addCustomer, addCustomerError, addCustomerSuccess, deleteCustomer, dele
 import { CustomerState } from '../reducers/customer.reducer';
 
 @Injectable()
-export class RoomEffects {
+export class CustomerEffects {
   getCustomers$ = createEffect(() =>
     this.action$.pipe(
       ofType(getCustomers),
@@ -70,7 +70,7 @@ export class RoomEffects {
     )
   );
 
-  updateRoom$ = createEffect(() =>
+  updateCustomer$ = createEffect(() =>
     this.action$.pipe(
       ofType(updateCustomer),
       concatMap(({ customer }) =>

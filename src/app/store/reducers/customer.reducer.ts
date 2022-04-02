@@ -11,7 +11,7 @@ const initialState: CustomerState = {
   error: null,
 };
 
-export const roomReducer = createReducer(
+export const customerReducer = createReducer(
   initialState,
   on(getCustomersSuccess, (state, { customers }) => ({
     ...state,
