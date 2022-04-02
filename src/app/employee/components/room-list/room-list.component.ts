@@ -88,7 +88,6 @@ export class RoomListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log("room list init");
     this.getRooms();
     this.imgSrcSub = this.roomStorageService.imgSrc$.subscribe((x) => {
       if (typeof x === 'string') {

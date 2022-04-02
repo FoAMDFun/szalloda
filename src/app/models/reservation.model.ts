@@ -6,12 +6,12 @@ export interface Reservation {
   _id: string;
   startDate: Timestamp;
   endDate: Timestamp;
-  customerId: string; // Userre mutat
+  customerId: string; // AuthUserre mutat
   status:ReservationStatus;
   roomId: string | number; // szobára mutat
   numberOfCustomers: number;
   comments?: string;
-  personsId?: string[];
+  customersId?: string[];
 }
 
 export enum ReservationStatus {
