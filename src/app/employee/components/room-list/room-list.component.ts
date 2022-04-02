@@ -66,7 +66,7 @@ export class RoomListComponent implements OnInit {
   private readonly controllsValue:any = {bed:"Az ágyak ",numberOf:"A szobaszám ",floor:"Az emelet "}
   private readonly validatorTypes:{pattern:string,maxlength:string,min:string,max:string,required:string,requiredNumber:string,integerError:string} =
   {pattern:"tartalmaz nem megfelelő karaktert",maxlength:"mező maximum karaktereinek a száma ",integerError:'csak egész értéket vehet fel',min:"nem lehet kevesebb mint ",max:"nem lehet nagyobb mint ",required:"megadása kötelező",requiredNumber:"megadása kötelező és csak számokat tartalmazhat"}
-  readonly validatorValue:any ={floormaxlength:10,bedMin:1,bedMax:20,numberOfMin:1,numberOfMax:1100,floorMin:1,floorMax:10};
+  readonly validatorValue:any ={floormaxlength:4,bedMin:1,bedMax:20,numberOfMin:1,numberOfMax:1100,floorMin:1,floorMax:10};
   public roomForm: FormGroup = this.fb.group({
     bed: ['', [integerValidator,Validators.required, Validators.min(this.validatorValue.bedMin),Validators.max(this.validatorValue.bedMax)]],
     numberOf: ['', [integerValidator,Validators.required,Validators.min(this.validatorValue.numberOfMin),Validators.max(this.validatorValue.numberOfMax)]],
