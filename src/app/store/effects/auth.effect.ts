@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { defer, EmptyError, from, of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
-import { User, UserCredential } from 'firebase/auth';
+import { UserCredential } from 'firebase/auth';
 import { AuthService } from 'src/app/services/auth.service';
 import {
   login,
@@ -19,7 +19,6 @@ import {
   setUser,
 } from '../actions/auth.action';
 import { ToastrService } from 'ngx-toastr';
-import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable()
