@@ -39,7 +39,8 @@ export class ReservationEffects {
           ),
           catchError((error) => {
             this.toaster.error(
-              `Hiba történt a foglalások letöltésénél: ${error.message}`
+              error.message,
+              'Hiba történt a foglalások letöltésénél!'
             );
             return of(ReservationActions.getReservationsError(error));
           })
@@ -67,7 +68,8 @@ export class ReservationEffects {
           ) !== -1
         ) {
           this.toaster.error(
-            'A foglalás nem sikerült, már van foglalás a kiválasztott időpontban!'
+            'Már van foglalás a kiválasztott időintervallumban az adott szobához!',
+            'Sikertelen foglalás!'
           );
           return of(
             ReservationActions.addReservationError({
@@ -79,12 +81,16 @@ export class ReservationEffects {
             .addReservation(item.reservation)
             .pipe(
               map(() => {
-                this.toaster.success('A foglalás mentés sikeres');
+                this.toaster.success(
+                  'Az Ön által kiválasztott időintervallumot illetve szobát elmentettük!',
+                  'Sikeres foglalás!'
+                );
                 return ReservationActions.addReservationSuccess();
               }),
               catchError((error) => {
                 this.toaster.error(
-                  `A foglalás mentés sikertelen! hibaüzenet: ${error.message}`
+                  error.message,
+                  'A foglalás mentés sikertelen!'
                 );
                 return of(ReservationActions.addReservationError(error));
               })
@@ -107,7 +113,7 @@ export class ReservationEffects {
               return ReservationActions.deleteReservationSuccess();
             }),
             catchError((error) => {
-              this.toaster.error('Hiba', 'Hiba a foglalások törlésénél!');
+              this.toaster.error('Hiba a foglalás törlésénél!', 'Hiba');
               return of(ReservationActions.deleteReservationError(error));
             })
           )
