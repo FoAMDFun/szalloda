@@ -14,6 +14,9 @@ export const DELETE_RESERVATION_SUCCESS = '[RESERVATION] Delete success';
 export const DELETE_RESERVATION_ERROR = '[RESERVATION] Delete error';
 export const SET_CURRENT_RESERVATION = '[RESERVATION] Set currentReservation';
 export const CLEAR_CURRENT_RESERVATION = '[RESERVATION] Clear currentReservation'
+export const UPDATE_RESERVATION = '[RESERVATION] Update';
+export const UPDATE_RESERVATION_SUCCESS = '[RESERVATION] Update success';
+export const UPDATE_RESERVATION_ERROR = '[RESERVATION] Update error';
 
 export const getReservations = createAction(GET_RESERVATIONS);
 export const getReservationsSuccess = createAction(GET_RESERVATIONS_SUCCESS,(reservations: ReadonlyArray<Reservation>) => ({reservations}));
@@ -31,3 +34,7 @@ export const changeReservationDate = createAction(CHANGE_RESERVATION_DATE,(start
 
 export const setCurrendReservation = createAction(SET_CURRENT_RESERVATION,(reservation: Reservation) => ({ reservation }));
 export const clearCurrentReservation = createAction(CLEAR_CURRENT_RESERVATION);
+
+export const updateReservation = createAction(UPDATE_RESERVATION,(reservation: Reservation) => ({ reservation }));
+export const updateReservationSuccess = createAction(UPDATE_RESERVATION_SUCCESS,(reservation: Reservation) => ({ reservation }));
+export const updateReservationError = createAction(UPDATE_RESERVATION_ERROR,(error: any) => ({ error }))

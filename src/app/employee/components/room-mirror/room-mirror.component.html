@@ -37,13 +37,15 @@
           >
           <ng-container *ngIf="(getReservationByRoomIdandDate(room._id, date) | async)?.colspan as colspan">
             <button *ngIf="getReservationByRoomIdandDate(room._id, date) | async as cellReservation"
-              (click)="selectReservation(cellReservation.reservation)"
               class="btn btn-primary position-absolute p-0"
               [ngStyle]="{
                 'transform': 'translate(-'+styles.btnWidth/2+'px, -50%)',
                 'width': styles.tdWidth*(colspan+i<=slicedDates.length?colspan:slicedDates.length-i)-(styles.tdWidth-styles.btnWidth)+'px',
                 'height': styles.btnHeight+'px'}"
-                data-bs-toggle="modal" data-bs-target="#customerModal"
+                (click)="editReservation(cellReservation.reservation)"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#reservationEditModal"
               >
               {{cellReservation.reservation._id.slice(0,3)}}
             </button>

@@ -8,6 +8,9 @@ import {
   getReservationsError,
   getReservationsSuccess,
   setCurrendReservation,
+  updateReservation,
+  updateReservationError,
+  updateReservationSuccess,
 } from '../actions/reservation.action';
 export interface ReservationState {
   items: ReadonlyArray<Reservation>;
@@ -56,5 +59,13 @@ export const reservationReducer = createReducer(
   on(clearCurrentReservation, (state) => ({
     ...state,
     currentReservation: null,
+  })),
+  on(updateReservationSuccess, (state, { reservation }) => ({
+    ...state,
+    items: state.items.map((r: Reservation) => r._id === reservation._id ? reservation : r)
+  })),
+  on(updateReservationError, (state, { error }) => ({
+    ...state,
+    error: error
   }))
 );

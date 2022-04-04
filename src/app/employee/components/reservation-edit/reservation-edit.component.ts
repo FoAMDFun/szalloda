@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { Reservation, ReservationStatus } from 'src/app/models/reservation.model';
 import { Room } from 'src/app/models/room.model';
 import { getRooms } from 'src/app/store/actions/room.action';
+import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
+import { getCurrentReservation } from 'src/app/store/selectors/reservation.selector';
 import { getRoomsSelector } from 'src/app/store/selectors/room.selector';
 import { integerValidator } from 'src/app/validators/integer.validator';
-
+import { getReservations, updateReservation } from '../../../store/actions/reservation.action';
 @Component({
   selector: 'app-reservation-edit',
   templateUrl: './reservation-edit.component.html',
@@ -16,60 +19,55 @@ import { integerValidator } from 'src/app/validators/integer.validator';
 })
 export class ReservationEditComponent implements OnInit {
 
+  public readonly icons: {plus: IconDefinition;} = {plus: faPlusCircle};
   constructor(
+    private storeReservation: Store<ReservationState>,
     private storeRoom: Store<RoomState>,
     private fb: FormBuilder,
   ) {}
-  selectedReservation?: Reservation;
+  selectedReservation? : Observable<Reservation | null> =this.storeReservation.pipe(select(getCurrentReservation));
   public allRooms$?: Observable<Room[]> = this.storeRoom.pipe(select(getRoomsSelector),map((rooms) => [...rooms]))
 
   ngOnInit(): void {
+    this.storeReservation.dispatch(getReservations());
     this.storeRoom.dispatch(getRooms());
+    this.selectedReservation?.subscribe(reservation => {
+      if (reservation) {
+        this.reservationForm.patchValue({...reservation,startDate:reservation.startDate.toDate(),endDate: reservation.endDate.toDate()});
+      }
+    })
   }
   public reservationForm: FormGroup = this.fb.group({
+    _id: [''],
+    comments: [''],
     startDate: ['', []],
     endDate: ['', []],
-    roomId: ['', []],
-    numberOfCustomers: ['',[integerValidator]],
+    roomId: ['', [Validators.required]],
+    numberOfCustomers: ['',[integerValidator,Validators.min(1)]],
     customersId: ['',[]],
+    customerId: ['',[]],
     status: ['', [Validators.required]],
   });
 
-  public reservationStatus: ReservationStatus[] = [ReservationStatus.CONFIRMED, ReservationStatus.UNCONFIRMED,  ReservationStatus.RESIDENT ,ReservationStatus.ALREADY_GONE];
+  public constants:{maxDate:string, minDate: string} = {maxDate:'2023-12-31', minDate: '2021-12-31'}
+
+  public reservationStatus: {text: string, value:ReservationStatus}[] =
+  [
+    {text:'Visszaigazolatlan',value:ReservationStatus.UNCONFIRMED},
+    {text:'Visszaigazolt',value:ReservationStatus.CONFIRMED},
+    {text:'Elutazott',value:ReservationStatus.ALREADY_GONE},
+    {text:'Lakó',value:ReservationStatus.RESIDENT},
+  ]
+
+  public saveReservation():void {
+    this.storeReservation.dispatch(updateReservation(this.reservationForm.value));
+  }
 
 
-  // private lastFormValue: { room: Room | undefined; isUpdating: boolean } = {
-  //   room: undefined,
-  //   isUpdating: false,
-  // };
-  // private readonly controllsValue:any = {bed:"Az ágyak ",numberOf:"A szobaszám ",floor:"Az emelet "}
-  // private readonly validatorTypes:{pattern:string,maxlength:string,min:string,max:string,required:string,requiredNumber:string,integerError:string} =
-  // {pattern:"tartalmaz nem megfelelő karaktert",maxlength:"mező maximum karaktereinek a száma ",integerError:'csak egész értéket vehet fel',min:"nem lehet kevesebb mint ",max:"nem lehet nagyobb mint ",required:"megadása kötelező",requiredNumber:"megadása kötelező és csak számokat tartalmazhat"}
-  // readonly validatorValue:any ={floormaxlength:4,bedMin:1,bedMax:20,numberOfMin:1,numberOfMax:1100,floorMin:1,floorMax:10};
 
-  // public getErrorMessage(controllsValue: string,inputType: string): string {
-  //   const error = this.formControls[controllsValue].errors as any;
-  //   let validationText:string = ''
-  //   if(error['integerError']){
-  //     validationText = this.validatorTypes['integerError']
-  //   }else if (error['min']) {
-  //     validationText = this.validatorTypes['min'] + this.validatorValue[controllsValue+'Min']
-  //   }else if (error['max']) {
-  //     validationText = this.validatorTypes['max'] + this.validatorValue[controllsValue+'Max']
-  //   }else if (error['maxlength']) {
-  //     validationText = this.validatorTypes['maxlength'] + this.validatorValue[controllsValue+'maxlength']
-  //   }else if (error['pattern']) {
-  //     validationText = this.validatorTypes['pattern'];
-  //   } else if (error['required']) {
-  //     if (inputType === 'number') {
-  //       validationText = this.validatorTypes['requiredNumber']
-  //     }else{
-  //       validationText = this.validatorTypes['required']
-  //     }
-  //   }
-  //   return this.controllsValue[controllsValue] + validationText
-  // }
 
 
 
 }
+
+

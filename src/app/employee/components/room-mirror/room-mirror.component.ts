@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { Reservation } from 'src/app/models/reservation.model';
-import { getReservations } from 'src/app/store/actions/reservation.action';
+import { getReservations, setCurrendReservation } from 'src/app/store/actions/reservation.action';
 import { getRooms } from 'src/app/store/actions/room.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
@@ -153,7 +153,7 @@ export class RoomMirrorComponent implements OnInit {
     this.selectedReservation = reservation;
   }
 
-  shiftOneDayRight(): void {
+  public shiftOneDayRight(): void {
     this.currentDates.shift();
     this.currentDates.push(
       new Date(
@@ -161,20 +161,20 @@ export class RoomMirrorComponent implements OnInit {
       )
     );
   }
-  shiftOneDayLeft(): void {
+  public shiftOneDayLeft(): void {
     this.currentDates.pop();
     this.currentDates.unshift(
       new Date(this.currentDates[0].getTime() - 86_400_000)
     );
   }
 
-  shiftOneWeekLeft(): void {
+  public shiftOneWeekLeft(): void {
     for (let i = 0; i < 7; i++) {
       this.shiftOneDayLeft();
     }
   }
 
-  shiftOneWeekRight(): void {
+  public shiftOneWeekRight(): void {
     for (let i = 0; i < 7; i++) {
       this.shiftOneDayRight();
     }
@@ -192,10 +192,14 @@ export class RoomMirrorComponent implements OnInit {
     );
   }
 
-  sliceCurrentDates(start: number, end: number | null): Date[] | undefined {
+  public sliceCurrentDates(start: number, end: number | null): Date[] | undefined {
     if (end === null) {
       return undefined;
     }
     return this.currentDates.slice(start, end);
+  }
+
+  public editReservation(reservation:Reservation): void {
+    this.storeReservation.dispatch(setCurrendReservation(reservation));
   }
 }

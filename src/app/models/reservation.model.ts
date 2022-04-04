@@ -5,7 +5,7 @@ export interface Reservation {
   endDate: Timestamp;
   customerId: string; // AuthUserre mutat
   status:ReservationStatus;
-  roomId: string | number; // szobára mutat
+  roomId: string; // szobára mutat
   numberOfCustomers: number;
   comments?: string;
   customersId?: string[];

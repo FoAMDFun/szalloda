@@ -13,3 +13,8 @@ export const getRoomsSelector = createSelector(
 //   (state: RoomState) =>
 //   state.items.findIndex(r=> room.numberOf===r.numberOf &&  room.floor===r.floor)!==-1
 // );
+
+export const getRoomByIdSelector = (roomId: string) => createSelector(
+  getRoomState,
+  (state: RoomState) => state.items.find(r => r._id === roomId)
+);

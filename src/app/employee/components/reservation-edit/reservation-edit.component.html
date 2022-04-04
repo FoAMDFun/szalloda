@@ -48,6 +48,61 @@ aria-hidden="true"
               <br />
             </div>
           </div> -->
+          <div class="mb-2">
+          <label for="comments" class="form-label">Megjegyzés:</label>
+          <p id="comments">{{reservationForm.value.comments}}</p>
+        </div>
+          <div class="mb-2">
+          <label for="roomId" class="form-label">Szoba:</label>
+          <select class="form-select" formControlName="roomId" id="roomId">
+            <option [selected]="reservationForm.value.roomId === room._id " [value]="room._id" *ngFor="let room of allRooms$ | async | sort : 'numberOf'">Emelet: {{room.floor}} - Szobaszám: {{room.numberOf}}</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="status" class="form-label">Státusz:</label>
+          <select class="form-select" formControlName="status" id="status">
+            <option [selected]="reservationForm.value.status === status.value " [value]="status.value" *ngFor="let status of reservationStatus">{{status.text}}</option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label for="startDate">Kezdő dátum:</label>
+          <input
+            #startdateref
+            type="date"
+            class="form-control"
+            id="startDate"
+            name="startDate"
+            [min]="constants.minDate"
+            [max]="constants.maxDate"
+            formControlName="startDate"
+            [value]="reservationForm.value.startDate | date: 'yyyy-MM-dd'"
+          />
+        </div>
+          <div class="mb-2">
+          <label for="endDate">Végdátum:</label>
+          <input
+            #enddateref
+            class="form-control"
+            type="date"
+            id="endDate"
+            name="endDate"
+            [min]="constants.minDate"
+            [max]="constants.maxDate"
+            formControlName="endDate"
+            [value]="reservationForm.value.endDate | date: 'yyyy-MM-dd'"
+          />
+        </div>
+          <div class="mb-2">
+            <label for="numberOfCustomers" class="form-label">Létszám:</label>
+            <input
+              type="number"
+              formControlName="numberOfCustomers"
+              class="form-control"
+              id="numberOfCustomers"/>
+            </div>
+            <button class="btn btn-primary rounded-circle p-0 btn__icon">
+              <fa-icon  [icon]="icons.plus"></fa-icon>
+            </button>
 
 
         </form>
@@ -58,6 +113,7 @@ aria-hidden="true"
           [disabled]="!reservationForm.valid"
           data-bs-dismiss="modal"
           class="btn btn-primary"
+          (click)="saveReservation()"
         >
           Mentés
         </button>

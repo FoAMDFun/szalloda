@@ -76,6 +76,27 @@ export class ReservationEffects {
     )
   );
 
+  updateReservation$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(ReservationActions.updateReservation),
+      concatMap(({reservation}) =>
+        this.reservationCrudService.updateReservation(reservation).pipe(
+          map(() => {
+            this.toaster.success('Sikeres módosítás!');
+            return ReservationActions.updateReservationSuccess(reservation);
+          }),
+          catchError((error) => {
+            this.toaster.error(`A szoba Módosítása sikertelen! hibaüzenet: ${error.message}`);
+            return of(ReservationActions.updateReservationError(error));
+          })
+        )
+      )
+    )
+  );
+
+
+
+
   constructor(
     private action$: Actions,
     private reservationCrudService: ReservationCrudService,

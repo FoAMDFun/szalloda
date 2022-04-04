@@ -5,7 +5,7 @@ import {
   collectionData,
   Firestore,
 } from '@angular/fire/firestore';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { defer, from, Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
 
@@ -34,5 +34,10 @@ export class ReservationCrudService {
       `${this.collName}/${reservationID}`
     );
     return defer(() => from(deleteDoc(reservationRef)));
+  }
+
+  public updateReservation(reservation: Reservation): Observable<any>{
+    const reservationDocRef = doc(this.firestore, `${this.collName}/${reservation._id}`);
+    return defer(() => from(setDoc(reservationDocRef, reservation)));
   }
 }
