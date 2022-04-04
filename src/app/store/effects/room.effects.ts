@@ -11,7 +11,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { Room } from 'src/app/models/room.model';
-
 import { RoomCrudService } from 'src/app/services/room-crud.service';
 import * as RoomActions from '../actions/room.action';
 import * as RoomSelectors from '../selectors/room.selector';

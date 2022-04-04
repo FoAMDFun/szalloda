@@ -8,11 +8,7 @@
     Új foglalás...
   </button>
 
-  <ng-container *ngIf="isReservationsEmpty$ | async; else table">
-    <div class="my-3">Nincs a keresési feltételeknek megfelelő elem.</div>
-  </ng-container>
-
-  <ng-template #table>
+  <section>
     <table class="table text-center table-striped align-middle">
       <thead>
         <tr>
@@ -47,7 +43,7 @@
         </tr>
       </tbody>
     </table>
-  </ng-template>
+  </section>
 </div>
 
 <section
