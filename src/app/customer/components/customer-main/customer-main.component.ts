@@ -8,23 +8,12 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Timestamp } from 'firebase/firestore';
-
 import { Subscription } from 'rxjs';
-import {
-  Reservation,
-  ReservationStatus,
-} from 'src/app/models/reservation.model';
-import {
-  addReservation,
-  getReservations,
-  deleteReservation,
-} from 'src/app/store/actions/reservation.action';
+import * as ReservationModel from 'src/app/models/reservation.model';
+import * as ReservationActions from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
-import { getAuthUserUidSelector } from 'src/app/store/selectors/auth.selector';
-import {
-  getReservationsSelector,
-  isReservationFilterEmpty,
-} from 'src/app/store/selectors/reservation.selector';
+import * as AuthSelector from 'src/app/store/selectors/auth.selector';
+import * as ReservationSelector from 'src/app/store/selectors/reservation.selector';
 
 @Component({
   selector: 'app-main',
@@ -34,8 +23,9 @@ import {
 export class CustomerMainComponent implements OnInit, OnDestroy {
   @ViewChild('startdateref', { static: true }) startDateValue?: ElementRef;
   @ViewChild('enddateref', { static: true }) endDateValue?: ElementRef;
-  reservations$ = this.store.pipe(select(getReservationsSelector));
-  isReservationsEmpty$ = this.store.pipe(select(isReservationFilterEmpty));
+  reservations$ = this.store.pipe(
+    select(ReservationSelector.getReservationsSelector)
+  );
   startDate = new Date();
   endDate = new Date();
   today = new Date();
@@ -49,11 +39,18 @@ export class CustomerMainComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.uidSub = this.store
-      .pipe(select(getAuthUserUidSelector))
+      .pipe(select(AuthSelector.getAuthUserUidSelector))
       .subscribe((uid) => (this.currentUID = uid));
     this.reservationForm = this.formBuilder.group({
-      roomId: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      comments: ['', [Validators.maxLength(100)]],
+      roomId: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+      comments: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(100),
+        ],
+      ],
       startDate: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
       numberOfCustomers: [
@@ -62,6 +59,7 @@ export class CustomerMainComponent implements OnInit, OnDestroy {
       ],
     });
 
+    // Create room list
     for (let i = 1; i <= 5; i++) {
       this.roomValues.push(i);
     }
@@ -84,36 +82,31 @@ export class CustomerMainComponent implements OnInit, OnDestroy {
   }
 
   getReservations(): void {
-    this.store.dispatch(getReservations());
+    this.store.dispatch(ReservationActions.getReservations());
   }
 
   newReservation(): void {
-    function getRandomString(): string {
-      return btoa(Math.random().toString()).substr(10, 15);
-    }
+    let dummyReservation: ReservationModel.Reservation =
+      this.reservationForm.value;
 
-
-    let dummyReservation: Reservation = this.reservationForm.value;
-    console.log(this.reservationForm.value);
-
-    dummyReservation.status = ReservationStatus.UNCONFIRMED;
+    dummyReservation.status = ReservationModel.ReservationStatus.UNCONFIRMED;
     dummyReservation.customerId = this.currentUID;
-    console.log(this.startDate.toString());
-    console.log(this.endDate.toString());
+
     dummyReservation.startDate = Timestamp.fromDate(this.startDate);
     dummyReservation.endDate = Timestamp.fromDate(this.endDate);
-    // comments: getRandomString(),
-    // numberOfCustomers: 1,
-    // customerId: getRandomString(),
-    // roomId: 'TWXP8xeBuZz1WNO19tmG',
-    // status: ReservationStatus.UNCONFIRMED,
-    // _id: this.currentUID,
 
-    this.store.dispatch(addReservation(dummyReservation));
+    // rotate the two variables (startDate and endDate) if startDate is after endDate
+    if (dummyReservation.startDate.seconds > dummyReservation.endDate.seconds) {
+      const temp = dummyReservation.startDate;
+      dummyReservation.startDate = dummyReservation.endDate;
+      dummyReservation.endDate = temp;
+    }
+
+    this.store.dispatch(ReservationActions.addReservation(dummyReservation));
   }
 
-  public deleteReservation(reservation: Reservation): void {
-    this.store.dispatch(deleteReservation(reservation));
+  public deleteReservation(reservation: ReservationModel.Reservation): void {
+    this.store.dispatch(ReservationActions.deleteReservation(reservation));
   }
 
   parseDate(dateString: string | null): Date {
@@ -143,13 +136,6 @@ export class CustomerMainComponent implements OnInit, OnDestroy {
       this.startDate.setMilliseconds(Date.now());
       this.endDate.setMilliseconds(Date.now());
       console.error(error);
-    } finally {
-      // this.store.dispatch(
-      //   changeReservationDate(
-      //     Timestamp.fromDate(this.startDate),
-      //     Timestamp.fromDate(this.endDate)
-      //   )
-      // );
     }
   }
 

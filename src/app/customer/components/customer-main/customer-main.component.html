@@ -8,11 +8,7 @@
     Új foglalás...
   </button>
 
-  <ng-container *ngIf="isReservationsEmpty$ | async; else table">
-    <div class="my-3">Nincs a keresési feltételeknek megfelelő elem.</div>
-  </ng-container>
-
-  <ng-template #table>
+  <section>
     <table class="table text-center table-striped align-middle">
       <thead>
         <tr>
@@ -47,7 +43,7 @@
         </tr>
       </tbody>
     </table>
-  </ng-template>
+  </section>
 </div>
 
 <section
@@ -80,9 +76,9 @@
               id="roomId"
               name="roomId"
               formControlName="roomId"
-              aria-label="Default select example"
+              aria-label="Room selector"
             >
-              <option>Válasszon szobát...</option>
+              <option disabled selected [ngValue]="null">Válasszon szobát...</option>
               <option
                 *ngFor="let singleValue of roomValues; index as i"
                 [id]="i"
@@ -100,7 +96,7 @@
               class="form-control"
               id="comments"
               name="comments"
-              placeholder="Megjegyzés..."
+              placeholder="Megjegyzés (minimum 10, maximum 100 karakter)..."
               formControlName="comments"
             ></textarea>
             <small
@@ -109,7 +105,7 @@
                 reservationForm.get('comments')?.invalid &&
                 reservationForm.get('comments')?.touched
               "
-              >Hiba a megjegyzés megadásánál, legfeljebb 100 karaktert
+              >Hiba a megjegyzés megadásánál, min 10 max 100 karaktert
               írjon.</small
             >
           </div>
@@ -146,7 +142,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="numberOfCustomers">Személyek száma</label>
+            <label for="numberOfCustomers">Személyek száma (1-4)...</label>
             <input
               type="number"
               class="form-control"

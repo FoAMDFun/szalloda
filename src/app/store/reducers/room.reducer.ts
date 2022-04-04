@@ -1,14 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Room } from 'src/app/models/room.model';
-import {
-  addRoom,
-  addRoomError,
-  addRoomSuccess,
-  deleteRoom,
-  getRoomsError,
-  getRoomsSuccess,
-  updateRoom,
-} from '../actions/room.action';
+import * as RoomActions from '../actions/room.action';
 
 export interface RoomState {
   items: ReadonlyArray<Room>;
@@ -21,30 +13,27 @@ const initialState: RoomState = {
 
 export const roomReducer = createReducer(
   initialState,
-  on(getRoomsSuccess, (state, { rooms }) => ({
+  on(RoomActions.getRoomsSuccess, (state, { rooms }) => ({
     ...state,
     items: [...rooms],
   })),
-  on(getRoomsError, (state, error) => ({
+  on(RoomActions.getRoomsError, (state, error) => ({
     ...state,
     error: error,
   })),
-  on(deleteRoom, (state, { room }) => ({
+  on(RoomActions.deleteRoom, (state, { room }) => ({
     ...state,
     items: state.items.filter((item) => item?._id !== room._id),
   })),
-  on(updateRoom, (state, { room }) => ({
+  on(RoomActions.updateRoom, (state, { room }) => ({
     ...state,
     items: state.items.map((item) => (item?._id === room._id ? room : item)),
   })),
-  on(addRoom, (state,{ room }) => ({
-    ...state
-    })),
-  on(addRoomSuccess, (state,{ room }) => ({
+  on(RoomActions.addRoomSuccess, (state,{ room }) => ({
     ...state,
     items:[...state.items,room]
     })),
-  on(addRoomError, (state, { error }) => ({
+  on(RoomActions.addRoomError, (state, { error }) => ({
     ...state,
     error: error,
   }))
