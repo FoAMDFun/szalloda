@@ -43,7 +43,14 @@ export class CustomerMainComponent implements OnInit, OnDestroy {
       .subscribe((uid) => (this.currentUID = uid));
     this.reservationForm = this.formBuilder.group({
       roomId: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      comments: ['', [Validators.maxLength(100)]],
+      comments: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(100),
+        ],
+      ],
       startDate: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
       numberOfCustomers: [
