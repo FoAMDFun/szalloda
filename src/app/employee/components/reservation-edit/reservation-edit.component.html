@@ -1,0 +1,70 @@
+<div
+class="modal fade pt-5"
+id="reservationEditModal"
+tabindex="-1"
+aria-labelledby="reservationEditModalLabel"
+aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark fw-bold" id="reservationEditModalLabel">
+          Foglalás
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="reservationForm">
+          <!-- <div class="mb-2">
+            <label for="numberOf" class="form-label">Szobaszám:</label>
+            <input
+            [min]="validatorValue.numberOfMin"
+            [max]="validatorValue.numberOfMax"
+              type="number"
+              formControlName="numberOf"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  formControls['numberOf'].errors &&
+                  (formControls['numberOf'].touched ||
+                    formControls['numberOf'].dirty)
+              }"
+              id="numberOf"
+            />
+            <div class="text-danger">
+              <small
+                *ngIf="
+                  formControls['numberOf'].errors &&
+                  (formControls['numberOf'].touched ||
+                    formControls['numberOf'].dirty)
+                "
+                >{{getErrorMessage('numberOf','number')}}</small
+              >
+              <br />
+            </div>
+          </div> -->
+
+
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button
+          type="submit"
+          [disabled]="!reservationForm.valid"
+          data-bs-dismiss="modal"
+          class="btn btn-primary"
+        >
+          Mentés
+        </button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+          Bezárás
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

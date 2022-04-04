@@ -3,21 +3,25 @@ import { Timestamp } from 'firebase/firestore';
 import { Reservation } from 'src/app/models/reservation.model';
 import {
   changeReservationDate,
+  clearCurrentReservation,
   deleteReservation,
   getReservationsError,
   getReservationsSuccess,
+  setCurrendReservation,
 } from '../actions/reservation.action';
 export interface ReservationState {
   items: ReadonlyArray<Reservation>;
   error: any;
   startDate: Timestamp;
   endDate: Timestamp;
+  currentReservation: Reservation | null;
 }
 const initialState: ReservationState = {
   items: [],
   error: null,
   startDate: Timestamp.fromDate(new Date('2022-01-01T00:00:00')),
   endDate: Timestamp.fromDate(new Date('2999-12-31T23:23:23')),
+  currentReservation: null,
 };
 
 export const reservationReducer = createReducer(
@@ -44,5 +48,13 @@ export const reservationReducer = createReducer(
       (item: Reservation) => item?._id !== reservation._id
     ),
     error: null,
+  })),
+  on(setCurrendReservation, (state, { reservation }) => ({
+    ...state,
+    currentReservation: reservation,
+  })),
+  on(clearCurrentReservation, (state) => ({
+    ...state,
+    currentReservation: null,
   }))
 );

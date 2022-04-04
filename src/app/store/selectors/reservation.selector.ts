@@ -40,6 +40,10 @@ export const isReservationFilterEmpty = createSelector(
 export const getUnconfirmedReservation = createSelector(
   getReservationState,
   (state:ReservationState) =>
-  state.items
-  // state.items.filter(reservation => reservation.status === ReservationStatus.UNCONFIRMED)
-  )
+  // state.items
+  state.items.filter(reservation => reservation.status === ReservationStatus.UNCONFIRMED))
+
+export const getCurrentReservation = createSelector(
+  getReservationState,
+  (state:ReservationState) => state.currentReservation
+)

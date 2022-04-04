@@ -88,7 +88,7 @@ export class RoomListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getRooms();
+    this.store.dispatch(getRooms());
     this.imgSrcSub = this.roomStorageService.imgSrc$.subscribe((x) => {
       if (typeof x === 'string') {
         this.roomForm.get('imageSrc')?.setValue(x);
@@ -99,10 +99,6 @@ export class RoomListComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.imgSrcSub.unsubscribe();
-  }
-
-  private getRooms(): void {
-    this.store.dispatch(getRooms());
   }
 
   public setDeleteRoom(room: Room):void{
