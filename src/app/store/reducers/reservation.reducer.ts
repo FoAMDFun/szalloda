@@ -42,5 +42,13 @@ export const reservationReducer = createReducer(
   on(ReservationActions.clearCurrentReservation, (state) => ({
     ...state,
     currentReservation: null,
+  })),
+  on(ReservationActions.updateReservationSuccess, (state, { reservation }) => ({
+    ...state,
+    items: state.items.map((r: Reservation) => r._id === reservation._id ? reservation : r)
+  })),
+  on(ReservationActions.updateReservationError, (state, { error }) => ({
+    ...state,
+    error: error
   }))
 );

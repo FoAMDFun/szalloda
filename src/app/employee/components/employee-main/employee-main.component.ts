@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { getReservations } from 'src/app/store/actions/reservation.action';
+import { getReservations, setCurrendReservation } from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 import {  getUnconfirmedReservation } from 'src/app/store/selectors/reservation.selector';
 import { faArrowDown,faArrowUp, IconDefinition} from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +14,10 @@ import { CustomerState } from 'src/app/store/reducers/customer.reducer';
 import { getCustomerByIdSelector } from 'src/app/store/selectors/customer.selector';
 import { getCustomers } from 'src/app/store/actions/customer.action';
 import { Reservation } from 'src/app/models/reservation.model';
+import { RoomState } from 'src/app/store/reducers/room.reducer';
+import { getRooms } from 'src/app/store/actions/room.action';
+import { getRoomByIdSelector } from 'src/app/store/selectors/room.selector';
+import { Room } from 'src/app/models/room.model';
 @Component({
   selector: 'app-employee-main',
   templateUrl: './employee-main.component.html',
@@ -57,13 +61,14 @@ export class EmployeeMainComponent implements OnInit {
     private storeMessage: Store<MessageState>,
     private storeReservation: Store<ReservationState>,
     private storeCustomer: Store<CustomerState>,
+    private storeRoom: Store<RoomState>,
     ) { }
 
   ngOnInit(): void {
     this.storeReservation.dispatch(getReservations());
     this.storeMessage.dispatch(getMessages())
     this.storeCustomer.dispatch(getCustomers())
-
+    this.storeRoom.dispatch(getRooms())
     // <!-- foglalást rendezni kéne start szerint, és az üzeneteket is -->
 
     this.messagesLengthSub = this.messages$.subscribe({
@@ -118,7 +123,9 @@ export class EmployeeMainComponent implements OnInit {
   }
 
 
-
+  public editReservation(reservation: Reservation):void{
+    this.storeReservation.dispatch(setCurrendReservation(reservation));
+  }
 
 
 
@@ -164,8 +171,8 @@ export class EmployeeMainComponent implements OnInit {
   }
 
 
-  public getRoomNumberOfById(roomId:string):number{
-    return 10
+  public getRoomNumberOfById(roomId:string):Observable<Room| undefined> {
+    return this.storeRoom.select(getRoomByIdSelector(roomId))
   }
 
 }
