@@ -1,7 +1,4 @@
-// reservations table
-
 import { Timestamp } from 'firebase/firestore';
-
 export interface Reservation {
   _id: string;
   startDate: Timestamp;
@@ -17,6 +14,6 @@ export interface Reservation {
 export enum ReservationStatus {
   UNCONFIRMED,
   CONFIRMED,
-  RESIDENT,
   ALREADY_GONE,
+  RESIDENT,
 }

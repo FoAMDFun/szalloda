@@ -11,6 +11,7 @@ import { RoomListComponent } from './components/room-list/room-list.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 
 import { SortPipe } from '../pipes/sort.pipe';
+import { ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SortPipe } from '../pipes/sort.pipe';
     RoomListComponent,
     NavbarComponent,
     SortPipe,
+    ReservationEditComponent,
   ],
   imports: [
     CommonModule,
