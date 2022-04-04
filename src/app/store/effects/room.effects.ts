@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { from, of } from 'rxjs';
+import { of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -8,45 +8,31 @@ import {
   map,
   mergeMap,
   take,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { Room } from 'src/app/models/room.model';
 
 import { RoomCrudService } from 'src/app/services/room-crud.service';
-import {
-  getRooms,
-  getRoomsSuccess,
-  getRoomsError,
-  addRoom,
-  addRoomSuccess,
-  addRoomError,
-  deleteRoom,
-  deleteRoomSuccess,
-  deleteRoomError,
-  updateRoom,
-  updateRoomSuccess,
-  updateRoomError,
-} from '../actions/room.action';
+import * as RoomActions from '../actions/room.action';
+import * as RoomSelectors from '../selectors/room.selector';
 import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { RoomState } from '../reducers/room.reducer';
-import {  getRoomsSelector } from '../selectors/room.selector';
 
 @Injectable()
 export class RoomEffects {
   getRooms$ = createEffect(() =>
     this.action$.pipe(
-      ofType(getRooms),
+      ofType(RoomActions.getRooms),
       exhaustMap(() =>
         this.roomCrudService.getRooms().pipe(
           take(1),
-          map((rooms: ReadonlyArray<Room>) => getRoomsSuccess(rooms)),
+          map((rooms: ReadonlyArray<Room>) => RoomActions.getRoomsSuccess(rooms)),
           catchError((error) => {
             this.toastr.error(
               `A szobák lekérése sikertelen!, hibaüzenet: ${error.message}`
             );
-            return of(getRoomsError(error));
+            return of(RoomActions.getRoomsError(error));
           })
         )
       )
@@ -55,25 +41,25 @@ export class RoomEffects {
 
   addRoom$ = createEffect(() =>
     this.action$.pipe(
-      ofType(addRoom),
-      withLatestFrom(this.store.select(getRoomsSelector)),
+      ofType(RoomActions.addRoom),
+      withLatestFrom(this.store.select(RoomSelectors.getRoomsSelector)),
       concatMap(([item ,state]) =>{
         if (state.findIndex((r)=> item.room.numberOf===r.numberOf &&  item.room.floor===r.floor)!==-1) {
           this.toastr.error(
             `Szobaszám: ${item.room.numberOf}, Emelet: ${item.room.floor} már létező szoba!`,
           )
-          return of(addRoomError("room already exists"));
+          return of(RoomActions.addRoomError("room already exists"));
         }else{
           return this.roomCrudService.addRoom(item.room).pipe(
             map(() => {
               this.toastr.success('A szoba mentés sikeres');
-              return addRoomSuccess(item.room);
+              return RoomActions.addRoomSuccess(item.room);
             }),
             catchError((error) => {
               this.toastr.error(
                 `A szoba mentés sikertelen! hibaüzenet: ${error.message}`
               );
-              return of(addRoomError(error));
+              return of(RoomActions.addRoomError(error));
             })
           )
         }
@@ -84,18 +70,18 @@ export class RoomEffects {
 
   deleteRoom$ = createEffect(() =>
     this.action$.pipe(
-      ofType(deleteRoom),
+      ofType(RoomActions.deleteRoom),
       mergeMap(({ room }) =>
         this.roomCrudService.deleteRoom(room).pipe(
           map(() => {
             this.toastr.success('A szoba törlés sikeres');
-            return deleteRoomSuccess();
+            return RoomActions.deleteRoomSuccess();
           }),
           catchError((error) => {
             this.toastr.error(
               `A szoba törlés nem sikerült! hibaüzenet: ${error.message}`
             );
-            return of(deleteRoomError(error));
+            return of(RoomActions.deleteRoomError(error));
           })
         )
       )
@@ -104,18 +90,18 @@ export class RoomEffects {
 
   updateRoom$ = createEffect(() =>
     this.action$.pipe(
-      ofType(updateRoom),
+      ofType(RoomActions.updateRoom),
       concatMap(({ room }) =>
         this.roomCrudService.updateRoom(room).pipe(
           map(() => {
             this.toastr.success('A szoba felülírás sikeres');
-            return updateRoomSuccess();
+            return RoomActions.updateRoomSuccess();
           }),
           catchError((error) => {
             this.toastr.error(
               `A szoba felülírás sikertelen! hibaüzenet: ${error.message}`
             );
-            return of(updateRoomError(error));
+            return of(RoomActions.updateRoomError(error));
           })
         )
       )
