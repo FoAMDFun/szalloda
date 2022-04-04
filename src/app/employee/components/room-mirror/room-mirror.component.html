@@ -18,7 +18,7 @@
     <thead>
       <tr [ngStyle]="{'height': styles.tdHeight+'px'}">
         <th scope="col" [ngStyle]="{'width': styles.td1Width+'px'}" >Szoba</th>
-        <th scope="col" *ngFor="let date of currentDatesslice(0,(currentDateLenght | async))"
+        <th scope="col" *ngFor="let date of sliceCurrentDates(0,(currentDateLenght | async))"
         [ngStyle]="{'width': styles.tdWidth+'px'}"
         [ngClass]="{'bg-warning': isWeekend(date),
         'bg-danger': dateIsToday(date),
@@ -30,7 +30,7 @@
       <tr *ngFor="let room of rooms$ |async | sort : 'numberOf'"  class="align-middle"
       [ngStyle]="{'height': styles.tdHeight+'px'}">
         <td [ngStyle]="{'width': styles.td1Width+'px'}">{{room.numberOf}}</td>
-          <td *ngFor="let date of currentDatesslice(0,(currentDateLenght | async)) as slicedDates;index as i"
+          <td *ngFor="let date of sliceCurrentDates(0,(currentDateLenght | async)) as slicedDates;index as i"
           [ngStyle]="{'width': styles.tdWidth+'px'}"
           [ngClass]="{'bg-warning': isWeekend(date),
           'bg-danger': dateIsToday(date)}"

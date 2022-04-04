@@ -1,5 +1,4 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Room } from 'src/app/models/room.model';
 import { RoomState } from '../reducers/room.reducer';
 
 export const getRoomState = createFeatureSelector<RoomState>('room');
@@ -9,8 +8,8 @@ export const getRoomsSelector = createSelector(
   (state: RoomState) => state.items
 );
 
-export const getRoomIsExistsSelector = (room: Room)  => createSelector(
-  getRoomState,
-  (state: RoomState) =>
-  state.items.findIndex(r=> room.numberOf===r.numberOf &&  room.floor===r.floor)!==-1
-);
+// export const getRoomIsExistsSelector = (room: Room)  => createSelector(
+//   getRoomState,
+//   (state: RoomState) =>
+//   state.items.findIndex(r=> room.numberOf===r.numberOf &&  room.floor===r.floor)!==-1
+// );

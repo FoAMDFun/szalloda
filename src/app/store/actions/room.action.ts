@@ -22,7 +22,7 @@ export const getRoomsError = createAction(GET_ROOMS_ERROR,(error: any) => ({ err
 
 export const addRoom= createAction(ADD_ROOM,(room: Room) => ({ room }));
 export const addRoomIfNotExists= createAction(ADD_ROOM_IF_NOT_EXISTS,(room: Room) => ({ room }));
-export const addRoomSuccess = createAction(ADD_ROOM_SUCCESS);
+export const addRoomSuccess = createAction(ADD_ROOM_SUCCESS, (room: Room) => ({ room }));
 export const addRoomError = createAction(ADD_ROOM_ERROR,(error: any) => ({ error }));
 
 export const deleteRoom = createAction(DELETE_ROOM,(room: Room) => ({ room }));

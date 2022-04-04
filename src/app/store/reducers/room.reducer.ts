@@ -3,6 +3,7 @@ import { Room } from 'src/app/models/room.model';
 import {
   addRoom,
   addRoomError,
+  addRoomSuccess,
   deleteRoom,
   getRoomsError,
   getRoomsSuccess,
@@ -37,8 +38,11 @@ export const roomReducer = createReducer(
     items: state.items.map((item) => (item?._id === room._id ? room : item)),
   })),
   on(addRoom, (state,{ room }) => ({
+    ...state
+    })),
+  on(addRoomSuccess, (state,{ room }) => ({
     ...state,
-    items: [...state.items, room],
+    items:[...state.items,room]
     })),
   on(addRoomError, (state, { error }) => ({
     ...state,
