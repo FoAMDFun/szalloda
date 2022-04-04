@@ -42,7 +42,7 @@ export class CustomerMainComponent implements OnInit, OnDestroy {
       .pipe(select(AuthSelector.getAuthUserUidSelector))
       .subscribe((uid) => (this.currentUID = uid));
     this.reservationForm = this.formBuilder.group({
-      roomId: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      roomId: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
       comments: [
         '',
         [
