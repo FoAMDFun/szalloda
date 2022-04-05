@@ -43,21 +43,23 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
-import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
-import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
+// import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
+// import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
+// import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
 import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
-import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
-import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
-import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
-import { MdbPopoverModule } from 'mdb-angular-ui-kit/popover';
-import { MdbRadioModule } from 'mdb-angular-ui-kit/radio';
-import { MdbRangeModule } from 'mdb-angular-ui-kit/range';
-import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
-import { MdbScrollspyModule } from 'mdb-angular-ui-kit/scrollspy';
-import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
-import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
-import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+// import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+// import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
+// import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+// import { MdbPopoverModule } from 'mdb-angular-ui-kit/popover';
+// import { MdbRadioModule } from 'mdb-angular-ui-kit/radio';
+// import { MdbRangeModule } from 'mdb-angular-ui-kit/range';
+// import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+// import { MdbScrollspyModule } from 'mdb-angular-ui-kit/scrollspy';
+// import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
+// import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
+// import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
+import { LandingNavbarComponent } from './components/landing-navbar/landing-navbar.component';
+import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
     PageNotFoundComponent,
     LoginComponent,
     RegisterComponent,
+    LandingNavbarComponent,
+    ScrollToTopComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,30 +90,36 @@ import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
       room: roomReducer,
       auth: authReducer,
       customer: customerReducer,
-      message: messageReducer
+      message: messageReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([ReservationEffects, RoomEffects, AuthEffects, CustomerEffects,MessageEffects]),
+    EffectsModule.forRoot([
+      ReservationEffects,
+      RoomEffects,
+      AuthEffects,
+      CustomerEffects,
+      MessageEffects,
+    ]),
     StoreRouterConnectingModule.forRoot(),
     FormsModule,
-    MdbAccordionModule,
-    MdbCarouselModule,
-    MdbCheckboxModule,
+    // MdbAccordionModule,
+    // MdbCarouselModule,
+    // MdbCheckboxModule,
     MdbCollapseModule,
-    MdbDropdownModule,
-    MdbFormsModule,
-    MdbModalModule,
-    MdbPopoverModule,
-    MdbRadioModule,
-    MdbRangeModule,
-    MdbRippleModule,
-    MdbScrollspyModule,
-    MdbTabsModule,
-    MdbTooltipModule,
-    MdbValidationModule,
+    // MdbDropdownModule,
+    // MdbFormsModule,
+    // MdbModalModule,
+    // MdbPopoverModule,
+    // MdbRadioModule,
+    // MdbRangeModule,
+    // MdbRippleModule,
+    // MdbScrollspyModule,
+    // MdbTabsModule,
+    // MdbTooltipModule,
+    // MdbValidationModule,
   ],
   providers: [
     {

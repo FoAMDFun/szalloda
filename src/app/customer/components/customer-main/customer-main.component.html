@@ -1,47 +1,45 @@
 <div class="container">
-  <button
-    data-bs-toggle="modal"
-    data-bs-target="#newReservationModal"
-    class="btn btn-primary my-3"
-    (click)="openAdd()"
-  >
-    Új foglalás...
-  </button>
-
-  <section>
-    <table class="table text-center table-striped align-middle">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Szoba</th>
-          <th scope="col">Megjegyzés</th>
-          <th scope="col">Kezdődátum</th>
-          <th scope="col">Végdátum</th>
-          <th scope="col">Személyek száma</th>
-          <th scope="col">Törlés</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let reservation of reservations$ | async; index as i">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ reservation.roomId }}</td>
-          <td>{{ reservation.comments }}</td>
-          <td>
-            {{ reservation.startDate.toDate() | date: "yyyy-MM-dd HH:mm" }}
-          </td>
-          <td>{{ reservation.endDate.toDate() | date: "yyyy-MM-dd HH:mm" }}</td>
-          <td>{{ reservation.numberOfCustomers }}</td>
-          <td>
-            <button
-              type="button"
-              (click)="deleteReservation(reservation)"
-              class="btn btn-danger"
-            >
-              <i class="fa fa-trash-alt"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <div class="content">
+    <button class="btn btn-primary my-3" (click)="openAdd()">
+      Új foglalás...
+    </button>
+    <section>
+      <table class="table text-center table-striped align-middle table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Szoba</th>
+            <th scope="col">Megjegyzés</th>
+            <th scope="col">Kezdődátum</th>
+            <th scope="col">Végdátum</th>
+            <th scope="col">Személyek száma</th>
+            <th scope="col">Törlés</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reservation of reservations$ | async; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ reservation.roomId }}</td>
+            <td>{{ reservation.comments }}</td>
+            <td>
+              {{ reservation.startDate.toDate() | date: "yyyy-MM-dd HH:mm" }}
+            </td>
+            <td>
+              {{ reservation.endDate.toDate() | date: "yyyy-MM-dd HH:mm" }}
+            </td>
+            <td>{{ reservation.numberOfCustomers }}</td>
+            <td>
+              <button
+                type="button"
+                (click)="deleteReservation(reservation)"
+                class="btn btn-danger"
+              >
+                <i class="fa fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
 </div>

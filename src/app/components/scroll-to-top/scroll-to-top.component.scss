@@ -1,0 +1,40 @@
+.scroller-icon {
+    background-color: #27a2d7;
+    color: rgb(255, 255, 255);
+    position: fixed;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.8;
+    border-radius: 50%;
+    display: inline-block;
+    transition: bottom 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  
+  .top-pos {
+    bottom: -52px;
+    filter: drop-shadow(4px 4px 4px rgb(40, 77, 99));
+  }
+  .top-pos.show-icon {
+    bottom: 80px;
+    transition: bottom 0.3s ease-in-out;
+  }
+  
+  .bottom-pos {
+    bottom: -116px;
+    transform: rotate(180deg);
+    filter: drop-shadow(-4px -4px 4px rgb(40, 77, 99));
+  }
+  
+  .bottom-pos.show-icon {
+    bottom: 16px;
+    transition: bottom 0.3s ease-in-out;
+  }
+  

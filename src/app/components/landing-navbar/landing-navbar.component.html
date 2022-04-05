@@ -1,0 +1,57 @@
+<nav
+  class="navbar navbar-expand-lg navbar-light shadow-none fixed-top"
+  (window:scroll)="isScrolled()"
+>
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="rightAligned.toggle()"
+      aria-controls="navbarRightAlignExample"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <div
+      class="collapse navbar-collapse"
+      id="navbarRightAlignExample"
+      mdbCollapse
+      #rightAligned="mdbCollapse"
+    >
+      <ul
+        class="navbar-nav ms-auto mb-2 mb-lg-0"
+        [ngClass]="{ 'scrolled-down': isScrolled() }"
+      >
+        <li class="nav-item pointer zoom">
+          <a class="nav-link active" routerLink="register" aria-current="page"
+            >Itt dolgozom</a
+          >
+        </li>
+        <li class="nav-item pointer zoom">
+          <a class="nav-link active" routerLink="register" aria-current="page"
+            >Vendég vagyok</a
+          >
+        </li>
+        <li class="nav-item pointer zoom" *ngIf="!(isLoggedIn$ | async)">
+          <a class="nav-link active" routerLink="register" aria-current="page"
+            >Regisztráció</a
+          >
+        </li>
+
+        <li class="nav-item pointer zoom" *ngIf="!(isLoggedIn$ | async)">
+          <a class="nav-link" routerLink="login" aria-current="page"
+            >Bejelentkezés</a
+          >
+        </li>
+
+        <li class="nav-item pointer zoom" *ngIf="isLoggedIn$ | async">
+          <a class="nav-link" (click)="logOut()" aria-current="page"
+            >Kijelentkezés</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
