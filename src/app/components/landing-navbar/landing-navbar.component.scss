@@ -1,0 +1,17 @@
+.zoom {
+    transition: all 0.3s;
+    &:hover {
+      transform: scale(1.25);
+      filter: drop-shadow(5px 5px 4px #000);
+    }
+  }
+
+  .scrolled-down {
+    transition: all 0.3s;
+    transform: scale(0.01);
+}
+
+:not(.scrolled-down) {
+    transition: all 0.3s;
+    transform: scale(1);
+}

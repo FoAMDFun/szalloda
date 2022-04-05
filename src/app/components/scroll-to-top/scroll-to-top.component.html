@@ -1,0 +1,11 @@
+<div
+  class="scroller-icon"
+  [ngClass]="{
+    'show-icon': isScrolled(),
+    'top-pos': position == 'top',
+    'bottom-pos': position == 'bottom'
+  }"
+  (click)="scrollTo()"
+>
+  <i class="fa fa-chevron-up"></i>
+</div>
