@@ -9,12 +9,6 @@ const routes: Routes = [
     path: '',
     component: CustomerMainComponent,
     canActivate: [Guard],
-    children: [
-      {
-        path: 'main',
-        component: CustomerMainComponent,
-      },
-    ],
   },
 ];
 
