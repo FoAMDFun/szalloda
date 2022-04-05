@@ -19,7 +19,7 @@ export class ScrollToTopComponent implements OnInit {
   scrollTo(): void {
     if (this.position == 'bottom')
       document
-        .getElementById('email-form-container')
+        .getElementById('copyright')
         ?.scrollIntoView({ behavior: 'smooth' });
     else
       window.scrollTo({
