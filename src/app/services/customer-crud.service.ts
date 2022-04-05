@@ -21,7 +21,7 @@ export class CustomerCrudService {
     return collectionData(customerRef, { idField: '_id' }) as Observable<Customer[]>;
   }
 
-  public addCustomer(customer: Customer): Observable<any> {
+  public addCustomer(customer: Customer): Observable<any>{
     const customerRef = collection(this.firestore, this.collName);
     return defer(() => from(addDoc(customerRef, customer)));
   }

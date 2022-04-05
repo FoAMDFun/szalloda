@@ -1,10 +1,4 @@
-<div
-class="modal fade pt-5"
-id="reservationEditModal"
-tabindex="-1"
-aria-labelledby="reservationEditModalLabel"
-aria-hidden="true"
->
+<div class="modal fade pt-5" id="reservationEditModal" tabindex="-1" aria-labelledby="reservationEditModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -19,93 +13,99 @@ aria-hidden="true"
         ></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="reservationForm">
-          <!-- <div class="mb-2">
-            <label for="numberOf" class="form-label">Szobaszám:</label>
-            <input
-            [min]="validatorValue.numberOfMin"
-            [max]="validatorValue.numberOfMax"
-              type="number"
-              formControlName="numberOf"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  formControls['numberOf'].errors &&
-                  (formControls['numberOf'].touched ||
-                    formControls['numberOf'].dirty)
-              }"
-              id="numberOf"
-            />
-            <div class="text-danger">
-              <small
-                *ngIf="
-                  formControls['numberOf'].errors &&
-                  (formControls['numberOf'].touched ||
-                    formControls['numberOf'].dirty)
-                "
-                >{{getErrorMessage('numberOf','number')}}</small
-              >
-              <br />
+        <form [formGroup]="reservationForm" class="mb-3">
+          <div class="row">
+            <div class="mb-2 col-12">
+              <label for="comments" class="form-label">Megjegyzés:</label>
+              <p id="comments">{{reservationForm.value.comments}}</p>
             </div>
-          </div> -->
-          <div class="mb-2">
-          <label for="comments" class="form-label">Megjegyzés:</label>
-          <p id="comments">{{reservationForm.value.comments}}</p>
-        </div>
-          <div class="mb-2">
-          <label for="roomId" class="form-label">Szoba:</label>
-          <select class="form-select" formControlName="roomId" id="roomId">
-            <option [selected]="reservationForm.value.roomId === room._id " [value]="room._id" *ngFor="let room of allRooms$ | async | sort : 'numberOf'">Emelet: {{room.floor}} - Szobaszám: {{room.numberOf}}</option>
-          </select>
-        </div>
-        <div class="mb-2">
-          <label for="status" class="form-label">Státusz:</label>
-          <select class="form-select" formControlName="status" id="status">
-            <option [selected]="reservationForm.value.status === status.value " [value]="status.value" *ngFor="let status of reservationStatus">{{status.text}}</option>
-          </select>
-        </div>
-        <div class="mb-2">
-          <label for="startDate">Kezdő dátum:</label>
-          <input
-            #startdateref
-            type="date"
-            class="form-control"
-            id="startDate"
-            name="startDate"
-            [min]="constants.minDate"
-            [max]="constants.maxDate"
-            formControlName="startDate"
-            [value]="reservationForm.value.startDate | date: 'yyyy-MM-dd'"
-          />
-        </div>
-          <div class="mb-2">
-          <label for="endDate">Végdátum:</label>
-          <input
-            #enddateref
-            class="form-control"
-            type="date"
-            id="endDate"
-            name="endDate"
-            [min]="constants.minDate"
-            [max]="constants.maxDate"
-            formControlName="endDate"
-            [value]="reservationForm.value.endDate | date: 'yyyy-MM-dd'"
-          />
-        </div>
-          <div class="mb-2">
-            <label for="numberOfCustomers" class="form-label">Létszám:</label>
-            <input
-              type="number"
-              formControlName="numberOfCustomers"
-              class="form-control"
-              id="numberOfCustomers"/>
+            <div class="mb-2 col-6">
+              <label for="roomId" class="form-label">Szoba:</label>
+              <select class="form-select" formControlName="roomId" id="roomId">
+                <option [selected]="reservationForm.value.roomId === room._id " [value]="room._id" *ngFor="let room of allRooms$ | async | sort : 'numberOf'">Emelet: {{room.floor}} - Szobaszám: {{room.numberOf}}</option>
+              </select>
             </div>
-            <button class="btn btn-primary rounded-circle p-0 btn__icon">
-              <fa-icon  [icon]="icons.plus"></fa-icon>
-            </button>
-
-
-        </form>
+            <div class="mb-2 col-6">
+              <label for="status" class="form-label">Státusz:</label>
+              <select class="form-select" formControlName="status" id="status">
+                <option [selected]="reservationForm.value.status === status.value " [value]="status.value" *ngFor="let status of reservationStatus">{{status.text}}</option>
+              </select>
+            </div>
+            <div class="mb-2 col-6">
+              <label for="startDate">Kezdő dátum:</label>
+              <input
+                #startdateref
+                type="date"
+                class="form-control"
+                id="startDate"
+                name="startDate"
+                [min]="constants.minDate"
+                [max]="constants.maxDate"
+                formControlName="startDate"
+                [value]="reservationForm.value.startDate | date: 'yyyy-MM-dd'"
+              />
+            </div>
+            <div class="mb-2 col-6">
+              <label for="endDate">Végdátum:</label>
+              <input
+                #enddateref
+                class="form-control"
+                type="date"
+                id="endDate"
+                name="endDate"
+                [min]="constants.minDate"
+                [max]="constants.maxDate"
+                formControlName="endDate"
+                [value]="reservationForm.value.endDate | date: 'yyyy-MM-dd'"
+              />
+            </div>
+            <div class="mb-2 col-6">
+              <label for="numberOfCustomers" class="form-label">Létszám:</label>
+              <input
+                type="number"
+                formControlName="numberOfCustomers"
+                class="form-control"
+                id="numberOfCustomers"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-2 col-6"  formArrayName="customersId">
+              <div class="list-group shadow text-center" >
+                <a *ngFor="let currentCustomerId of reservationForm.value.customersId;index as i"
+                  [formGroupName]="i"
+                  class="list-group-item list-group-item--hover list-group-item-action pointer"
+                  (click)="selectCustomer(currentCustomerId._id,i,$event)"
+                  [ngClass]="{'active':i===lastFormArrayIndex}"
+                  >{{ currentCustomerId._id}}</a>
+              </div>
+            </div>
+          </div>
+          </form>
+          <form [formGroup]="currentCustomerForm" class="card" >
+            <div class="row card-body">
+              <div class="mb-2 col-6">
+                <label for="firstName" class="form-label">Keresztnév:</label>
+                <input
+                  type="text"
+                  formControlName="firstName"
+                  class="form-control"
+                  id="firstName"
+                  />
+              </div>
+              <div class="mb-2 col-6">
+                <label for="lastName" class="form-label">Vezetéknév::</label>
+                <input
+                  type="text"
+                  formControlName="lastName"
+                  class="form-control"
+                  id="lastName"
+                  />
+              </div>
+              <div class="d-flex justify-content-start">
+                <button (click)="customerSave()" class="btn btn-primary">Személy Mentése</button>
+              </div>
+            </div>
+          </form>
       </div>
       <div class="modal-footer justify-content-between">
         <button
@@ -124,3 +124,6 @@ aria-hidden="true"
     </div>
   </div>
 </div>
+<!-- <button class="btn btn-primary rounded-circle p-0 btn__icon">
+  <fa-icon  [icon]="icons.plus"></fa-icon>
+</button> -->
