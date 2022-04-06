@@ -7,10 +7,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewReservationComponent } from './components/customer-main/new-reservation/new-reservation.component';
 // MD-Bootstrap
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [CustomerMainComponent, NewReservationComponent],
   imports: [
+    SharedModule,
     CommonModule,
     CustomerRoutingModule,
     FormsModule,

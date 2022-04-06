@@ -27,11 +27,10 @@
             Válasszon szobát...
           </option>
           <option
-            *ngFor="let singleValue of roomValues; index as i"
-            [id]="i"
-            [value]="singleValue"
+            *ngFor="let room of rooms$ | async | sort: 'numberOf'"
+            [value]="room._id"
           >
-            {{ singleValue }}
+            {{ room.numberOf }}
           </option>
         </select>
       </div>

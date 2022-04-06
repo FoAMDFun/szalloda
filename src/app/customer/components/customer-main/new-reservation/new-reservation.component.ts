@@ -8,12 +8,14 @@ import {
 import { Timestamp } from 'firebase/firestore';
 import * as ReservationModel from 'src/app/models/reservation.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import * as ReservationActions from 'src/app/store/actions/reservation.action';
+import { map, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
-import * as AuthSelector from 'src/app/store/selectors/auth.selector';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import * as AuthSelector from 'src/app/store/selectors/auth.selector';
+import * as RoomSelectors from 'src/app/store/selectors/room.selector';
+import * as ReservationActions from 'src/app/store/actions/reservation.action';
+import * as RoomActions from 'src/app/store/actions/room.action';
 
 @Component({
   selector: 'app-new-reservation',
@@ -30,17 +32,36 @@ export class NewReservationComponent implements OnInit, OnDestroy {
   public roomValues: Number[] = [];
   private currentUID: string = '';
   private uidSub: Subscription;
+  public rooms$ = this.store.pipe(
+    select(RoomSelectors.getRoomsSelector),
+    map((rooms) => {
+      const result = [];
+      for (const room of rooms) {
+        result.push(room);
+      }
+      return result;
+    })
+  );
 
   constructor(
     public modalRef: MdbModalRef<NewReservationComponent>,
     private formBuilder: FormBuilder,
     private store: Store<ReservationState>
   ) {
+    this.store.dispatch(RoomActions.getRooms());
+
     this.uidSub = this.store
       .pipe(select(AuthSelector.getAuthUserUidSelector))
       .subscribe((uid) => (this.currentUID = uid));
+
     this.reservationForm = this.formBuilder.group({
-      roomId: [null, [Validators.required, Validators.pattern('^[0-9]*$')]],
+      roomId: [
+        null,
+        [
+          Validators.required,
+          // Validators.pattern(/^-?(0|[1-9]\d*)?$/)
+        ],
+      ],
       comments: [
         '',
         [
@@ -56,21 +77,6 @@ export class NewReservationComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.pattern('^[1-4]$')],
       ],
     }); // Create room list
-    for (let i = 1; i <= 5; i++) {
-      this.roomValues.push(i);
-    }
-
-    for (let i = 101; i <= 108; i++) {
-      this.roomValues.push(i);
-    }
-
-    for (let i = 201; i <= 208; i++) {
-      this.roomValues.push(i);
-    }
-
-    for (let i = 301; i <= 308; i++) {
-      this.roomValues.push(i);
-    }
   }
 
   ngOnInit(): void {}
