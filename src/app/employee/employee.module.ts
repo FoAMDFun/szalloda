@@ -12,6 +12,7 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 
 import { SortPipe } from '../pipes/sort.pipe';
 import { ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ReservationEditComponent } from './components/reservation-edit/reservat
     ReactiveFormsModule,
     EmployeeRoutingModule,
     FontAwesomeModule,
+    MdbModalModule,
   ],
   providers: [
     { provide: Window, useValue: window },

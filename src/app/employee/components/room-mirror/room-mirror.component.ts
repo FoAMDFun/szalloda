@@ -15,6 +15,8 @@ import {
   faAngleLeft,
   faAngleRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ReservationEditComponent } from '../reservation-edit/reservation-edit.component';
 
 @Component({
   selector: 'app-room-mirror',
@@ -44,6 +46,7 @@ export class RoomMirrorComponent implements OnInit {
       return result;
     })
   );
+  modalRef: MdbModalRef<ReservationEditComponent> | null = null;
 
   public styles = {
     btnHeight: 34,
@@ -64,7 +67,9 @@ export class RoomMirrorComponent implements OnInit {
   constructor(
     private storeRoom: Store<RoomState>,
     private storeReservation: Store<ReservationState>,
-    private _window: Window
+    private _window: Window,
+    private modalService: MdbModalService,
+
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -199,7 +204,10 @@ export class RoomMirrorComponent implements OnInit {
     return this.currentDates.slice(start, end);
   }
 
-  public editReservation(reservation:Reservation): void {
+  public openEditReservation(reservation: Reservation):void{
+    this.modalRef = this.modalService.open(ReservationEditComponent, {
+      modalClass: 'modal-dialog-centered',
+    });
     this.storeReservation.dispatch(setCurrendReservation(reservation));
   }
 }

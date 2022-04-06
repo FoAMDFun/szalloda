@@ -27,41 +27,34 @@
         <div class="row">
           <div class="col-4 col-md-3">
             <div class="list-group shadow rounded-pill text-center" id="list-tab" role="tablist">
-              <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0"
+              <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0 m-0"
                 role="button"
                 (click)="massageUpClick()"
                 >
                 <fa-icon  [icon]="icons.up"></fa-icon>
               </a>
               <a *ngFor="let massage of sliceCurrentMessages((messages$|async));index as i"
-                class="list-group-item list-group-item--hover list-group-item-action"
-                [id]="'list-massage-' + i + 'list'"
+                class="list-group-item list-group-item--hover list-group-item-action pointer m-0 border"
                 data-bs-toggle="list"
-                [href]="'#list-massage' + i"
+                (click)="openMessageTab(massage)"
                 role="tab"
-                [attr.aria-controls]="'list-massage' + i"
+                [ngClass]="{'active':massage._id===selectedMessage?._id}"
                 >{{ (getSenderFullName(massage.senderId) |async)}}</a>
-              <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0"
+              <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0 m-0"
               role="button" (click)="massageDownClick()">
               <fa-icon  [icon]="icons.down"></fa-icon>
             </a>
             </div>
           </div>
-          <div class="col-8 col-md-9">
+          <div *ngIf="selectedMessage !== undefined" class="col-8 col-md-9">
             <div class="tab-content" id="nav-tabContent">
-              <div
-                *ngFor="let massage of sliceCurrentMessages((messages$|async)); index as i"
-                class="tab-pane fade"
-                [id]="'list-massage' + i"
-                role="tabpanel"
-                [attr.aria-labelledby]="'list-massage' + i + '-list'"
-              >
+              <div role="tabpanel">
                 <div class="card shadow">
                   <div class="card-body">
-                    <h5 class="card-title">{{ massage.title }}</h5>
-                    <p class="card-text">{{ massage.text }}</p>
+                    <h5 class="card-title">{{ selectedMessage.title }}</h5>
+                    <p class="card-text">{{ selectedMessage.text }}</p>
                     <div class="div d-flex justify-content-between">
-                      <button class="btn btn-warning" (click)="read(massage)">Elolvasva</button>
+                      <button class="btn btn-warning" (click)="read(selectedMessage)">Elolvasva</button>
                       <button class="btn btn-primary">Válasz</button>
                     </div>
                   </div>
@@ -80,56 +73,46 @@
     <div class="row">
       <div class="col-4 col-md-3">
         <div class="list-group shadow rounded-pill text-center" id="list-tab" role="tablist">
-          <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0"
+          <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0 m-0"
             role="button"
             (click)="unconfirmedReservationUpClick()"
             >
             <fa-icon  [icon]="icons.up"></fa-icon>
           </a>
           <a *ngFor="let reservation of sliceUnconfirmedReservations((unconfirmedReservations$|async));index as i"
-            class="list-group-item list-group-item--hover list-group-item-action"
-            [id]="'list-reservation-' + i + 'list'"
+            class="list-group-item list-group-item--hover list-group-item-action pointer m-0 border"
             data-bs-toggle="list"
-            [href]="'#list-reservation' + i"
             role="tab"
-            [attr.aria-controls]="'list-reservation' + i"
+            [ngClass]="{'active':reservation._id===selectedReservation?._id}"
+            (click)="openReservationTab(reservation)"
             >
-            {{reservation.roomId}} -
-            {{ (getRoomNumberOfById(reservation.roomId) | async)?.numberOf }} (
+            {{ (getRoomNumberOfById(reservation.roomId) | async)?.numberOf }} - (
               {{ reservation.startDate.toDate() | date: "MM.dd" }} -
               {{ reservation.endDate.toDate() | date: "MM.dd" }} )
             </a>
-          <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0"
+          <a class="list-group-item list-group-item--hover list-group-item__btn list-group-item-action p-0 m-0"
           role="button" (click)="unconfirmedReservationDownClick()">
           <fa-icon  [icon]="icons.down"></fa-icon>
         </a>
         </div>
       </div>
-      <div class="col-8 col-md-9">
-        <div class="tab-content" id="nav-tabContent">
-          <div
-            *ngFor="let reservation of sliceUnconfirmedReservations((unconfirmedReservations$|async)); index as i"
-            class="tab-pane fade"
-            [id]="'list-reservation' + i"
-            role="tabpanel"
-            [attr.aria-labelledby]="'list-reservation' + i + '-list'"
-          >
+      <div class="col-8 col-md-9" *ngIf="selectedReservation!==undefined">
+        <div class="tab-content" >
+          <div role="tabpanel">
             <div class="card shadow">
               <div class="card-body">
                 <h5 class="card-title">
-                  Szoba: {{ (getRoomNumberOfById(reservation.roomId) | async)?.numberOf }} - Érkezés:
+                  Szoba: {{ (getRoomNumberOfById(selectedReservation.roomId) | async)?.numberOf }} - Érkezés:
                   {{
-                    reservation.startDate.toDate() | date: "yyyy-MM-dd"
+                    selectedReservation.startDate.toDate() | date: "yyyy-MM-dd"
                   }}
                   - Távozás:
-                  {{ reservation.endDate.toDate() | date: "yyyy-MM-dd" }}
+                  {{ selectedReservation.endDate.toDate() | date: "yyyy-MM-dd" }}
                 </h5>
-                <p class="card-text">{{ reservation.comments }}</p>
+                <p class="card-text">{{ selectedReservation.comments }}</p>
                 <div class="div">
-                  <button class="btn btn-primary" (click)="editReservation(reservation)"
+                  <button class="btn btn-primary" (click)="openEditReservation(selectedReservation)"
                     type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#reservationEditModal"
                   >Szerkesztés</button>
                 </div>
               </div>

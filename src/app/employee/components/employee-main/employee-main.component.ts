@@ -18,6 +18,8 @@ import { RoomState } from 'src/app/store/reducers/room.reducer';
 import { getRooms } from 'src/app/store/actions/room.action';
 import { getRoomByIdSelector } from 'src/app/store/selectors/room.selector';
 import { Room } from 'src/app/models/room.model';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { ReservationEditComponent } from '../reservation-edit/reservation-edit.component';
 @Component({
   selector: 'app-employee-main',
   templateUrl: './employee-main.component.html',
@@ -57,11 +59,14 @@ export class EmployeeMainComponent implements OnInit {
 })))
   public messagesLengthSub?: Subscription;
   private messagesLength?:number;
+  modalRef: MdbModalRef<ReservationEditComponent> | null = null;
+
   constructor(
     private storeMessage: Store<MessageState>,
     private storeReservation: Store<ReservationState>,
     private storeCustomer: Store<CustomerState>,
     private storeRoom: Store<RoomState>,
+    private modalService: MdbModalService,
     ) { }
 
   ngOnInit(): void {
@@ -123,7 +128,10 @@ export class EmployeeMainComponent implements OnInit {
   }
 
 
-  public editReservation(reservation: Reservation):void{
+  public openEditReservation(reservation: Reservation):void{
+    this.modalRef = this.modalService.open(ReservationEditComponent, {
+      modalClass: 'modal-dialog-centered',
+    });
     this.storeReservation.dispatch(setCurrendReservation(reservation));
   }
 
@@ -168,11 +176,23 @@ export class EmployeeMainComponent implements OnInit {
 
   public read(massage:Message):void{
     this.storeMessage.dispatch(updateMessage({...massage,isRead:true}))
+    this.selectedMessage=undefined;
+    this.massageUpClick();
   }
 
 
   public getRoomNumberOfById(roomId:string):Observable<Room| undefined> {
     return this.storeRoom.select(getRoomByIdSelector(roomId))
+  }
+
+  selectedMessage?: Message;
+  selectedReservation?: Reservation;
+
+  public openMessageTab(message: Message):void{
+    this.selectedMessage = message;
+  }
+  public openReservationTab(reservation: Reservation):void{
+    this.selectedReservation = reservation;
   }
 
 }
