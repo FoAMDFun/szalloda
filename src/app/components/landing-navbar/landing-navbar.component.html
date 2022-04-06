@@ -25,23 +25,34 @@
         [ngClass]="{ 'scrolled-down': isScrolled() }"
       >
         <li class="nav-item pointer zoom">
-          <a class="nav-link active" routerLink="register" aria-current="page"
+          <a
+            class="nav-link"
+            *ngIf="isLoggedIn$ | async"
+            routerLink="employee"
+            aria-current="page"
             >Itt dolgozom</a
           >
         </li>
         <li class="nav-item pointer zoom">
-          <a class="nav-link active" routerLink="register" aria-current="page"
+          <a
+            class="nav-link"
+            *ngIf="isLoggedIn$ | async"
+            routerLink="customer"
+            aria-current="page"
             >Vendég vagyok</a
           >
         </li>
         <li class="nav-item pointer zoom" *ngIf="!(isLoggedIn$ | async)">
-          <a class="nav-link active" routerLink="register" aria-current="page"
+          <a
+            class="nav-link active"
+            (click)="openRegister()"
+            aria-current="page"
             >Regisztráció</a
           >
         </li>
 
         <li class="nav-item pointer zoom" *ngIf="!(isLoggedIn$ | async)">
-          <a class="nav-link" routerLink="login" aria-current="page"
+          <a class="nav-link" (click)="openLogin()" aria-current="page"
             >Bejelentkezés</a
           >
         </li>

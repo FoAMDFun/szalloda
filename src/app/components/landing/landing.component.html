@@ -1,152 +1,33 @@
 <body>
-  <main>
-    <div class="wrapper">
-      <img
-        class="background-image"
-        src="../../../assets/background.webp"
-        alt=""
-      />
-      <section class="content">
-        <app-landing-navbar></app-landing-navbar>
+  <div class="wrapper">
+    <img
+      class="background-image"
+      src="../../../assets/background.webp"
+      alt=""
+    />
+    <section class="content">
+      <app-landing-navbar></app-landing-navbar>
+      <div class="logo" [ngClass]="{ 'scrolled-down': (isScrolled$ | async) }">
         <h1>
           <img id="logoimg" src="../../../assets/szalloda.png" alt="" />
           Szálloda
         </h1>
-        <section class="container">
-          <p>
-            <br />
-            Szeretnél egy jót pihenni? Megfelelő ár/teljesítmény arányú
-            szolgáltatást keresel? Nálunk mindezt megteheted, foglalj szállást
-            még ma! Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Suspendisse sagittis non massa et suscipit. Fusce hendrerit semper
-            finibus. In massa purus, congue ut egestas et, maximus in magna. In
-            dui tellus, consectetur quis nibh non, commodo ornare ipsum. Mauris
-            <br />
-            pulvinar hendrerit elit vel tincidunt. Etiam quis est et quam
-            rhoncus luctus quis id erat. Aliquam vehicula, mauris semper laoreet
-            tincidunt, diam ante suscipit magna, vitae pellentesque ligula nisl
-            in ipsum. Sed sed ligula vitae metus suscipit bibendum pretium
-            egestas nunc. Nam nunc arcu, imperdiet ac ex dignissim, imperdiet
-            commodo turpis. Phasellus et enim in ipsum ullamcorper rutrum et sed
-            mi. Fusce ac mi non erat tristique fermentum a in neque. Nunc eu
-            eros nec enim consequat molestie at non mi. Etiam feugiat imperdiet
-            nulla in tempus. Maecenas aliquet sem risus, id tincidunt purus
-            fringilla id. Sed pharetra, nibh id varius hendrerit, arcu tellus
-            aliquet risus, sit
-            <br />
-            amet rhoncus tellus elit et nulla. Morbi rhoncus efficitur sapien
-            non semper. Sed eu diam laoreet arcu facilisis tincidunt ut at
-            libero. Etiam pharetra nisi ac lectus suscipit porttitor. In
-            venenatis, nulla non feugiat feugiat, ligula justo consectetur
-            turpis, a interdum augue diam id nisi. Maecenas posuere turpis quis
-            odio tristique bibendum. Fusce accumsan pretium nibh in auctor.
-            Aliquam aliquam diam velit, id aliquet tortor tempor ac. Aliquam
-            venenatis facilisis lorem in
-            <br />
-            euismod. Nunc eget efficitur purus. Fusce viverra commodo diam
-            placerat commodo. Nunc eget magna in enim interdum rhoncus.
-            <br />
-            Pellentesque et dui nisl. Nullam eu convallis ligula. Mauris
-            imperdiet elit in semper pretium. Vivamus condimentum eleifend ante,
-            ut egestas diam porttitor eu. Nam maximus feugiat maximus.
-            Suspendisse interdum sem sed est dignissim feugiat. Donec et
-            tincidunt ligula, in tempus mauris. Mauris maximus, tortor quis
-            volutpat tempus, est nunc
-            <br />
-            tristique urna, nec blandit orci libero sodales dolor. Etiam mollis
-            lacus volutpat, rhoncus diam scelerisque, maximus sem. Curabitur
-            tempus odio non ullamcorper consequat. Vestibulum ante ipsum primis
-            in faucibus orci luctus et ultrices posuere cubilia curae; Aliquam
-            vestibulum eros in orci ullamcorper dapibus. Vivamus sagittis tortor
-            non viverra suscipit. Curabitur tempus gravida tristique. In euismod
-            diam ligula, eget varius diam convallis non. Praesent dignissim,
-            orci
-            <br />
-            ut gravida tempor, magna mauris gravida est, eget scelerisque quam
-            sem eget massa. Vivamus sit amet fermentum ante. Etiam sapien arcu,
-            auctor in lectus vel, facilisis tristique dui. In hac habitasse
-            platea dictumst. Nam quis enim lectus. Mauris facilisis libero ante,
-            sit amet tempor neque vehicula ac. Aenean ullamcorper congue massa,
-            ut cursus sem dapibus vitae. Pellentesque habitant morbi tristique
-            senectus et netus et malesuada fames ac turpis egestas. Mauris
-            imperdiet, massa vel maximus tincidunt, ligula elit vestibulum
-            lacus, ac elementum nibh risus vel purus. Interdum et malesuada
-            fames ac ante ipsum primis in
-            <br />
-            faucibus. Nunc ultrices convallis volutpat. Vestibulum auctor
-            vehicula mi, id fermentum turpis aliquam id. Proin eget hendrerit
-            velit. Nam condimentum urna ligula, id convallis urna iaculis
-            sed.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Suspendisse sagittis non massa et suscipit. Fusce hendrerit semper
-            finibus. In massa purus, congue ut egestas et, maximus in magna. In
-            dui tellus, consectetur quis nibh non, commodo ornare ipsum. Mauris
-            pulvinar hendrerit elit vel tincidunt. Etiam quis est et quam
-            rhoncus luctus quis id erat.
-            <br />
-            Aliquam vehicula, mauris semper laoreet tincidunt, diam ante
-            suscipit magna, vitae pellentesque ligula nisl in ipsum. Sed sed
-            ligula vitae metus suscipit bibendum pretium egestas nunc. Nam nunc
-            arcu, imperdiet ac ex dignissim, imperdiet commodo turpis. Phasellus
-            et enim in ipsum
-            <br />
-            ullamcorper rutrum et sed mi. Fusce ac mi non erat tristique
-            fermentum a in neque. Nunc eu eros nec enim consequat molestie at
-            non mi. Etiam feugiat imperdiet nulla in tempus. Maecenas aliquet
-            sem risus, id tincidunt purus fringilla id. Sed pharetra, nibh id
-            varius hendrerit, arcu tellus aliquet risus, sit amet rhoncus tellus
-            elit et nulla. Morbi rhoncus efficitur sapien non semper. Sed eu
-            diam laoreet arcu facilisis tincidunt ut at libero. Etiam pharetra
-            nisi ac lectus
-            <br />
-            suscipit porttitor. In venenatis, nulla non feugiat feugiat, ligula
-            justo consectetur turpis, a interdum augue diam id nisi. Maecenas
-            posuere turpis quis odio tristique bibendum. Fusce accumsan pretium
-            nibh in auctor. Aliquam aliquam diam velit, id aliquet tortor tempor
-            ac. Aliquam venenatis facilisis lorem in euismod. Nunc eget
-            efficitur
-            <br />
-            purus. Fusce viverra commodo diam placerat commodo. Nunc eget magna
-            in enim interdum rhoncus. Pellentesque et dui nisl. Nullam eu
-            convallis ligula. Mauris imperdiet elit in semper pretium. Vivamus
-            condimentum eleifend ante, ut egestas diam porttitor eu. Nam maximus
-            feugiat maximus. Suspendisse interdum sem sed est dignissim feugiat.
-            Donec et tincidunt ligula, in tempus mauris. Mauris maximus, tortor
-            quis volutpat tempus, est nunc tristique urna, nec blandit orci
-            libero sodales dolor. Etiam mollis lacus volutpat, rhoncus diam
-            scelerisque,
-            <br />
-            maximus sem. Curabitur tempus odio non ullamcorper consequat.
-            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-            posuere cubilia curae; Aliquam vestibulum eros in orci ullamcorper
-            dapibus. Vivamus sagittis tortor non viverra suscipit. Curabitur
-            <br />
-            tempus gravida tristique. In euismod diam ligula, eget varius diam
-            convallis non. Praesent dignissim, orci ut gravida tempor, magna
-            mauris gravida est, eget scelerisque quam sem eget massa. Vivamus
-            sit amet fermentum ante. Etiam sapien arcu, auctor in lectus vel,
-            facilisis tristique dui. In hac habitasse platea dictumst. Nam quis
-            enim lectus. Mauris facilisis libero ante, sit amet tempor neque
-            vehicula ac. Aenean ullamcorper congue massa, ut cursus sem dapibus
-            vitae. Pellentesque habitant morbi tristique senectus et netus et
-            <br />
-            malesuada fames ac turpis egestas. Mauris imperdiet, massa vel
-            maximus tincidunt, ligula elit vestibulum lacus, ac elementum nibh
-            risus vel purus. Interdum et malesuada fames ac ante ipsum primis in
-            faucibus. Nunc ultrices convallis volutpat. Vestibulum auctor
-            vehicula mi, id fermentum turpis aliquam id. Proin eget hendrerit
-            velit. Nam
-            <br />
-            condimentum urna ligula, id convallis urna iaculis sed. Megfelelő
-            ár/teljesítmény arányú szolgáltatást keresel? Nálunk mindezt
-            megteheted, foglalj szállást még ma!
-          </p>
-        </section>
-        <div class="copyright" id="copyright">
-          2022 Chris & Chris.® Minden jog fenntartva!©
+      </div>
+      <section class="container start">
+        <p>
+          Szeretnél egy jót pihenni? Megfelelő ár/teljesítmény arányú
+          szolgáltatást keresel? Nálunk mindezt megteheted, foglalj szállást még
+          ma! Tekintsd meg galériánkat!
+        </p>
+        <div *ngFor="let image of images" data-aos="zoom-in">
+          <img [src]="image" class="img-fluid" alt="Image" />
         </div>
       </section>
-    </div>
-  </main>
+      <div class="copyright" id="copyright">
+        2022 Chris & Chris.® Minden jog fenntartva!©
+      </div>
+    </section>
+  </div>
   <app-scroll-to-top position="top"></app-scroll-to-top>
   <app-scroll-to-top position="bottom"></app-scroll-to-top>
 </body>

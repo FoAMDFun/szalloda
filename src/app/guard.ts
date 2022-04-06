@@ -41,7 +41,7 @@ export class Guard implements CanActivate {
 
     if (!this.isLoggedIn) {
       this.toastr.error(
-        'Be kell jelentkeznie, hogy a tartalomhoz hozzáférjen!',
+        'Be kell jelentkezned, hogy a tartalomhoz hozzáférj!',
         'Bejelentkezési hiba!'
       );
       this.router.navigate(['/']);
