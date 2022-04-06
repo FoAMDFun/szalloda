@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
 import { getCustomerByIdSelector, getCustomerIdByCustomer } from 'src/app/store/selectors/customer.selector';
 import { getCurrentReservation } from 'src/app/store/selectors/reservation.selector';
-import { getRoomsSelector } from 'src/app/store/selectors/room.selector';
+import { getRoomsSelector, getRoomByIdSelector } from 'src/app/store/selectors/room.selector';
 import { integerValidator } from 'src/app/validators/integer.validator';
 import { getReservations, updateReservation } from '../../../store/actions/reservation.action';
 @Component({
@@ -42,13 +42,13 @@ export class ReservationEditComponent implements OnInit {
       if (reservation) {
         this.reservationForm.patchValue({
           _id:reservation._id,
-          startDate:reservation.startDate.toDate(),
-          endDate: reservation.endDate.toDate(),
+          startDate: this.dateToString(reservation.startDate.toDate()),
+          endDate: this.dateToString(reservation.endDate.toDate()),
           roomId:reservation.roomId,
           numberOfCustomers:reservation.numberOfCustomers,
           comments:reservation.comments,
           status:reservation.status,
-          customerId:reservation.customerId
+          customerId:reservation.customerId,
         });
         this.customersForm.clear()
         let j = reservation.numberOfCustomers;
@@ -63,11 +63,23 @@ export class ReservationEditComponent implements OnInit {
       }
     )
   }
+
+  dateToString(date: Date): string {
+    return date.getFullYear() + '-' +
+    ((date.getMonth()+1<10)? '0' + (date.getMonth()+1):(date.getMonth()+1))+ '-' +
+    ((date.getDate()<10)? '0' + date.getDate():date.getDate());
+  }
+
+
+  change(){
+    console.log(this.reservationForm.value);
+  }
+
   public reservationForm: FormGroup = this.fb.group({
-    _id: [''],
-    comments: [''],
-    startDate: ['', []],
-    endDate: ['', []],
+    _id: ['', []],
+    comments: ['', []],
+    startDate: ['', [Validators.pattern(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)]],
+    endDate: ['', [Validators.pattern(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)]],
     roomId: ['', [Validators.required]],
     numberOfCustomers: ['',[integerValidator,Validators.min(1)]],
     customersId: this.fb.array([]),
@@ -88,9 +100,12 @@ export class ReservationEditComponent implements OnInit {
   public saveReservation():void {
     const reservation = {
       ...this.reservationForm.value,
+      startDate: new Date(this.reservationForm.value.startDate),
+      endDate: new Date(this.reservationForm.value.endDate),
       customersId: [...this.customersForm.value].map((customerId:any) => customerId._id)
     }
     this.storeReservation.dispatch(updateReservation(reservation));
+    this.modalRef.close()
   }
   get customersForm():FormArray{
     return this.reservationForm.get('customersId') as FormArray;
@@ -99,12 +114,6 @@ export class ReservationEditComponent implements OnInit {
   addCustomerId(id:string):void{
     const user =this.fb.group({
       _id: [id,[]],
-      // nationality: ['',[]],
-      // firstName: ['', []],
-      // lastName: ['', []],
-      // birthPlace: ['', []],
-      // birthDate: ['', []],
-      // email: ['', []],
     })
     this.customersForm.push(user);
   }
@@ -122,14 +131,12 @@ export class ReservationEditComponent implements OnInit {
   });
 
   selectCustomer(id: string, FormArrayIndex: number): void {
-    console.log(id);
     this.storeCustomer.pipe(select(getCustomerByIdSelector(id))).subscribe(customer => {
       if(customer){
         this.currentCustomerForm.setValue(customer)
       }else{
         this.currentCustomerForm.reset()
       }
-      console.log(customer);
       this.lastFormArrayIndex = FormArrayIndex;
     })
   }
@@ -156,6 +163,11 @@ export class ReservationEditComponent implements OnInit {
       this.lastGetCustomerIdByCustomerSub?.unsubscribe()
     }
 
+
+    getRoomIsExistById(id: string):Observable<boolean> {
+      console.log(id);
+      return this.storeRoom.pipe(select(getRoomByIdSelector(id)),map(room => room !== undefined))
+    }
 }
 
 
