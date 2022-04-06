@@ -18,3 +18,19 @@ export const getRoomByIdSelector = (roomId: string) => createSelector(
   getRoomState,
   (state: RoomState) => state.items.find(r => r._id === roomId)
 );
+
+export const getCurrentRoomAddRoomAndCRUDMode = createSelector(
+  getRoomState,
+  (state:RoomState) => {
+    return {
+    currentRoom: state.currentRoom,
+    newRoom: state.newRoom,
+    crudMode: state.crudMode,
+    }
+  }
+)
+
+export const getCurrentRoomSelector = createSelector(
+  getRoomState,
+  (state: RoomState) => state.currentRoom
+);

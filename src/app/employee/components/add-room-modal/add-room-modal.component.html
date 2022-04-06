@@ -1,0 +1,144 @@
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark fw-bold" id="roomModalLabel">
+          Új Szoba felvitele
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="close()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="roomForm">
+          <div class="mb-2">
+            <label for="numberOf" class="form-label">Szobaszám:</label>
+            <input
+            [min]="validatorValue.numberOfMin"
+            [max]="validatorValue.numberOfMax"
+              type="number"
+              formControlName="numberOf"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  formControls['numberOf'].errors &&
+                  (formControls['numberOf'].touched ||
+                    formControls['numberOf'].dirty)
+              }"
+              id="numberOf"
+            />
+            <div class="text-danger">
+              <small
+                *ngIf="
+                  formControls['numberOf'].errors &&
+                  (formControls['numberOf'].touched ||
+                    formControls['numberOf'].dirty)
+                "
+                >{{getErrorMessage('numberOf','number')}}</small
+              >
+              <br />
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="floor" class="form-label">Emelet:</label>
+            <input
+              [min]="validatorValue.floorMin"
+              [max]="validatorValue.floorMax"
+              type="text"
+              formControlName="floor"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  formControls['floor'].errors &&
+                  (formControls['floor'].touched || formControls['floor'].dirty)
+              }"
+              id="floor"
+            />
+            <div class="text-danger">
+              <small
+                *ngIf="
+                  formControls['floor'].errors &&
+                  (formControls['floor'].touched || formControls['floor'].dirty)
+                "
+                >{{getErrorMessage('floor','string')}}</small
+              >
+              <br />
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="bed" class="form-label">Ágyak száma:</label>
+            <input
+              type="number"
+              [min]="validatorValue.bedMin"
+              [max]="validatorValue.bedMax"
+              formControlName="bed"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid':
+                  formControls['bed'].errors &&
+                  (formControls['bed'].touched || formControls['bed'].dirty)
+              }"
+              id="bed"
+            />
+            <div class="text-danger">
+              <small
+                *ngIf="
+                  formControls['bed'].errors &&
+                  (formControls['bed'].touched || formControls['bed'].dirty)
+                "
+                >{{getErrorMessage('bed','number')}}</small>
+
+              <br />
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="formFile" class="form-label ">Kép</label>
+            <input
+              readonly
+              formControlName="imageSrc"
+              type="text"
+              class="mb-2 form-control novalidate"
+            />
+            <input
+              formControlName="image"
+              class="form-control mb-2 novalidate"
+              type="file"
+              id="formFile"
+              (change)="selectFile($event)"
+              accept="*.png.jpg"
+            />
+            <button
+              [disabled]="!formControls['image'].value"
+              (click)="upload()"
+              type="button"
+              class="mb-2 btn btn-primary"
+            >
+              Kép Feltöltése
+            </button>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="isBalcony"
+              id="isBalcony"
+            />
+            <label class="form-check-label" for="isBalcony"> Erkélyes </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button
+          type="submit"
+          [disabled]="!roomForm.valid"
+          (click)="saveRoom()"
+          class="btn btn-primary"
+        >
+          Mentés
+        </button>
+        <button type="button" class="btn btn-warning" (click)="close()">
+          Bezárás
+        </button>
+      </div>
+    </div>

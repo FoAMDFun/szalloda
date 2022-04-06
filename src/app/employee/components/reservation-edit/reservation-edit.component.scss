@@ -7,22 +7,22 @@
 }
 .card{
   background: #f0f0f0;
-  .list-group-item{
-    &__btn{
-      height: 1.7rem;
-      &:active {
-        box-shadow: 0px 0px 1px #457912
-      }
+}
+.list-group-item{
+  &__btn{
+    height: 1.7rem;
+    &:active {
+      box-shadow: 0px 0px 1px #457912
     }
-    background: #f0f0f0;
-    &--hover{
-      &:hover{
-        background: #d2e4c1;
-      }
+  }
+  background: #f0f0f0;
+  &--hover{
+    &:hover{
+      background: #d2e4c1;
     }
-    &.active{
-      border-color: #457912;
-      background: #457912;
-    }
+  }
+  &.active{
+    border-color: #457912;
+    background: #457912;
   }
 }

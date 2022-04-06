@@ -13,6 +13,8 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SortPipe } from '../pipes/sort.pipe';
 import { ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { AddRoomModalComponent } from './components/add-room-modal/add-room-modal.component';
+import { DeleteRoomModalComponent } from './components/delete-room-modal/delete-room-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
     NavbarComponent,
     SortPipe,
     ReservationEditComponent,
+    AddRoomModalComponent,
+    DeleteRoomModalComponent,
   ],
   imports: [
     CommonModule,
