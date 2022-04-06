@@ -1,4 +1,4 @@
-<section class="container-md py-5">
+<section class="container-lg py-5">
   <h1 class="text-center fw-bold">Szoba Lista</h1>
   <!-- <button (click)="newRandomRoom()" class="btn btn-primary my-3">Új Random Szoba...</button> -->
   <button
@@ -13,25 +13,25 @@
   <table class="table text-center table-striped shadow-lg">
     <thead>
       <tr>
-        <th scope="col">Szobaszám</th>
-        <th scope="col">Emelet</th>
-        <th scope="col">Ágyszám</th>
-        <th scope="col">Erkélyes</th>
-        <th scope="col">Kép</th>
-        <th scope="col">Értékelések</th>
-        <th scope="col">Törlés</th>
-        <th scope="col">Szerkesztés</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Szobaszám</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Emelet</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Ágyszám</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Erkélyes</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Kép</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Értékelések</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Törlés</th>
+        <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Szerkesztés</th>
       </tr>
     </thead>
     <tbody>
       <tr
         *ngFor="let room of rooms$ | async | sort: 'numberOf'; index as i"
-        class="align-middle"
+        class="align-middle p-lg-3"
       >
-        <td>{{ room.numberOf }}</td>
-        <td>{{ room.floor }}</td>
-        <td>{{ room.bed }}</td>
-        <td>
+        <td class="p-0 p-md-2 p-lg-3 align-middle">{{ room.numberOf }}</td>
+        <td class="p-0 p-md-2 p-lg-3 align-middle">{{ room.floor }}</td>
+        <td class="p-0 p-md-2 p-lg-3 align-middle">{{ room.bed }}</td>
+        <td class="p-0 p-md-2 p-lg-3 align-middle">
           <fa-icon
             [icon]="room.isBalcony ? icons.true : icons.false"
             [ngStyle]="{ color: room.isBalcony ? 'green' : 'red' }"
@@ -47,10 +47,10 @@
           <!-- {{room.imageSrc}} -->
           <!-- <fa-icon  class="pointer" [icon]="icons.img"></fa-icon> -->
         </td>
-        <td>
+        <td class="p-0 p-md-2 p-lg-3 align-middle">
           <fa-icon class="pointer text-warning" [icon]="icons.star"></fa-icon>
         </td>
-        <td>
+        <td class="p-0 p-md-2 p-lg-3 align-middle">
           <button
             type="button"
             (click)="setDeleteRoom(room)"
@@ -61,7 +61,7 @@
             <fa-icon [icon]="icons.delete"></fa-icon>
           </button>
         </td>
-        <td>
+        <td class="p-0 p-md-2 p-lg-3 align-middle">
           <button
             (click)="editRoom(room)"
             class="btn btn-success"

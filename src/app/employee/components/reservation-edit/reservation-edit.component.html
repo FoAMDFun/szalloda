@@ -1,15 +1,14 @@
-<div class="modal fade pt-5" id="reservationEditModal" tabindex="-1" aria-labelledby="reservationEditModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-dark fw-bold" id="reservationEditModalLabel">
-          Foglalás
+        <h5 class="modal-title text-dark fw-bold" >
+          Foglalás{{reservationForm.value.startDate | date: 'yyyy-MM-dd'}}
         </h5>
         <button
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="modalRef.close()"
         ></button>
       </div>
       <div class="modal-body">
@@ -34,7 +33,6 @@
             <div class="mb-2 col-6">
               <label for="startDate">Kezdő dátum:</label>
               <input
-                #startdateref
                 type="date"
                 class="form-control"
                 id="startDate"
@@ -42,13 +40,12 @@
                 [min]="constants.minDate"
                 [max]="constants.maxDate"
                 formControlName="startDate"
-                [value]="reservationForm.value.startDate | date: 'yyyy-MM-dd'"
+                [value]="(reservationForm.value.startDate | date: 'yyyy-MM-dd')"
               />
             </div>
             <div class="mb-2 col-6">
               <label for="endDate">Végdátum:</label>
               <input
-                #enddateref
                 class="form-control"
                 type="date"
                 id="endDate"
@@ -56,7 +53,7 @@
                 [min]="constants.minDate"
                 [max]="constants.maxDate"
                 formControlName="endDate"
-                [value]="reservationForm.value.endDate | date: 'yyyy-MM-dd'"
+                [value]="(reservationForm.value.endDate | date: 'yyyy-MM-dd')"
               />
             </div>
             <div class="mb-2 col-6">
@@ -74,7 +71,7 @@
                 <a *ngFor="let currentCustomerId of reservationForm.value.customersId;index as i"
                   [formGroupName]="i"
                   class="list-group-item list-group-item--hover list-group-item-action pointer"
-                  (click)="selectCustomer(currentCustomerId._id,i,$event)"
+                  (click)="selectCustomer(currentCustomerId._id,i)"
                   [ngClass]="{'active':i===lastFormArrayIndex}"
                   >{{ currentCustomerId._id}}</a>
               </div>
@@ -117,13 +114,12 @@
         >
           Mentés
         </button>
-        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" (click)="modalRef.close()">
           Bezárás
         </button>
       </div>
     </div>
-  </div>
-</div>
+
 <!-- <button class="btn btn-primary rounded-circle p-0 btn__icon">
   <fa-icon  [icon]="icons.plus"></fa-icon>
 </button> -->

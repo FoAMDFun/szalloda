@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { select, Store } from '@ngrx/store';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { map, Observable, Subscription } from 'rxjs';
 import { Reservation, ReservationStatus } from 'src/app/models/reservation.model';
 import { Room } from 'src/app/models/room.model';
@@ -28,6 +29,7 @@ export class ReservationEditComponent implements OnInit {
     private storeRoom: Store<RoomState>,
     private fb: FormBuilder,
     private storeCustomer:Store<CustomerState>,
+    public modalRef: MdbModalRef<ReservationEditComponent>,
   ) {}
   selectedReservation? : Observable<Reservation | null> =this.storeReservation.pipe(select(getCurrentReservation));
   public allRooms$?: Observable<Room[]> = this.storeRoom.pipe(select(getRoomsSelector),map((rooms) => [...rooms]))
@@ -90,7 +92,7 @@ export class ReservationEditComponent implements OnInit {
     }
     this.storeReservation.dispatch(updateReservation(reservation));
   }
-  get customersForm():FormArray{                               //      => ez az userForm
+  get customersForm():FormArray{
     return this.reservationForm.get('customersId') as FormArray;
   }
 
@@ -119,16 +121,15 @@ export class ReservationEditComponent implements OnInit {
     email: ['', []],
   });
 
-  selectCustomer(id: string, FormArrayIndex: number,event: any): void {
-    // event.target.classList.add('active');
-    // event.target.setAttribute('selected', true);
-    // event.target.setAttribute('aria-current', "true");
+  selectCustomer(id: string, FormArrayIndex: number): void {
+    console.log(id);
     this.storeCustomer.pipe(select(getCustomerByIdSelector(id))).subscribe(customer => {
       if(customer){
         this.currentCustomerForm.setValue(customer)
       }else{
         this.currentCustomerForm.reset()
       }
+      console.log(customer);
       this.lastFormArrayIndex = FormArrayIndex;
     })
   }
@@ -140,11 +141,12 @@ export class ReservationEditComponent implements OnInit {
       this.storeCustomer.dispatch(updateCustomer(this.currentCustomerForm.value));
     }else{
       this.storeCustomer.dispatch(addCustomer(this.currentCustomerForm.value));
-      this.lastGetCustomerIdByCustomerSub?.unsubscribe()
+
       this.lastGetCustomerIdByCustomerSub = this.storeCustomer.pipe(select(getCustomerIdByCustomer(this.currentCustomerForm.value))).subscribe(id => {
         if(id && this.lastFormArrayIndex !== undefined){
           this.customersForm?.at(this.lastFormArrayIndex).setValue({_id:id})
         }
+        this.lastGetCustomerIdByCustomerSub?.unsubscribe()
       })
     }
 
