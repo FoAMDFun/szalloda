@@ -93,6 +93,7 @@ export class NewReservationComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(ReservationActions.addReservation(dummyReservation));
+    this.modalRef.close();
   }
 
   parseDate(dateString: string | null): Date {

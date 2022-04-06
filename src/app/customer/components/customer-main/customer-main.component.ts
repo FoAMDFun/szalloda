@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 // Md-bootstrap
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
-
-import { select, Store } from '@ngrx/store';
+// Ngrx
+import { Store } from '@ngrx/store';
 import * as ReservationModel from 'src/app/models/reservation.model';
 import * as ReservationActions from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 
-import * as ReservationSelector from 'src/app/store/selectors/reservation.selector';
+// import * as ReservationSelector from 'src/app/store/selectors/reservation.selector';
 import { NewReservationComponent } from './new-reservation/new-reservation.component';
 
 @Component({
@@ -18,9 +18,9 @@ import { NewReservationComponent } from './new-reservation/new-reservation.compo
 export class CustomerMainComponent implements OnInit {
   modalRef: MdbModalRef<NewReservationComponent> | null = null;
 
-  reservations$ = this.store.pipe(
-    select(ReservationSelector.getReservationsSelector)
-  );
+  // reservations$ = this.store.pipe(
+  //   select(ReservationSelector.getReservationsSelector)
+  // );
 
   constructor(
     private modalService: MdbModalService,
@@ -28,7 +28,7 @@ export class CustomerMainComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getReservations();
+    this.openAdd();
   }
   public deleteReservation(reservation: ReservationModel.Reservation): void {
     this.store.dispatch(ReservationActions.deleteReservation(reservation));
