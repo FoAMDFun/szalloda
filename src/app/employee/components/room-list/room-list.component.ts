@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Room } from 'src/app/models/room.model';
 import {
-  clearCurrentRoom,
-  deleteRoom,
   getRooms,
   setCrudMode,
   setCurrentRoom,
-  setNewRoom,
 } from 'src/app/store/actions/room.action';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
 import {  getRoomsSelector } from 'src/app/store/selectors/room.selector';

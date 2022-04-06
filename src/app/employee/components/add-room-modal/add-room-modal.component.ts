@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { FileUpload } from 'src/app/models/fileupload';
 import { CRUDMode } from 'src/app/models/mode.models';
 import { Room } from 'src/app/models/room.model';
-import { addRoom, clearNewRoom, getRooms, setCurrentRoom, setNewRoom, updateRoom } from 'src/app/store/actions/room.action';
+import { addRoom, clearNewRoom, getRooms, setNewRoom, updateRoom } from 'src/app/store/actions/room.action';
 import { RoomState } from 'src/app/store/reducers/room.reducer';
 import { getCurrentRoomAddRoomAndCRUDMode } from 'src/app/store/selectors/room.selector';
 import { integerValidator } from 'src/app/validators/integer.validator';
