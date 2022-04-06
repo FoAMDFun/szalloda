@@ -70,19 +70,28 @@ export class RoomEffects {
   deleteRoom$ = createEffect(() =>
     this.action$.pipe(
       ofType(RoomActions.deleteRoom),
-      mergeMap(({ room }) =>
-        this.roomCrudService.deleteRoom(room).pipe(
-          map(() => {
-            this.toastr.success('A szoba törlés sikeres');
-            return RoomActions.deleteRoomSuccess();
-          }),
-          catchError((error) => {
-            this.toastr.error(
-              `A szoba törlés nem sikerült! hibaüzenet: ${error.message}`
-            );
-            return of(RoomActions.deleteRoomError(error));
-          })
-        )
+      withLatestFrom(this.store.select(RoomSelectors.getCurrentRoomSelector)),
+      mergeMap(([item ,room]) =>{
+        if (room==null) {
+          this.toastr.error(
+            `null törlés`,
+          )
+          return of(RoomActions.deleteRoomError("null törlés"));
+        }else{
+          return this.roomCrudService.deleteRoom(room).pipe(
+            map(() => {
+              this.toastr.success('A szoba törlés sikeres');
+              return RoomActions.deleteRoomSuccess();
+            }),
+            catchError((error) => {
+              this.toastr.error(
+                `A szoba törlés nem sikerült! hibaüzenet: ${error.message}`
+              );
+              return of(RoomActions.deleteRoomError(error));
+            })
+          )
+        }
+      }
       )
     )
   );
@@ -90,11 +99,18 @@ export class RoomEffects {
   updateRoom$ = createEffect(() =>
     this.action$.pipe(
       ofType(RoomActions.updateRoom),
-      concatMap(({ room }) =>
-        this.roomCrudService.updateRoom(room).pipe(
+      withLatestFrom(this.store.select(RoomSelectors.getRoomsSelector)),
+      concatMap(([item ,state]) =>{
+        if (state.findIndex((r)=> item.room._id !== r._id && item.room.numberOf===r.numberOf &&  item.room.floor===r.floor)!==-1) {
+          this.toastr.error(
+            `Szobaszám: ${item.room.numberOf}, Emelet: ${item.room.floor} már létező szoba!`,
+          )
+          return of(RoomActions.updateRoomError("room already exists"));
+        }else{
+        return this.roomCrudService.updateRoom(item.room).pipe(
           map(() => {
             this.toastr.success('A szoba felülírás sikeres');
-            return RoomActions.updateRoomSuccess();
+            return RoomActions.updateRoomSuccess(item.room);
           }),
           catchError((error) => {
             this.toastr.error(
@@ -102,7 +118,9 @@ export class RoomEffects {
             );
             return of(RoomActions.updateRoomError(error));
           })
+
         )
+        }}
       )
     )
   );

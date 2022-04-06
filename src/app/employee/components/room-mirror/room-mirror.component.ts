@@ -206,7 +206,7 @@ export class RoomMirrorComponent implements OnInit {
 
   public openEditReservation(reservation: Reservation):void{
     this.modalRef = this.modalService.open(ReservationEditComponent, {
-      modalClass: 'modal-dialog-centered',
+      modalClass: 'modal-dialog-centered modal-xl',
     });
     this.storeReservation.dispatch(setCurrendReservation(reservation));
   }

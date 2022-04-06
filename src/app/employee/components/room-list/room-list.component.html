@@ -1,18 +1,15 @@
 <section class="container-lg py-5">
   <h1 class="text-center fw-bold">Szoba Lista</h1>
-  <!-- <button (click)="newRandomRoom()" class="btn btn-primary my-3">Új Random Szoba...</button> -->
   <button
     type="button"
-    class="btn btn-primary"
+    class="btn btn-primary mb-4"
     (click)="newRoom()"
-    data-bs-toggle="modal"
-    data-bs-target="#roomModal"
   >
     Új Szoba...
   </button>
   <table class="table text-center table-striped shadow-lg">
     <thead>
-      <tr>
+      <tr >
         <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Szobaszám</th>
         <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Emelet</th>
         <th class="p-0 p-md-2 p-lg-3 align-middle " scope="col">Ágyszám</th>
@@ -26,7 +23,7 @@
     <tbody>
       <tr
         *ngFor="let room of rooms$ | async | sort: 'numberOf'; index as i"
-        class="align-middle p-lg-3"
+        class="align-middle p-lg-3 "
       >
         <td class="p-0 p-md-2 p-lg-3 align-middle">{{ room.numberOf }}</td>
         <td class="p-0 p-md-2 p-lg-3 align-middle">{{ room.floor }}</td>
@@ -44,8 +41,6 @@
             class="m-0 p-0 roomimage__size--mini roomimage rounded mx-auto d-block"
             [alt]="room.numberOf"
           />
-          <!-- {{room.imageSrc}} -->
-          <!-- <fa-icon  class="pointer" [icon]="icons.img"></fa-icon> -->
         </td>
         <td class="p-0 p-md-2 p-lg-3 align-middle">
           <fa-icon class="pointer text-warning" [icon]="icons.star"></fa-icon>
@@ -53,9 +48,7 @@
         <td class="p-0 p-md-2 p-lg-3 align-middle">
           <button
             type="button"
-            (click)="setDeleteRoom(room)"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteModal"
+            (click)="deleteRoom(room)"
             class="btn btn-danger"
           >
             <fa-icon [icon]="icons.delete"></fa-icon>
@@ -66,8 +59,6 @@
             (click)="editRoom(room)"
             class="btn btn-success"
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#roomModal"
           >
             <fa-icon [icon]="icons.edit"></fa-icon>
           </button>
@@ -77,201 +68,5 @@
   </table>
 </section>
 
-<div
-  class="modal fade pt-5"
-  id="roomModal"
-  tabindex="-1"
-  aria-labelledby="roomModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-dark fw-bold" id="roomModalLabel">
-          Új Szoba felvitele
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="roomForm">
-          <div class="mb-2">
-            <label for="numberOf" class="form-label">Szobaszám:</label>
-            <input
-            [min]="validatorValue.numberOfMin"
-            [max]="validatorValue.numberOfMax"
-              type="number"
-              formControlName="numberOf"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  formControls['numberOf'].errors &&
-                  (formControls['numberOf'].touched ||
-                    formControls['numberOf'].dirty)
-              }"
-              id="numberOf"
-            />
-            <div class="text-danger">
-              <small
-                *ngIf="
-                  formControls['numberOf'].errors &&
-                  (formControls['numberOf'].touched ||
-                    formControls['numberOf'].dirty)
-                "
-                >{{getErrorMessage('numberOf','number')}}</small
-              >
-              <br />
-            </div>
-          </div>
-          <div class="mb-2">
-            <label for="floor" class="form-label">Emelet:</label>
-            <input
-              [min]="validatorValue.floorMin"
-              [max]="validatorValue.floorMax"
-              type="text"
-              formControlName="floor"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  formControls['floor'].errors &&
-                  (formControls['floor'].touched || formControls['floor'].dirty)
-              }"
-              id="floor"
-            />
-            <div class="text-danger">
-              <small
-                *ngIf="
-                  formControls['floor'].errors &&
-                  (formControls['floor'].touched || formControls['floor'].dirty)
-                "
-                >{{getErrorMessage('floor','string')}}</small
-              >
-              <br />
-            </div>
-          </div>
-          <div class="mb-2">
-            <label for="bed" class="form-label">Ágyak száma:</label>
-            <input
-              type="number"
-              [min]="validatorValue.bedMin"
-              [max]="validatorValue.bedMax"
-              formControlName="bed"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid':
-                  formControls['bed'].errors &&
-                  (formControls['bed'].touched || formControls['bed'].dirty)
-              }"
-              id="bed"
-            />
-            <div class="text-danger">
-              <small
-                *ngIf="
-                  formControls['bed'].errors &&
-                  (formControls['bed'].touched || formControls['bed'].dirty)
-                "
-                >{{getErrorMessage('bed','number')}}</small>
 
-              <br />
-            </div>
-          </div>
-          <div class="mb-2">
-            <label for="formFile" class="form-label ">Kép</label>
-            <input
-              readonly
-              formControlName="imageSrc"
-              type="text"
-              class="mb-2 form-control novalidate"
-            />
-            <input
-              formControlName="image"
-              class="form-control mb-2 novalidate"
-              type="file"
-              id="formFile"
-              (change)="selectFile($event)"
-              accept="*.png.jpg"
-            />
-            <button
-              [disabled]="!formControls['image'].value"
-              (click)="upload()"
-              type="button"
-              class="mb-2 btn btn-primary"
-            >
-              Kép Feltöltése
-            </button>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              formControlName="isBalcony"
-              id="isBalcony"
-            />
-            <label class="form-check-label" for="isBalcony"> Erkélyes </label>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button
-          type="submit"
-          [disabled]="!roomForm.valid"
-          (click)="saveRoom()"
-          data-bs-dismiss="modal"
-          class="btn btn-primary"
-        >
-          Mentés
-        </button>
-        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
-          Bezárás
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div
-  class="modal fade pt-5"
-  id="deleteModal"
-  tabindex="-1"
-  aria-labelledby="deleteModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-dark fw-bold" id="deleteModalLabel">
-          Biztos törölni szeretnéd ezt a szobát?
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body text-center">
-        <div class="mb-2 fs-5">Emelet: {{ selectedDeleteRoom?.floor }}</div>
-        <div class="mb-2 fs-5">
-          Szobaszám: {{ selectedDeleteRoom?.numberOf }}
-        </div>
-      </div>
-      <div class="modal-footer justify-content-between">
-        <button
-          type="submit"
-          data-bs-dismiss="modal"
-          (click)="deleteRoom()"
-          class="btn btn-primary"
-        >
-          Igen
-        </button>
-        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
-          Mégse
-        </button>
-      </div>
-    </div>
-  </div>
-</div>

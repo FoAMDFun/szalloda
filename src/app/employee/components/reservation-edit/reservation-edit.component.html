@@ -1,7 +1,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-dark fw-bold" >
-          Foglalás{{reservationForm.value.startDate | date: 'yyyy-MM-dd'}}
+          Foglalás
         </h5>
         <button
           type="button"
@@ -16,18 +16,19 @@
           <div class="row">
             <div class="mb-2 col-12">
               <label for="comments" class="form-label">Megjegyzés:</label>
-              <p id="comments">{{reservationForm.value.comments}}</p>
+              <p id="comments">{{reservationForm.get('comments')?.value}}</p>
             </div>
             <div class="mb-2 col-6">
               <label for="roomId" class="form-label">Szoba:</label>
               <select class="form-select" formControlName="roomId" id="roomId">
-                <option [selected]="reservationForm.value.roomId === room._id " [value]="room._id" *ngFor="let room of allRooms$ | async | sort : 'numberOf'">Emelet: {{room.floor}} - Szobaszám: {{room.numberOf}}</option>
+                <!-- <option [selected]="(getRoomIsExistById(reservationForm.get('roomId')?.value) | async)" hidden  [value]="" >Ismeretlen Szoba</option> -->
+                <option [selected]="reservationForm.get('roomId')?.value === room._id" [value]="room._id" *ngFor="let room of allRooms$ | async | sort : 'numberOf'">Emelet: {{room.floor}} - Szobaszám: {{room.numberOf}}</option>
               </select>
             </div>
             <div class="mb-2 col-6">
               <label for="status" class="form-label">Státusz:</label>
               <select class="form-select" formControlName="status" id="status">
-                <option [selected]="reservationForm.value.status === status.value " [value]="status.value" *ngFor="let status of reservationStatus">{{status.text}}</option>
+                <option [selected]="reservationForm.get('status')?.value === status.value " [value]="status.value" *ngFor="let status of reservationStatus">{{status.text}}</option>
               </select>
             </div>
             <div class="mb-2 col-6">
@@ -40,7 +41,6 @@
                 [min]="constants.minDate"
                 [max]="constants.maxDate"
                 formControlName="startDate"
-                [value]="(reservationForm.value.startDate | date: 'yyyy-MM-dd')"
               />
             </div>
             <div class="mb-2 col-6">
@@ -53,7 +53,6 @@
                 [min]="constants.minDate"
                 [max]="constants.maxDate"
                 formControlName="endDate"
-                [value]="(reservationForm.value.endDate | date: 'yyyy-MM-dd')"
               />
             </div>
             <div class="mb-2 col-6">
@@ -69,8 +68,7 @@
             <div class="mb-2 col-6"  formArrayName="customersId">
               <div class="list-group shadow text-center" >
                 <a *ngFor="let currentCustomerId of reservationForm.value.customersId;index as i"
-                  [formGroupName]="i"
-                  class="list-group-item list-group-item--hover list-group-item-action pointer"
+                  class="list-group-item list-group-item--hover list-group-item-action pointer border m-0 "
                   (click)="selectCustomer(currentCustomerId._id,i)"
                   [ngClass]="{'active':i===lastFormArrayIndex}"
                   >{{ currentCustomerId._id}}</a>
@@ -108,7 +106,6 @@
         <button
           type="submit"
           [disabled]="!reservationForm.valid"
-          data-bs-dismiss="modal"
           class="btn btn-primary"
           (click)="saveReservation()"
         >

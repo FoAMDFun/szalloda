@@ -1,0 +1,32 @@
+
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title text-dark fw-bold" id="deleteModalLabel">
+      Biztos törölni szeretnéd ezt a szobát?
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body text-center">
+    <div class="mb-2 fs-5">Emelet: {{ (selectedDeleteRoom|async)?.floor }}</div>
+    <div class="mb-2 fs-5">
+      Szobaszám: {{ (selectedDeleteRoom|async)?.numberOf }}
+    </div>
+  </div>
+  <div class="modal-footer justify-content-between">
+    <button
+      type="submit"
+      (click)="deleteRoom()"
+      class="btn btn-primary"
+    >
+      Igen
+    </button>
+    <button type="button" class="btn btn-warning" (click)="modalRef.close()">
+      Mégse
+    </button>
+  </div>
+</div>
+

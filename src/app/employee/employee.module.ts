@@ -13,6 +13,8 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
 import { ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { SharedModule } from '../shared/shared.module';
+import { AddRoomModalComponent } from './components/add-room-modal/add-room-modal.component';
+import { DeleteRoomModalComponent } from './components/delete-room-modal/delete-room-modal.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { SharedModule } from '../shared/shared.module';
     RoomListComponent,
     NavbarComponent,
     ReservationEditComponent,
+    AddRoomModalComponent,
+    DeleteRoomModalComponent,
   ],
   imports: [
     SharedModule,

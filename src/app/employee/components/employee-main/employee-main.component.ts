@@ -74,8 +74,6 @@ export class EmployeeMainComponent implements OnInit {
     this.storeMessage.dispatch(getMessages())
     this.storeCustomer.dispatch(getCustomers())
     this.storeRoom.dispatch(getRooms())
-    // <!-- foglalást rendezni kéne start szerint, és az üzeneteket is -->
-
     this.messagesLengthSub = this.messages$.subscribe({
       next: (messages: Message[]) => {
         this.messagesLength = messages.length;
@@ -130,7 +128,7 @@ export class EmployeeMainComponent implements OnInit {
 
   public openEditReservation(reservation: Reservation):void{
     this.modalRef = this.modalService.open(ReservationEditComponent, {
-      modalClass: 'modal-dialog-centered',
+      modalClass: 'modal-dialog-centered modal-xl',
     });
     this.storeReservation.dispatch(setCurrendReservation(reservation));
   }
