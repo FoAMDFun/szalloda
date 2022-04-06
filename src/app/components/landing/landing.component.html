@@ -1,38 +1,33 @@
 <body>
-  <main>
-    <div class="wrapper">
-      <img
-        class="background-image"
-        src="../../../assets/background.webp"
-        alt=""
-      />
-      <section class="content">
-        <app-landing-navbar></app-landing-navbar>
-        <div
-          class="logo"
-          [ngClass]="{ 'scrolled-down': (isScrolled$ | async) }"
-        >
-          <h1>
-            <img id="logoimg" src="../../../assets/szalloda.png" alt="" />
-            Szálloda
-          </h1>
-        </div>
-        <section class="container start">
-          <p>
-            Szeretnél egy jót pihenni? Megfelelő ár/teljesítmény arányú
-            szolgáltatást keresel? Nálunk mindezt megteheted, foglalj szállást
-            még ma! Tekintsd meg galériánkat!
-          </p>
-          <div *ngFor="let image of images" data-aos="zoom-in">
-            <img [src]="image" class="img-fluid" alt="Image" />
-          </div>
-        </section>
-        <div class="copyright" id="copyright">
-          2022 Chris & Chris.® Minden jog fenntartva!©
+  <div class="wrapper">
+    <img
+      class="background-image"
+      src="../../../assets/background.webp"
+      alt=""
+    />
+    <section class="content">
+      <app-landing-navbar></app-landing-navbar>
+      <div class="logo" [ngClass]="{ 'scrolled-down': (isScrolled$ | async) }">
+        <h1>
+          <img id="logoimg" src="../../../assets/szalloda.png" alt="" />
+          Szálloda
+        </h1>
+      </div>
+      <section class="container start">
+        <p>
+          Szeretnél egy jót pihenni? Megfelelő ár/teljesítmény arányú
+          szolgáltatást keresel? Nálunk mindezt megteheted, foglalj szállást még
+          ma! Tekintsd meg galériánkat!
+        </p>
+        <div *ngFor="let image of images" data-aos="zoom-in">
+          <img [src]="image" class="img-fluid" alt="Image" />
         </div>
       </section>
-    </div>
-  </main>
+      <div class="copyright" id="copyright">
+        2022 Chris & Chris.® Minden jog fenntartva!©
+      </div>
+    </section>
+  </div>
   <app-scroll-to-top position="top"></app-scroll-to-top>
   <app-scroll-to-top position="bottom"></app-scroll-to-top>
 </body>
