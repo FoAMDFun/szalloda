@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loginCheck } from './store/actions/auth.action';
 import { AppState } from './store/reducers';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

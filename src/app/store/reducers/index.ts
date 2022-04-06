@@ -1,4 +1,5 @@
 import { RouterState } from '@ngrx/router-store';
+import { DomState } from './dom.reducer';
 import { ReservationState } from './reservation.reducer';
 import { RoomState } from './room.reducer';
 
@@ -6,6 +7,7 @@ export interface AppState {
   reservation: ReservationState;
   room: RoomState;
   router: RouterState;
+  dom: DomState;
 }
 
 // export function logger(
