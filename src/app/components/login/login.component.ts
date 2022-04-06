@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { login } from 'src/app/store/actions/auth.action';
 import { AuthState } from 'src/app/store/reducers/auth.reducer';
 @Component({
@@ -13,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    public modalRef: MdbModalRef<LoginComponent>,
     private store: Store<AuthState>
   ) {
     this.emailForm = this.formBuilder.group({

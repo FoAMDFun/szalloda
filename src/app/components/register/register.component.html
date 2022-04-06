@@ -1,77 +1,96 @@
-<section class="container-md">
-  <h3 class="my-3">Regisztráció</h3>
-  <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 my-3">
-          <label for="inputEmail" class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="inputEmail"
-            formControlName="email"
-            placeholder="Kérem írja be az email címét..."
-          />
-          <small
-            class="text-danger"
-            *ngIf="
-              emailForm.get('email')?.invalid && emailForm.get('email')?.touched
-            "
-            >Érvénytelen E-mail.</small
-          >
-        </div>
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title text-dark fw-bold" id="registerModalLabel">
+      Regisztráció
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 my-3">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="inputEmail"
+              formControlName="email"
+              placeholder="Kérem írd be az email címed..."
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                emailForm.get('email')?.invalid &&
+                emailForm.get('email')?.touched
+              "
+              >Érvénytelen E-mail.</small
+            >
+          </div>
 
-        <div class="col-md-12 my-3">
-          <label for="passwordFirst" class="form-label">Jelszó</label>
-          <input
-            type="password"
-            class="form-control"
-            id="passwordFirst"
-            formControlName="passwordFirst"
-            placeholder="Kérem írja be a jelszavát amely legalább 8 karaktert tartalmaz, valamint kisbetűt, nagybetűt és számot..."
-          />
-          <small
-            class="text-danger"
-            *ngIf="
-              emailForm.get('passwordFirst')?.invalid &&
-              emailForm.get('passwordFirst')?.touched
-            "
-            >Érvénytelen jelszó. Legalább 8 karaktert írjon, egy nagybetű, egy
-            kisbetű, egy szám szerepeljen benne.</small
-          >
-        </div>
+          <div class="col-md-12 my-3">
+            <label for="passwordFirst" class="form-label">Jelszó</label>
+            <input
+              type="password"
+              class="form-control"
+              id="passwordFirst"
+              formControlName="passwordFirst"
+              placeholder="Kérem írd be a jelszavad, amely legalább 8 karaktert tartalmaz, valamint kisbetűt, nagybetűt és számot..."
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                emailForm.get('passwordFirst')?.invalid &&
+                emailForm.get('passwordFirst')?.touched
+              "
+              >Érvénytelen jelszó. Legalább 8 karaktert írj, egy nagybetű, egy
+              kisbetű, egy szám szerepeljen benne.</small
+            >
+          </div>
 
-        <div class="col-md-12 my-3">
-          <label for="passwordSecond" class="form-label"
-            >Jelszó megerősítése</label
-          >
-          <input
-            type="password"
-            class="form-control"
-            id="passwordSecond"
-            formControlName="passwordSecond"
-            placeholder="Kérem ismételje meg a jelszavát..."
-          />
-          <small
-            class="text-danger"
-            *ngIf="
-              emailForm.get('passwordSecond')?.invalid &&
-              emailForm.get('passwordSecond')?.touched
-            "
-            >Érvénytelen jelszó. Egyezzen meg a jelszó az előző mezővel.</small
-          >
-        </div>
+          <div class="col-md-12 my-3">
+            <label for="passwordSecond" class="form-label"
+              >Jelszó megerősítése</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="passwordSecond"
+              formControlName="passwordSecond"
+              placeholder="Kérem ismételje meg a jelszavát..."
+            />
+            <small
+              class="text-danger"
+              *ngIf="
+                emailForm.get('passwordSecond')?.invalid &&
+                emailForm.get('passwordSecond')?.touched
+              "
+              >Érvénytelen jelszó. Egyezzen meg a jelszó az előző
+              mezővel.</small
+            >
+          </div>
 
-        <div class="col-md-12 my-3 d-flex justify-content-center">
-          <re-captcha formControlName="gridCheck"></re-captcha>
-        </div>
+          <div class="col-md-12 my-3 d-flex justify-content-center">
+            <re-captcha formControlName="gridCheck"></re-captcha>
+          </div>
 
-        <div class="col-md-12 my-3 d-flex justify-content-center">
-          <button class="btn btn-primary mb-3" [disabled]="!emailForm.valid">
-            Regisztráció
-          </button>
+          <div class="col-md-12 d-flex justify-content-center modal-footer">
+            <button
+              class="btn btn-primary"
+              [disabled]="!emailForm.valid"
+              (click)="modalRef.close()"
+            >
+              Regisztráció
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </form>
-</section>
+    </form>
+  </div>
+</div>
