@@ -1,5 +1,4 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { User, UserCredential } from 'firebase/auth';
 import { AuthState } from '../reducers/auth.reducer';
 
 export const getAuthState = createFeatureSelector<AuthState>('auth');

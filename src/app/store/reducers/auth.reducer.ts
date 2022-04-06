@@ -1,14 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import {
-  loginError,
-  loginSuccess,
-  logoutSuccess,
-  noUser,
-  registerError,
-  registerSuccess,
-  setLoggedIn,
-  setUser,
-} from '../actions/auth.action';
+import * as AuthActions from '../actions/auth.action';
 
 export interface AuthState {
   loggedIn: boolean;
@@ -26,56 +17,56 @@ const initialState: AuthState = {
 
 export const authReducer = createReducer(
   initialState,
-  on(setLoggedIn, (state, { loggedIn, mail, uid }) => ({
+  on(AuthActions.setLoggedIn, (state, { loggedIn, mail, uid }) => ({
     ...state,
     userMail: mail,
     uid,
     error: null,
     loggedIn: loggedIn,
   })),
-  on(setUser, (state, { mail, uid }) => ({
+  on(AuthActions.setUser, (state, { mail, uid }) => ({
     ...state,
     userMail: mail,
     uid,
     error: null,
     loggedIn: !!mail,
   })),
-  on(noUser, (state) => ({
+  on(AuthActions.noUser, (state) => ({
     ...state,
     userMail: '',
     uid: '',
     error: null,
     loggedIn: false,
   })),
-  on(loginSuccess, (state, { mail, uid }) => ({
+  on(AuthActions.loginSuccess, (state, { mail, uid }) => ({
     ...state,
     userMail: mail,
     uid,
     error: null,
     loggedIn: true,
   })),
-  on(loginError, (state, error) => ({
+  on(AuthActions.loginError, (state, error) => ({
     ...state,
     userMail: '',
     uid: '',
     error: error,
     loggedIn: false,
   })),
-  on(registerError, (state, error) => ({
+  on(AuthActions.registerError, (state, error) => ({
     ...state,
     userMail: '',
     uid: '',
     error: error,
     loggedIn: false,
   })),
-  on(registerSuccess, (state, { mail, uid }) => ({
+  on(AuthActions.registerSuccess, (state, { mail, uid }) => ({
     ...state,
     userMail: mail,
     uid,
     error: null,
     loggedIn: true,
   })),
-  on(logoutSuccess, (state) => ({
+  on(AuthActions.logoutSuccess, (state) => ({
     ...state,
     userMail: '',
     uid: '',

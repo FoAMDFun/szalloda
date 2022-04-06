@@ -1,5 +1,4 @@
 import { createAction } from '@ngrx/store';
-import { User, UserCredential } from 'firebase/auth';
 import { LoginData } from 'src/app/models/login-data';
 
 export const SET_USER = '[Auth] Set User';
