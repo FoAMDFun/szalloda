@@ -10,9 +10,9 @@ import { RoomMirrorComponent } from './components/room-mirror/room-mirror.compon
 import { RoomListComponent } from './components/room-list/room-list.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 
-import { SortPipe } from '../pipes/sort.pipe';
 import { ReservationEditComponent } from './components/reservation-edit/reservation-edit.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,10 +21,10 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
     RoomMirrorComponent,
     RoomListComponent,
     NavbarComponent,
-    SortPipe,
     ReservationEditComponent,
   ],
   imports: [
+    SharedModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -32,8 +32,6 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
     FontAwesomeModule,
     MdbModalModule,
   ],
-  providers: [
-    { provide: Window, useValue: window },
-  ],
+  providers: [{ provide: Window, useValue: window }],
 })
 export class EmployeeModule {}
