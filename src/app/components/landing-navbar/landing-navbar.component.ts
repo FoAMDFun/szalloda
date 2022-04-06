@@ -5,7 +5,9 @@ import * as AuthActions from 'src/app/store/actions/auth.action';
 import * as DomActions from 'src/app/store/actions/dom.action';
 import * as AuthSelectors from 'src/app/store/selectors/auth.selector';
 import * as DomSelectors from 'src/app/store/selectors/dom.selector';
-import { Observable, of } from 'rxjs';
+import { LoginComponent } from '../login/login.component';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-landing-navbar',
@@ -13,6 +15,8 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./landing-navbar.component.scss'],
 })
 export class LandingNavbarComponent implements OnInit {
+  loginModalRef: MdbModalRef<LoginComponent> | null = null;
+  registerModalRef: MdbModalRef<RegisterComponent> | null = null;
   public isLoggedIn$ = this.store.pipe(
     select(AuthSelectors.getAuthLoggedInSelector)
   );
@@ -21,7 +25,10 @@ export class LandingNavbarComponent implements OnInit {
   );
   private isScrolledValue: boolean = false;
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private modalService: MdbModalService
+  ) {
     this.isScrolledValue = !(window.scrollY == 0);
   }
 
@@ -40,5 +47,17 @@ export class LandingNavbarComponent implements OnInit {
 
   logOut(): void {
     this.store.dispatch(AuthActions.logout());
+  }
+
+  openLogin(): void {
+    this.loginModalRef = this.modalService.open(LoginComponent, {
+      modalClass: 'modal-dialog-centered',
+    });
+  }
+
+  openRegister(): void {
+    this.registerModalRef = this.modalService.open(RegisterComponent, {
+      modalClass: 'modal-dialog-centered',
+    });
   }
 }

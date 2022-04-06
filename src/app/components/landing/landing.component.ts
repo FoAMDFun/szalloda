@@ -26,9 +26,9 @@ export class LandingComponent implements OnInit {
   );
 
   constructor(private store: Store<AppState>) {
+    AOS.init();
     for (let i = 1; i < 10; i++) this.images.push(`../../../assets/0${i}.jpg`);
   }
-  ngOnInit(): void {
-    AOS.init();
-  }
+
+  ngOnInit(): void {}
 }
