@@ -1,5 +1,7 @@
 import { RouterState } from '@ngrx/router-store';
-import { DomState } from './dom.reducer';
+import { AuthState } from './auth.reducer';
+import { CustomerState } from './customer.reducer';
+import { MessageState } from './message.reducer';
 import { ReservationState } from './reservation.reducer';
 import { RoomState } from './room.reducer';
 
@@ -7,7 +9,9 @@ export interface AppState {
   reservation: ReservationState;
   room: RoomState;
   router: RouterState;
-  dom: DomState;
+  auth: AuthState;
+  customer: CustomerState;
+  message: MessageState;
 }
 
 // export function logger(

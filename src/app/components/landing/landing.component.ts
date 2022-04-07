@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/reducers';
 import * as AOS from 'aos';
 import * as AuthSelectors from 'src/app/store/selectors/auth.selector';
-import * as DomSelectors from 'src/app/store/selectors/dom.selector';
 
 @Component({
   selector: 'app-landing',
@@ -21,9 +20,10 @@ export class LandingComponent implements OnInit {
   public currentUserUid$ = this.store.pipe(
     select(AuthSelectors.getAuthUserUidSelector)
   );
-  public isScrolled$ = this.store.pipe(
-    select(DomSelectors.getScrolledSelector)
-  );
+
+  isScrolled(): boolean {
+    return window.scrollY !== 0;
+  }
 
   constructor(private store: Store<AppState>) {
     AOS.init();
