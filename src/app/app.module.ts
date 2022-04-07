@@ -60,7 +60,6 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 // import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { LandingNavbarComponent } from './components/landing-navbar/landing-navbar.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
-import { domReducer } from './store/reducers/dom.reducer';
 
 @NgModule({
   declarations: [
@@ -92,7 +91,6 @@ import { domReducer } from './store/reducers/dom.reducer';
       auth: authReducer,
       customer: customerReducer,
       message: messageReducer,
-      dom: domReducer,
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
