@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 // Md-bootstrap
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 // Ngrx
@@ -7,7 +7,6 @@ import * as ReservationModel from 'src/app/models/reservation.model';
 import * as ReservationActions from 'src/app/store/actions/reservation.action';
 import { ReservationState } from 'src/app/store/reducers/reservation.reducer';
 
-// import * as ReservationSelector from 'src/app/store/selectors/reservation.selector';
 import { NewReservationComponent } from './new-reservation/new-reservation.component';
 
 @Component({
@@ -15,12 +14,8 @@ import { NewReservationComponent } from './new-reservation/new-reservation.compo
   templateUrl: './customer-main.component.html',
   styleUrls: ['./customer-main.component.scss'],
 })
-export class CustomerMainComponent implements OnInit {
+export class CustomerMainComponent implements OnInit, OnDestroy {
   modalRef: MdbModalRef<NewReservationComponent> | null = null;
-
-  // reservations$ = this.store.pipe(
-  //   select(ReservationSelector.getReservationsSelector)
-  // );
 
   constructor(
     private modalService: MdbModalService,
@@ -41,5 +36,11 @@ export class CustomerMainComponent implements OnInit {
     this.modalRef = this.modalService.open(NewReservationComponent, {
       modalClass: 'modal-dialog-centered',
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
   }
 }
